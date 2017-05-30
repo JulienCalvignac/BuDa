@@ -1,0 +1,127 @@
+.node {
+stroke: #fff;
+stroke-width: 1.5px;
+  cursor: move;
+}
+
+.group {
+stroke: #fff;
+stroke-width: 1.5px;
+cursor: move;
+opacity: 0.7;
+}
+
+.link {
+stroke: #7a4e4e;
+stroke-width: 3px;
+stroke-opacity: 1;
+}
+
+.label {
+  fill: white;
+  font-family: Verdana;
+  font-size: 25px;
+  text-anchor: middle;
+  cursor: move;
+}
+
+#cy {
+    width: 80%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+#delete {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+#new {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 10%;
+    right: 5%;
+}
+#input {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 15%;
+    right: 5%;
+}
+#edge {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 20%;
+    right: 5%;
+}
+
+/*#log {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 30%;
+    right: 5%;
+}*/
+
+#layout {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 35%;
+    right: 5%;
+}
+#rename {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 40%;
+    right: 5%;
+}
+/*#import {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 45%;
+    right: 5%;
+}*/
+#showAllData {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 55%;
+    right: 5%;
+}
+#showBulles {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 60%;
+    right: 5%;
+}
+#showPBS {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 65%;
+    right: 5%;
+}
+#saveModel {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 70%;
+    right: 5%;
+}
+#loadModel {
+    width: 10%;
+    height: 20%;
+    position: absolute;
+    top: 75%;
+    right: 5%;
+}

@@ -1,0 +1,24 @@
+{
+  "nodes":[
+    {"data":{"id":33,"name":"ext2","parent":null}}
+    ,{"data":{"id":32,"name":"ext1","parent":null}}
+    ,{"data":{"id":31,"name":"Temperature_Sensor","parent":8}}
+    ,{"data":{"id":30,"name":"FW_Generator_Bypass","parent":8}}
+    ,{"data":{"id":21,"name":"Shaft","parent":2}}
+    ,{"data":{"id":11,"name":"Seawater","parent":1}}
+    ,{"data":{"id":10,"name":"Atmosphere","parent":1}}
+    ,{"data":{"id":9,"name":"Crew","parent":1}}
+    ,{"data":{"id":8,"name":"HTFW_Circuit","parent":3}}
+    ,{"data":{"id":4,"name":"Fuel","parent":1}}
+    ,{"data":{"id":3,"name":"Main_Machinery","parent":2}}
+    ,{"data":{"id":2,"name":"Ship","parent":1}}
+    ,{"data":{"id":1,"name":"Omega","parent":null}}
+    ]
+
+    ,"edges":[
+      {"data":{"id":46,"source":2,"target":9}}
+      ,{"data":{"id":35,"source":4,"target":2}}
+      ,{"data":{"id":59,"source":2,"target":11}}
+      ,{"data":{"id":58,"source":21,"target":11}}
+      ,{"data":{"id":57,"source":3,"target":21}}
+      ]}

@@ -1,0 +1,87 @@
+body
+{
+    background-color: rgb(141,141,141)!important; /* Override bootstrap's background */
+}
+
+.box
+{
+  text-align: center;
+  background-color: lightgrey;
+  border: 1em solid #73AD21;
+  padding: 1em;
+}
+
+.title
+{
+  color: rgb(80,80,80);
+  text-align: center;
+  font-weight: bold;
+  font-size: 2em;
+  padding: 2em;
+}
+
+/*.flex-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.flex-item {
+    background-color: cornflowerblue;
+    width: 15em;
+    margin: 1em;
+    text-align: center;
+    border-radius: 0.2em;
+}*/
+
+
+/*.toolBox
+{
+  color: rgb(80,80,80);
+  text-align: center;
+  font-weight: bold;
+  font-size: 2em;
+  padding: 2em;
+
+  -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+}*/
+
+.paramTitle
+{
+  color: rgb(80,80,80);
+  font-size: 1.5em;
+}
+
+.state
+{
+  border-radius: 0.2em;
+  background: #A3AD21;
+  font-size: 1.2em;
+  margin: 1em;
+  color: rgb(80,80,80);
+  width: 10em;
+  text-align: center;
+}
+
+.button
+{
+  border-radius: 0.2em;
+  background: #73AD21;
+  font-size: 1.2em;
+  color: rgb(80,80,80);
+  margin: 1em;
+  width: 10em;
+}
+
+.checkbox
+{
+  color: rgb(80,80,80);
+  font-size: 1.2em;
+  padding: 1.1em;
+
+}

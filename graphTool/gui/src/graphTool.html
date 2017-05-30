@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Supervision</title>
+    <link rel="stylesheet" href="graphTool.css">
+    <link rel="stylesheet" href="cytostylesheet.css">
+
+    <script src="js/jquery-2.2.4.min.js"></script>
+		<script src="./js/cytoscape.js"></script>
+    <script src="./js/cytoutils.js"></script>
+		<!-- <script src="./js/data.js"></script> -->
+		<script src="./js/cola.js"></script>
+		<script src="./js/cytoscape-cola.js"></script>
+
+    <script src="./js/dagre.js"></script>
+		<script src="./js/cytoscape-dagre.js"></script>
+
+    <script src="./js/arbor.js"></script>
+		<script src="./js/cytoscape-arbor.js"></script>
+
+    <script src="./js/download.js"></script>
+    <script src="./js/loadFile.js"></script>
+
+    <script type="text/javascript" src="elm.js"></script>
+  </head>
+  <body>
+    <div id="elm-app"></div>
+    <div id="cy"></div>
+
+    <script type="text/javascript">
+      var div = document.getElementById('elm-app');
+      var app = Elm.Main.embed(div);
+
+
+      app.ports.layout.subscribe(function(word) {
+        _layout_cola();
+      });
+
+      // app.ports.deleteElement.subscribe(function(word) {
+      //     _deleteElement_();
+      //     _sendModelToElm_();
+      // });
+
+      // app.ports.createNode.subscribe(function(word) {
+      //     _createNode_();
+      //     _sendModelToElm_();
+      // });
+
+      // app.ports.createEdge.subscribe(function(word) {
+      //     _createEdge_();
+      //     _sendModelToElm_();
+      // });
+
+
+      // app.ports.renameNode.subscribe(function(word) {
+      //     _renameNode_();
+      //     _sendModelToElm_();
+      // });
+
+
+      app.ports.sendDataPBSModel.subscribe(function(word) {
+        var obj = JSON.parse(word);
+        _sendDataModel_(obj);
+        _layout_dagre();
+      });
+
+      app.ports.sendDataBullesModel.subscribe(function(word) {
+        var obj = JSON.parse(word);
+        _sendDataModel_(obj);
+        _layout_cola();
+      });
+
+      app.ports.reqModelfromJS.subscribe(function(word) {
+        _sendModelToElm_();
+      });
+
+      app.ports.saveModel.subscribe(function(word) {
+        download(word, "model.json", "text/plain");
+      });
+
+      app.ports.loadModel.subscribe(function(word) {
+        var msg = loadModelFromFile(word);
+        console.log('loadmodel:' + msg);
+      });
+
+      function app_port_sendSelectionToElm (msg) {
+        app.ports.suggestions.send(msg);
+      }
+
+      function app_port_sendModelToElm (msg) {
+        app.ports.modeltoelm.send(msg);
+      }
+
+    </script>
+  </body>
+</html>
