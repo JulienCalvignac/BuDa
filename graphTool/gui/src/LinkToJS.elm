@@ -1,20 +1,20 @@
 port module LinkToJS
     exposing
-        ( -- createEdge
-          -- , createNode
-          -- , deleteElement
-          layout
+        ( layout
         , loadModel
         , modeltoelm
-          -- , renameNode
-        , reqModelfromJS
+        , doubleclick
         , saveModel
         , sendDataPBSModel
         , sendDataBullesModel
-        , suggestions
+        , selection
         )
 
+{--
+//////////////////////////////////////////////////////////////////////////////
 -- communication Elm -> JS
+//////////////////////////////////////////////////////////////////////////////
+--}
 
 
 port sendDataPBSModel : String -> Cmd msg
@@ -26,27 +26,33 @@ port sendDataBullesModel : String -> Cmd msg
 port layout : String -> Cmd msg
 
 
-
--- port deleteElement : String -> Cmd msg
--- port createNode : String -> Cmd msg
--- port renameNode : String -> Cmd msg
--- port createEdge : String -> Cmd msg
-
-
 port saveModel : String -> Cmd msg
 
 
 port loadModel : String -> Cmd msg
 
 
-port reqModelfromJS : String -> Cmd msg
 
-
-
+{--
+//////////////////////////////////////////////////////////////////////////////
 -- communication JS -> Elm
+//////////////////////////////////////////////////////////////////////////////
+--}
+-- selection : recuperation de la selection js dans elm
 
 
-port suggestions : (List String -> msg) -> Sub msg
+port selection : (List String -> msg) -> Sub msg
+
+
+
+-- recuperation du modele charge en js dans elm
 
 
 port modeltoelm : (String -> msg) -> Sub msg
+
+
+
+-- recuperation du double click dans elm
+
+
+port doubleclick : (String -> msg) -> Sub msg

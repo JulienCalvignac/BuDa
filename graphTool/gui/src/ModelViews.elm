@@ -1,12 +1,14 @@
-module ModelViews exposing (ViewType(..), getPBSView, getBullesViewFromNodeId, getPBSViewFromNodeId, getPBSViewFromNodeName)
+module ModelViews
+    exposing
+        ( getPBSView
+        , getBullesViewFromNodeId
+        , getBullesView
+        , getPBSViewFromNodeId
+        , getPBSViewFromNodeName
+        )
 
 import DataModel
 import ModelManagement
-
-
-type ViewType
-    = PVSView
-    | BullesView
 
 
 getPBSView : DataModel.Model -> DataModel.Model
@@ -16,12 +18,17 @@ getPBSView model =
 
 getBullesViewFromNodeId : DataModel.Model -> DataModel.Identifier -> DataModel.Model
 getBullesViewFromNodeId model id =
-    ModelManagement.subModelFromId model id
+    ModelManagement.subBullesModelFromId model id
+
+
+getBullesView : DataModel.Model -> DataModel.Model
+getBullesView model =
+    ModelManagement.subBullesFromUniverse model
 
 
 getBullesViewFromNodeName : DataModel.Model -> String -> DataModel.Model
 getBullesViewFromNodeName model s =
-    ModelManagement.subModelFromName model s
+    ModelManagement.subBullesModelFromName model s
 
 
 getPBSViewFromNodeId : DataModel.Model -> DataModel.Identifier -> DataModel.Model

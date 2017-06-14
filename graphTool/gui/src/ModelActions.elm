@@ -1,4 +1,4 @@
-module ModelActions exposing (createEdge, createNode, deleteEdge, deleteNode, renameNode)
+module ModelActions exposing (createLink, createNode, deleteEdge, deleteNode, renameNode)
 
 import DataModel
 import Model
@@ -9,7 +9,7 @@ import ModelManagement
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-createEdge
+createLink
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,8 +26,11 @@ createAtomicEdge_ src dest model =
         edge =
             { id = 0, source = src, target = dest }
 
+        edge_inv =
+            { id = 0, target = src, source = dest }
+
         dataModelNewId =
-            case (DataModel.isEdgePresent edge model.dataModel.edges) of
+            case ((DataModel.isEdgePresent edge model.dataModel.edges) || (DataModel.isEdgePresent edge_inv model.dataModel.edges)) of
                 True ->
                     model.dataModel
 
@@ -54,7 +57,8 @@ createAtomicDoubleEdge_ src dest model =
             createAtomicEdge_ src dest model
 
         m2 =
-            createAtomicEdge_ dest src m1
+            -- createAtomicEdge_ dest src m1
+            m1
     in
         m2
 
@@ -75,7 +79,7 @@ createAtomicEdgeForList_ list dest model =
 
 
 {--
-  createEdge :
+  createLink :
   Creation lien unique src -> target
   Creation lien unique target -> src
   Creation lien unique src -> ascendance target
@@ -83,46 +87,54 @@ createAtomicEdgeForList_ list dest model =
 --}
 
 
-createEdge : DataModel.Identifier -> DataModel.Identifier -> Model.Model -> Model.Model
-createEdge s t model =
+createLink : DataModel.Identifier -> DataModel.Identifier -> Model.Model -> Model.Model
+createLink s t model =
     let
-        list =
-            model.dataModel.nodes
-
         ns =
-            (DataModel.getNodeFromId s list)
+            (DataModel.getNodeFromId s model.dataModel.nodes)
 
         nt =
-            (DataModel.getNodeFromId t list)
+            (DataModel.getNodeFromId t model.dataModel.nodes)
 
         newModel =
             case ( ns, nt ) of
                 ( Just ns1, Just nt1 ) ->
-                    let
-                        ldt1 =
-                            (ModelManagement.getAscendants list nt1)
-
-                        lds1 =
-                            (ModelManagement.getAscendants list ns1)
-
-                        m1 =
-                            createAtomicEdgeForList_ lds1 nt1.id model
-
-                        m2 =
-                            createAtomicEdgeForList_ ldt1 ns1.id m1
-
-                        z1 =
-                            Debug.log "lds1" lds1
-
-                        z2 =
-                            Debug.log "ldt1" ldt1
-                    in
-                        m2
+                    createLink_ ns1 nt1 model
 
                 ( _, _ ) ->
                     model
     in
         newModel
+
+
+createLink_ : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+createLink_ ns1 nt1 model =
+    let
+        commonParent =
+            ModelManagement.findCommonParent model.dataModel.nodes ns1 nt1
+
+        ldt1 =
+            (ModelManagement.getAscendants model.dataModel.nodes nt1 commonParent)
+
+        lds1 =
+            (ModelManagement.getAscendants model.dataModel.nodes ns1 commonParent)
+
+        m1 =
+            createAtomicEdgeForList_ lds1 nt1.id model
+
+        m2 =
+            createAtomicEdgeForList_ ldt1 ns1.id m1
+
+        -- z0 =
+        --     Debug.log "commonParent" commonParent
+        --
+        -- z1 =
+        --     Debug.log "lds1" lds1
+        --
+        -- z2 =
+        --     Debug.log "ldt1" ldt1
+    in
+        m2
 
 
 
@@ -222,149 +234,178 @@ deleteEdge id model =
                         model_dataModel =
                             model.dataModel
 
-                        newModel =
+                        m2 =
                             case ( maybe_nsrc, maybe_ntarget ) of
                                 ( Just nsrc, Just ntarget ) ->
                                     let
-                                        src_descendants =
-                                            ModelManagement.getDescendantsFromN model_dataModel.nodes nsrc
-
-                                        target_descendants =
-                                            ModelManagement.getDescendantsFromN model_dataModel.nodes ntarget
-
-                                        target_ascendants =
-                                            List.reverse (ModelManagement.getAscendants model_dataModel.nodes ntarget)
-
-                                        src_ascendants =
-                                            List.reverse (ModelManagement.getAscendants model_dataModel.nodes nsrc)
-
-                                        z =
-                                            Debug.log "target_ascendants" target_ascendants
-
-                                        -- suppression des liens:  target ---- (descendant src)
-                                        newEdges1 =
-                                            delEdgeForList_ ntarget.id src_descendants model.dataModel.edges
-
-                                        -- suppression des liens:  src ---- (descendant target)
-                                        newEdges2 =
-                                            delEdgeForList_ nsrc.id target_descendants newEdges1
-
-                                        -- suppression conditionnelle des liens : src ---- a = (ascendant target)
-                                        -- condition = il n'exist pas de liens src ---- a.children si a.children != target
-                                        newDataModel =
-                                            { model_dataModel | edges = newEdges2 }
-
-                                        m2 =
-                                            { model | dataModel = newDataModel }
-
                                         m3 =
-                                            delEdgesAscendants_ nsrc.id target_ascendants ntarget m2
+                                            deleteEdge_ nsrc ntarget model
 
                                         m4 =
-                                            delEdgesAscendants_ ntarget.id src_ascendants ntarget m3
+                                            deleteEdge_ ntarget nsrc m3
                                     in
                                         m4
 
                                 ( _, _ ) ->
                                     model
                     in
-                        newModel
+                        m2
     in
         m1
 
 
-linkExistanceOne_ : DataModel.Identifier -> DataModel.Node -> Model.Model -> DataModel.Node -> Bool
-linkExistanceOne_ id_src target model n =
+deleteEdge_ : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+deleteEdge_ n ext model =
+    let
+        m1 =
+            deleteEdgeDown n ext model
+
+        m2 =
+            deleteEdgeUp n ext m1
+
+        edges1 =
+            delEdge { id = 0, source = n.id, target = ext.id } m2.dataModel.edges
+
+        m_dataModel =
+            m2.dataModel
+
+        newDataModel =
+            { m_dataModel | edges = edges1 }
+
+        m3 =
+            { m2 | dataModel = newDataModel }
+    in
+        m3
+
+
+deleteEdgeDown : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+deleteEdgeDown n ext model =
+    let
+        model_dataModel =
+            model.dataModel
+
+        n_descendants =
+            ModelManagement.getDescendantsFromN model_dataModel.nodes n
+
+        ext_descendants =
+            ModelManagement.getDescendantsFromN model_dataModel.nodes ext
+
+        -- suppression des liens:  target ---- (descendant src)
+        newEdges1 =
+            delEdgeForList_ ext.id n_descendants model_dataModel.edges
+
+        -- suppression des liens:  src ---- (descendant target)
+        newEdges2 =
+            delEdgeForList_ n.id ext_descendants newEdges1
+
+        -- suppression conditionnelle des liens : src ---- a = (ascendant target)
+        -- condition = il n'exist pas de liens src ---- a.children si a.children != target
+        newDataModel =
+            { model_dataModel | edges = newEdges2 }
+
+        m1 =
+            { model | dataModel = newDataModel }
+    in
+        m1
+
+
+deleteEdgeUp : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+deleteEdgeUp n ext model =
+    let
+        -- recherche du parent de n : pn
+        maybe_id_parent =
+            n.parent
+
+        m1 =
+            case maybe_id_parent of
+                Nothing ->
+                    model
+
+                Just id_parent ->
+                    -- model
+                    let
+                        maybe_pn =
+                            DataModel.getNodeFromId id_parent model.dataModel.nodes
+
+                        m2 =
+                            case maybe_pn of
+                                Nothing ->
+                                    model
+
+                                Just pn ->
+                                    -- on a trouvé le node parent dans la liste
+                                    let
+                                        -- on construit la liste des enfants
+                                        children =
+                                            ModelManagement.getChildren model.dataModel.nodes pn
+
+                                        children_except_n =
+                                            List.filter (\x -> not (x.id == n.id)) children
+
+                                        b =
+                                            linkExistance_ children_except_n ext model
+
+                                        m3 =
+                                            case b of
+                                                True ->
+                                                    -- il existe un lien {fils (pn) --> ext}, donc pas de modification
+                                                    model
+
+                                                False ->
+                                                    let
+                                                        -- on supprime le lien {pn -> ext}
+                                                        edges1 =
+                                                            delEdge { id = 0, source = pn.id, target = ext.id } model.dataModel.edges
+
+                                                        model_dataModel =
+                                                            model.dataModel
+
+                                                        dataModel1 =
+                                                            { model_dataModel | edges = edges1 }
+
+                                                        m4 =
+                                                            { model | dataModel = dataModel1 }
+
+                                                        m5 =
+                                                            deleteEdgeUp pn ext m4
+                                                    in
+                                                        m5
+                                    in
+                                        m3
+                    in
+                        m2
+
+        -- recherche liens :  {fils (pn) -> ext}
+        -- si vide, alors on supprime le lien {pn -> ext}
+        -- puis appel de deleteUp pn ext
+        -- sinon fin
+    in
+        m1
+
+
+linkExistanceOne_ : DataModel.Node -> Model.Model -> DataModel.Node -> Bool
+linkExistanceOne_ ext model n =
     let
         b1 =
-            DataModel.isEdgePresent { id = 0, source = id_src, target = n.id } model.dataModel.edges
+            DataModel.isEdgePresent { id = 0, source = n.id, target = ext.id } model.dataModel.edges
+                || DataModel.isEdgePresent { id = 0, source = ext.id, target = n.id } model.dataModel.edges
 
-        z =
-            Debug.log "linkExistanceOne_" b1
+        -- z =
+        --     Debug.log "linkExistanceOne_" b1
     in
         b1
 
 
-linkExistance_ : List DataModel.Node -> DataModel.Identifier -> DataModel.Node -> Model.Model -> Bool
-linkExistance_ children id_src target model =
+linkExistance_ : List DataModel.Node -> DataModel.Node -> Model.Model -> Bool
+linkExistance_ children ext model =
     let
         b =
-            List.any (linkExistanceOne_ id_src target model) children
+            List.any (linkExistanceOne_ ext model) children
 
-        z =
-            Debug.log "linkExistance_" b
+        -- z =
+        --     Debug.log "linkExistance_" b
     in
         b
-
-
-delEdgesAscendants_ : DataModel.Identifier -> List DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
-delEdgesAscendants_ id_src list target model =
-    let
-        newModel =
-            case list of
-                x :: xs ->
-                    delEdgesAscendants_ id_src xs x (delEdgeAscendant_ id_src x target model)
-
-                [] ->
-                    model
-    in
-        newModel
-
-
-
-{--
-delEdgeAscendant_ :
-    suppression conditionnelle des liens : src ---- a = (ascendant target)
-    condition = il n'existe pas de liens src ---- a.children si a.children != target
---}
-
-
-delEdgeAscendant_ : DataModel.Identifier -> DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
-delEdgeAscendant_ id_src ascendant target model =
-    let
-        -- on construit la liste des enfants
-        children =
-            ModelManagement.getChildren model.dataModel.nodes ascendant
-
-        children_except_target =
-            List.filter (\x -> not (x.id == target.id)) children
-
-        zzz =
-            Debug.log "children except ascendant" ascendant
-
-        zz =
-            Debug.log "children except target" target
-
-        z =
-            Debug.log "children_except_target" children_except_target
-
-        -- verification de possibilité suppression lien src ---- ascendant
-        -- si b vaut False, on peut supprimer le lien id_src ---- ascendant
-        b =
-            linkExistance_ children_except_target id_src ascendant model
-
-        newModel =
-            case b of
-                False ->
-                    let
-                        newEdges =
-                            List.filter (\x -> not ((x.source == id_src && x.target == ascendant.id) || (x.source == ascendant.id && x.target == id_src))) model.dataModel.edges
-
-                        model_dataModel =
-                            model.dataModel
-
-                        newDataModel =
-                            { model_dataModel | edges = newEdges }
-
-                        m1 =
-                            { model | dataModel = newDataModel }
-                    in
-                        m1
-
-                True ->
-                    model
-    in
-        newModel
 
 
 

@@ -5,6 +5,7 @@ module DataModel
         , DataNode
         , Edge
         , Identifier
+        , MetaModel
         , Model
         , Node
         , addNewNodeToModel
@@ -22,6 +23,7 @@ module DataModel
         , isNodeIdPresent
         , nodeHasParent
         , maximumNodeId
+        , anyEdgeDoublon
         )
 
 
@@ -41,6 +43,12 @@ type alias Model =
     { nodes : List Node
     , edges : List Edge
     , curNodeId : Identifier
+    }
+
+
+type alias MetaModel =
+    { filename : String
+    , model : Model
     }
 
 
@@ -300,3 +308,14 @@ isEdgePresent n list =
 
         [] ->
             False
+
+
+anyEdgeDoublon : List Edge -> Bool
+anyEdgeDoublon list =
+    case list of
+        [] ->
+            False
+
+        x :: xs ->
+            isEdgePresent { id = 0, source = x.source, target = x.target } xs
+                || isEdgePresent { id = 0, source = x.target, target = x.source } xs

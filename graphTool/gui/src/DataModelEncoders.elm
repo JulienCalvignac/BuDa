@@ -1,4 +1,4 @@
-module DataModelEncoders exposing (encodeModel)
+module DataModelEncoders exposing (encodeModel, encodeMetaModel)
 
 import DataModel
 import Json.Encode exposing (Value, array, bool, encode, float, int, list, null, object, string)
@@ -70,3 +70,16 @@ encodeModel_ jsmodel =
 encodeModel : DataModel.Model -> String
 encodeModel =
     encode 0 << encodeModel_
+
+
+encodeMetaModel_ : DataModel.MetaModel -> Value
+encodeMetaModel_ meta =
+    object
+        [ ( "filename", string meta.filename )
+        , ( "model", encodeModel_ meta.model )
+        ]
+
+
+encodeMetaModel : DataModel.MetaModel -> String
+encodeMetaModel =
+    encode 0 << encodeMetaModel_
