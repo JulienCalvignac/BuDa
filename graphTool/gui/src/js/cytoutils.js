@@ -27,7 +27,7 @@ var stylesheet = [
       {
         selector: 'node',
         style: {
-          shape: 'ellipse',
+          shape: 'rectangle',
           'background-color': 'blue',
           // 'width': 'mapData(bar, 0, 10, 10, 50)',
           // 'height': 'mapData(bar, 0, 10, 10, 50)',
@@ -46,6 +46,7 @@ var stylesheet = [
         style: {
           'background-opacity': 0.1
           , shape: 'ellipse'
+
         }
       }
       , {
@@ -90,13 +91,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 var cy = getCyReference();
 
+var tappedBefore;
+var tappedTimeout;
+
 cy.on("click", function(e){
 	try {
-		// var log = document.getElementById('log');
-		// cur_position = e.cyPosition;
-		// // cur_position = e.cyRenderedPosition;
-		// log.value = 'x: ' + cur_position.x.toFixed(2) + ', y: ' + cur_position.y.toFixed(2);
-
 		var selected = getSelectedEls();
 		if(selected.length == 0)
 		{
@@ -105,12 +104,37 @@ cy.on("click", function(e){
 			_sendSelectionToElm_(msg);
 
 		}
-
-
 	}
 	catch(err){
 	// cur_position =
 	}
+});
+
+cy.on('tap', function(event) {
+  var tappedNow = event.cyTarget;
+  if (tappedTimeout && tappedBefore) {
+    clearTimeout(tappedTimeout);
+  }
+  if(tappedBefore === tappedNow) {
+    tappedNow.trigger('doubleTap');
+    tappedBefore = null;
+  } else {
+    tappedTimeout = setTimeout(function(){ tappedBefore = null; }, 300);
+    tappedBefore = tappedNow;
+  }
+});
+
+cy.on('doubleTap', 'node', function(event) {
+
+	var selected = getSelectedEls();
+
+	if(selected.length > 0)
+	{
+		var msg = JSON.stringify ({id: parseInt(selected[0].id())});
+		_sendDoubleClickToElm_(msg);
+	}
+
+
 });
 
 cy.on('select', function(event){
@@ -126,7 +150,7 @@ cy.on('select', function(event){
 		}
 		else if(selected.length > 0)
 		{
-			// console.log('selection: ' + selected[0].id());
+			console.log('selection: ' + selected[0].id());
 			var msg = [ JSON.stringify ({id: parseInt(selected[0].id())}) ];
 			_sendSelectionToElm_(msg);
 		}
@@ -140,46 +164,8 @@ function _sendSelectionToElm_(msg) {
 	app_port_sendSelectionToElm(msg);
 }
 
-function _sendModelToElm_() {
-	var cy = getCyReference();
-	var eles = cy.nodes();
-	var index;
-
-	// construction des nodes
-	var nodesLst = [];
-	var edgesLst = [];
-	var n;
-	var elesMsg;
-
-	for (index = 0; index < eles.length; index++) {
-    //console.log(eles[index]["data"]("id"));
-
-		parent = eles[index]["data"]("parent");
-		if(parent==null)
-		{
-			n = { data: { id: parseInt(eles[index]["data"]("id")), name: eles[index]["data"]("name"), parent: null } };
-		}
-		else
-		{
-			n = { data: {id: parseInt(eles[index]["data"]("id")), name: eles[index]["data"]("name"), parent: parseInt(eles[index]["data"]("parent"))} };
-		}
-		nodesLst.push(n);
-	}
-
-	// construction des liens
-	eles = cy.edges();
-	for (index = 0; index < eles.length; index++) {
-    //console.log(eles[index]["data"]("id"));
-
-		parent = eles[index]["data"]("parent");
-		n = { data: {id: parseInt(eles[index]["data"]("id")), source: parseInt(eles[index]["data"]("source")), target: parseInt(eles[index]["data"]("target"))} };
-		edgesLst.push(n);
-	}
-
-	elesMsg = { nodes: nodesLst, edges: edgesLst };
-	var msg = JSON.stringify (elesMsg);
-	// var msg = '' + { nodes: nodesLst, edges: edgesLst } + '';
-	app_port_sendModelToElm(msg);
+function _sendDoubleClickToElm_(msg) {
+	app_port_sendDoubleClickToElm(msg);
 }
 
 function getSelectedNode() {
@@ -201,10 +187,6 @@ function _sendDataModel_ (obj) {
 	getCyReference().add(obj);
 }
 
-// function _deleteElement_() {
-// 	getSelectedEls().remove();
-// }
-
 function _layout_dagre () {
 	var cy = getCyReference();
 	cy.layout(dagre_layout);
@@ -216,52 +198,3 @@ function _layout_cola () {
 	var cy = getCyReference();
 	cy.layout(cola_layout);
 }
-
-// function _createNode_() {
-// 	var cy = getCyReference();
-// 	var selected = getSelectedNode();
-// 	var input = document.getElementById('input');
-// 	var name = input.value;
-// 	var newId = getIdentifer();
-//
-// 	if(selected.length > 0)
-// 	{
-//
-// 		cy.add( [ { group: "nodes", data: { id: newId, name: name, parent: selected[0].id() }, position: { x: cur_position.x, y: cur_position.y }  }]);
-// 	}
-// 	else
-// 	{
-// 		cy.add( [ { group: "nodes", data: { id: newId, name: name, position : { x: cur_position.x, y: cur_position.y } } } ]);
-// 	}
-// }
-
-
-// function _createEdge_() {
-// 	var cy = getCyReference();
-// 	var selected = getSelectedNode();
-//
-// 	if(selected.length > 1)
-// 	{
-// 		var edgeId = getIdentifer();
-// 		cy.add([
-// 			{ data : { id: edgeId
-// 							, source: selected[0].id()
-// 							, target: selected[1].id()
-// 							}
-// 		}
-// 		]);
-// 		// cy.add([ { data: { id: selected[0].id() ++ selected[1].id(), source: selected[0].id(), target: selected[1].id() } } ]);
-// 	}
-//
-// }
-
-// function _renameNode_() {
-// 	var cy = getCyReference();
-// 	var input = document.getElementById('input');
-// 	var selected = getSelectedNode();
-//
-// 	if(selected.length > 0)
-// 	{
-// 		selected[0].data('name', input.value);
-// 	}
-// }
