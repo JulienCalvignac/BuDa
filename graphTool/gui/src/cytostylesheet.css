@@ -61,14 +61,6 @@ stroke-opacity: 1;
     right: 5%;
 }
 
-/*#log {
-    width: 10%;
-    height: 5%;
-    position: absolute;
-    top: 30%;
-    right: 5%;
-}*/
-
 #layout {
     width: 10%;
     height: 5%;
@@ -83,13 +75,6 @@ stroke-opacity: 1;
     top: 40%;
     right: 5%;
 }
-/*#import {
-    width: 10%;
-    height: 5%;
-    position: absolute;
-    top: 45%;
-    right: 5%;
-}*/
 #showAllData {
     width: 10%;
     height: 5%;
@@ -97,31 +82,31 @@ stroke-opacity: 1;
     top: 55%;
     right: 5%;
 }
-#showBulles {
+#showView {
     width: 10%;
     height: 5%;
     position: absolute;
     top: 60%;
     right: 5%;
 }
-#showPBS {
-    width: 10%;
-    height: 5%;
-    position: absolute;
-    top: 65%;
-    right: 5%;
-}
-#saveModel {
+#checkbox {
     width: 10%;
     height: 5%;
     position: absolute;
     top: 70%;
     right: 5%;
 }
+#saveModel {
+    width: 10%;
+    height: 5%;
+    position: absolute;
+    top: 75%;
+    right: 5%;
+}
 #loadModel {
     width: 10%;
     height: 20%;
     position: absolute;
-    top: 75%;
+    top: 80%;
     right: 5%;
 }
