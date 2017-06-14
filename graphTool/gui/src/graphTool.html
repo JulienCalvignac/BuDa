@@ -34,30 +34,9 @@
 
 
       app.ports.layout.subscribe(function(word) {
-        _layout_cola();
+        // _layout_cola();
+        _layout_dagre();
       });
-
-      // app.ports.deleteElement.subscribe(function(word) {
-      //     _deleteElement_();
-      //     _sendModelToElm_();
-      // });
-
-      // app.ports.createNode.subscribe(function(word) {
-      //     _createNode_();
-      //     _sendModelToElm_();
-      // });
-
-      // app.ports.createEdge.subscribe(function(word) {
-      //     _createEdge_();
-      //     _sendModelToElm_();
-      // });
-
-
-      // app.ports.renameNode.subscribe(function(word) {
-      //     _renameNode_();
-      //     _sendModelToElm_();
-      // });
-
 
       app.ports.sendDataPBSModel.subscribe(function(word) {
         var obj = JSON.parse(word);
@@ -68,28 +47,32 @@
       app.ports.sendDataBullesModel.subscribe(function(word) {
         var obj = JSON.parse(word);
         _sendDataModel_(obj);
-        _layout_cola();
-      });
-
-      app.ports.reqModelfromJS.subscribe(function(word) {
-        _sendModelToElm_();
+        //_layout_cola();
+        _layout_dagre();
       });
 
       app.ports.saveModel.subscribe(function(word) {
-        download(word, "model.json", "text/plain");
+        var obj = JSON.parse(word);
+        var filename = obj.filename;
+        var model = obj.model;
+        download( JSON.stringify ( model ), filename, "text/plain");
       });
 
       app.ports.loadModel.subscribe(function(word) {
         var msg = loadModelFromFile(word);
-        console.log('loadmodel:' + msg);
+        // console.log('loadmodel:' + msg);
       });
 
       function app_port_sendSelectionToElm (msg) {
-        app.ports.suggestions.send(msg);
+        app.ports.selection.send(msg);
       }
 
       function app_port_sendModelToElm (msg) {
         app.ports.modeltoelm.send(msg);
+      }
+
+      function app_port_sendDoubleClickToElm (msg) {
+        app.ports.doubleclick.send(msg);
       }
 
     </script>
