@@ -1,9 +1,9 @@
 module Main exposing (..)
 
 import Actions
-import Html exposing (Html, button, div, input, label, span, text)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Html exposing (Html, Attribute, button, div, fieldset, input, label, span, text, section)
+import Html.Attributes exposing (id, name, style, type_, checked, value, placeholder)
+import Html.Events exposing (onClick, on, onInput)
 import Json.Decode
 import Model exposing (..)
 import View
@@ -14,15 +14,13 @@ onInputFile message =
     on "change" (Json.Decode.succeed message)
 
 
-checkbox : Bool -> msg -> String -> Html msg
-checkbox b msg name =
-    div [ id "checkbox" ]
-        [ label
-            [ style [ ( "padding", "20px" ) ]
-            ]
-            [ input [ type_ "checkbox", onClick msg, checked b ] []
-            , text name
-            ]
+radio : msg -> String -> Html msg
+radio msg value =
+    label
+        [ style [ ( "padding", "5px" ) ]
+        ]
+        [ input [ type_ "radio", name "viewType-radio", onClick msg ] []
+        , text value
         ]
 
 
@@ -31,10 +29,15 @@ checkbox b msg name =
 view : Model -> Html Actions.Msg
 view model =
     div []
-        [ button [ onClick Actions.ShowAllData, id "showAllData", value "showAllData" ] [ text "showAllData" ]
-        , button [ onClick Actions.ShowView, id "showView", value "showView" ] [ text "showView" ]
-        , checkbox model.isPBSActive Actions.ChangeViewType "PBS"
-        , button [ onClick Actions.Layout, id "layout", value "layout" ] [ text "layout" ]
+        [ button [ onClick Actions.ShowView, id "showView", value "showView" ]
+            [ text "showView" ]
+        , div []
+            [ fieldset [ id "fieldset" ]
+                [ radio (Actions.SwitchToView Model.BULL) "Bubble Diagram"
+                , radio (Actions.SwitchToView Model.PBS) "PBS"
+                , radio (Actions.SwitchToView Model.ALL) "All"
+                ]
+            ]
         , button [ onClick Actions.CreateNode, id "new", value "new element" ] [ text "new node" ]
         , button [ onClick Actions.CreateLink, id "edge", value "edge" ] [ text "new link" ]
         , button [ onClick Actions.RenameNode, id "rename", value "rename" ] [ text "rename" ]
