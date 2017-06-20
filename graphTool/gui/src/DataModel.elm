@@ -9,8 +9,13 @@ module DataModel
         , Model
         , Node
         , addNewNodeToModel
+        , anyLink
+        , anyLinks
+        , bros
+        , childs
         , dataModelToModel
         , defaultModel
+        , edgeST
         , getEdgeFromId
         , getNodeFromId
         , getNodeFromName
@@ -295,19 +300,35 @@ isNodePresent n list =
             False
 
 
+
+-- isEdgePresent : Edge -> List Edge -> Bool
+-- isEdgePresent n list =
+--     case list of
+--         x :: xs ->
+--             case (x.source == n.source && x.target == n.target) of
+--                 True ->
+--                     True
+--
+--                 False ->
+--                     isEdgePresent n xs
+--
+--         [] ->
+--             False
+
+
 isEdgePresent : Edge -> List Edge -> Bool
-isEdgePresent n list =
+isEdgePresent e list =
     case list of
+        [] ->
+            False
+
         x :: xs ->
-            case (x.source == n.source && x.target == n.target) of
+            case (x.source == e.source && x.target == e.target) || (x.source == e.target && x.target == e.source) of
                 True ->
                     True
 
                 False ->
-                    isEdgePresent n xs
-
-        [] ->
-            False
+                    isEdgePresent e xs
 
 
 anyEdgeDoublon : List Edge -> Bool
@@ -317,5 +338,54 @@ anyEdgeDoublon list =
             False
 
         x :: xs ->
-            isEdgePresent { id = 0, source = x.source, target = x.target } xs
-                || isEdgePresent { id = 0, source = x.target, target = x.source } xs
+            case isEdgePresent x xs of
+                True ->
+                    True
+
+                False ->
+                    anyEdgeDoublon xs
+
+
+anyLink : List Node -> Node -> List Edge -> Bool
+anyLink list n edges =
+    case list of
+        [] ->
+            False
+
+        x :: xs ->
+            case isEdgePresent { id = 0, source = x.id, target = n.id } edges of
+                True ->
+                    True
+
+                False ->
+                    anyLink xs n edges
+
+
+anyLinks : List Node -> List Node -> List Edge -> Bool
+anyLinks l1 list edges =
+    case list of
+        [] ->
+            False
+
+        x :: xs ->
+            case anyLink l1 x edges of
+                True ->
+                    True
+
+                False ->
+                    anyLinks l1 xs edges
+
+
+edgeST : Node -> Node -> Edge
+edgeST n m =
+    { id = 0, source = n.id, target = m.id }
+
+
+childs : Node -> List Node -> List Node
+childs n list =
+    List.filter (\x -> x.parent == Just n.id) list
+
+
+bros : Node -> List Node -> List Node
+bros n list =
+    List.filter (\x -> (not (x.id == n.id)) && (x.parent == n.parent)) list
