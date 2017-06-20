@@ -1,7 +1,18 @@
-module Model exposing (Model, defaultModel)
+module Model
+    exposing
+        ( Model
+        , ViewType(..)
+        , defaultModel
+        )
 
 import DataModel
 import Selection
+
+
+type ViewType
+    = BULL
+    | PBS
+    | ALL
 
 
 type alias Model =
@@ -10,7 +21,7 @@ type alias Model =
     , input : String
     , selection : Selection.Model
     , loadModelId : String
-    , isPBSActive : Bool
+    , viewType : ViewType
     , nodeViewId : Maybe DataModel.Identifier
     }
 
@@ -22,6 +33,6 @@ defaultModel =
     , input = "undefined"
     , selection = []
     , loadModelId = "loadModel"
-    , isPBSActive = True
+    , viewType = BULL
     , nodeViewId = Nothing
     }
