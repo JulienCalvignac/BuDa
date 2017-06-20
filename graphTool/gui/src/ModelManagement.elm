@@ -62,11 +62,6 @@ existLinkTo list n edges =
     List.any (\x -> DataModel.isEdgePresent { id = 0, source = x.id, target = n.id } edges) list
 
 
-existLinkFrom : List DataModel.Node -> DataModel.Node -> List DataModel.Edge -> Bool
-existLinkFrom list n edges =
-    List.any (\x -> DataModel.isEdgePresent { id = 0, source = n.id, target = x.id } edges) list
-
-
 subBullesFromUniverse : DataModel.Model -> DataModel.Model
 subBullesFromUniverse model =
     let
@@ -86,14 +81,25 @@ subBullesFromUniverse model =
         { model | nodes = newNodes, edges = newEdges }
 
 
+filtNodeWithList_ : List DataModel.Node -> List DataModel.Node -> (DataModel.Edge -> Bool)
+filtNodeWithList_ l1 l2 =
+    (\x ->
+        (DataModel.isNodeIdPresent x.source l1 && DataModel.isNodeIdPresent x.target l2)
+            || (DataModel.isNodeIdPresent x.target l1 && DataModel.isNodeIdPresent x.source l2)
+    )
+
+
 subBullesModelFromNode : DataModel.Model -> DataModel.Node -> DataModel.Model
 subBullesModelFromNode model n =
     let
-        newNodes =
+        childNodes =
             getChildren model.nodes n
 
-        newEdges =
-            filterBullesEdgeN model.edges n newNodes
+        childEdges =
+            filterBullesEdgeN model.edges n childNodes
+
+        brosN =
+            DataModel.bros n model.nodes
 
         allParentsN =
             getAllParentsFromNode model.nodes n
@@ -113,31 +119,40 @@ subBullesModelFromNode model n =
         --     Debug.log "externNodesWithoutN" externNodesWithoutN
         externEdges =
             List.filter
-                (\x ->
-                    (DataModel.isNodeIdPresent x.source externNodesWithoutN && DataModel.isNodeIdPresent x.target newNodes)
-                        || (DataModel.isNodeIdPresent x.target externNodesWithoutN && DataModel.isNodeIdPresent x.source newNodes)
-                )
+                (filtNodeWithList_ externNodesWithoutN (n :: childNodes))
                 model.edges
 
         -- aaa =
         --     Debug.log "externEdges" externEdges
-        -- on ne conserve que les externals qui on un lien avec un element de newNodes
+        -- on ne conserve que les externals qui on un lien avec un element de childNodes ou n
         externNodes =
             List.filter
                 (\x ->
-                    (existLinkFrom newNodes x model.edges) || (existLinkTo newNodes x model.edges)
+                    (existLinkTo [ n ] x model.edges)
                 )
                 externNodesWithoutN
+
+        brosEdges =
+            List.filter
+                (filtNodeWithList_ brosN (n :: childNodes))
+                model.edges
+
+        brosNodes =
+            List.filter
+                (\x ->
+                    (existLinkTo [ n ] x model.edges)
+                )
+                brosN
 
         -- aa =
         --     Debug.log "externNodes" externNodes
         newNodes1 =
-            n :: List.append newNodes externNodes
+            n :: List.append brosNodes (List.append childNodes externNodes)
 
         -- zz =
         --     Debug.log "newNodes1" newNodes1
         newEdges1 =
-            List.append newEdges externEdges
+            List.append brosEdges (List.append childEdges externEdges)
 
         -- zzz =
         --     Debug.log "newEdges1" newEdges1
