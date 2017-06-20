@@ -30,7 +30,7 @@ createAtomicEdge_ src dest model =
             { id = 0, target = src, source = dest }
 
         dataModelNewId =
-            case ((DataModel.isEdgePresent edge model.dataModel.edges) || (DataModel.isEdgePresent edge_inv model.dataModel.edges)) of
+            case (DataModel.isEdgePresent edge model.dataModel.edges) of
                 True ->
                     model.dataModel
 
@@ -80,10 +80,13 @@ createAtomicEdgeForList_ list dest model =
 
 {--
   createLink :
-  Creation lien unique src -> target
-  Creation lien unique target -> src
-  Creation lien unique src -> ascendance target
-  Creation lien unique target -> ascendance src
+    asc ( src ) = [x1, x2, x3, ..., xn, Pcommun]
+    asc ( target ) = [ y1, y2, .. , ym, Pcommun]
+
+    avec PCommun peut valoir Nothing
+
+    links = [ (x1,y1), (x1,y2), .., (x1,ym), (x2,y1), .., (x2,ym), .., (xn,x1), ..,(xn,ym)]
+    On trouve m * n liens
 --}
 
 
@@ -119,22 +122,20 @@ createLink_ ns1 nt1 model =
         lds1 =
             (ModelManagement.getAscendants model.dataModel.nodes ns1 commonParent)
 
-        m1 =
-            createAtomicEdgeForList_ lds1 nt1.id model
-
         m2 =
-            createAtomicEdgeForList_ ldt1 ns1.id m1
-
-        -- z0 =
-        --     Debug.log "commonParent" commonParent
-        --
-        -- z1 =
-        --     Debug.log "lds1" lds1
-        --
-        -- z2 =
-        --     Debug.log "ldt1" ldt1
+            createLinkEdgeForLists_ lds1 ldt1 model
     in
         m2
+
+
+createLinkEdgeForLists_ : List DataModel.Node -> List DataModel.Node -> Model.Model -> Model.Model
+createLinkEdgeForLists_ ls lt model =
+    case ls of
+        [] ->
+            model
+
+        x :: xs ->
+            createLinkEdgeForLists_ xs lt (createAtomicEdgeForList_ lt x.id model)
 
 
 
@@ -241,10 +242,10 @@ deleteEdge id model =
                                         m3 =
                                             deleteEdge_ nsrc ntarget model
 
-                                        m4 =
-                                            deleteEdge_ ntarget nsrc m3
+                                        -- m4 =
+                                        --     deleteEdge_ ntarget nsrc m3
                                     in
-                                        m4
+                                        m3
 
                                 ( _, _ ) ->
                                     model
@@ -263,23 +264,14 @@ deleteEdge_ n ext model =
         m2 =
             deleteEdgeUp n ext m1
 
-        edges1 =
-            delEdge { id = 0, source = n.id, target = ext.id } m2.dataModel.edges
-
-        m_dataModel =
-            m2.dataModel
-
-        newDataModel =
-            { m_dataModel | edges = edges1 }
-
-        m3 =
-            { m2 | dataModel = newDataModel }
+        -- m2 =
+        --     deleteEdgeUp n ext model
     in
-        m3
+        m2
 
 
 deleteEdgeDown : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
-deleteEdgeDown n ext model =
+deleteEdgeDown n m model =
     let
         model_dataModel =
             model.dataModel
@@ -287,100 +279,188 @@ deleteEdgeDown n ext model =
         n_descendants =
             ModelManagement.getDescendantsFromN model_dataModel.nodes n
 
-        ext_descendants =
-            ModelManagement.getDescendantsFromN model_dataModel.nodes ext
-
-        -- suppression des liens:  target ---- (descendant src)
-        newEdges1 =
-            delEdgeForList_ ext.id n_descendants model_dataModel.edges
-
-        -- suppression des liens:  src ---- (descendant target)
-        newEdges2 =
-            delEdgeForList_ n.id ext_descendants newEdges1
-
-        -- suppression conditionnelle des liens : src ---- a = (ascendant target)
-        -- condition = il n'exist pas de liens src ---- a.children si a.children != target
-        newDataModel =
-            { model_dataModel | edges = newEdges2 }
+        m_descendants =
+            ModelManagement.getDescendantsFromN model_dataModel.nodes m
 
         m1 =
-            { model | dataModel = newDataModel }
+            delEdgeDownForLists_ n_descendants m_descendants model
     in
         m1
+
+
+delEdgeDownForLists_ : List DataModel.Node -> List DataModel.Node -> Model.Model -> Model.Model
+delEdgeDownForLists_ lx ly model =
+    case lx of
+        [] ->
+            model
+
+        x :: xs ->
+            delEdgeDownForLists_ xs ly (delEdgeDownForList_ x ly model)
+
+
+delEdgeDownForList_ : DataModel.Node -> List DataModel.Node -> Model.Model -> Model.Model
+delEdgeDownForList_ n list model =
+    case list of
+        [] ->
+            model
+
+        x :: xs ->
+            delEdgeDownForList_ n xs (delEdgeFromModel_ n x model)
+
+
+delEdgeFromModel_ : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+delEdgeFromModel_ n m model =
+    let
+        data_model =
+            model.dataModel
+
+        newEdges =
+            delEdge { id = 0, source = n.id, target = m.id } data_model.edges
+
+        new_data_model =
+            { data_model | edges = newEdges }
+
+        m1 =
+            { model | dataModel = new_data_model }
+    in
+        m1
+
+
+delEdge : DataModel.Edge -> List DataModel.Edge -> List DataModel.Edge
+delEdge edge list =
+    List.filter (\x -> not ((x.source == edge.source && x.target == edge.target) || (x.target == edge.source && x.source == edge.target))) list
+
+
+delJustEdge : DataModel.Edge -> Model.Model -> Model.Model
+delJustEdge edge model =
+    let
+        z =
+            Debug.log "delJustEdge" edge
+
+        newEdges =
+            (delEdge edge model.dataModel.edges)
+
+        datamodel =
+            model.dataModel
+
+        newDataModel =
+            { datamodel | edges = newEdges }
+    in
+        { model | dataModel = newDataModel }
+
+
+
+{--
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+--}
+
+
+deleteAscN : DataModel.Node -> List DataModel.Node -> Model.Model -> Model.Model
+deleteAscN n asc_m model =
+    case asc_m of
+        [] ->
+            model
+
+        x :: xs ->
+            let
+                m1 =
+                    case canDelete n x model of
+                        True ->
+                            delJustEdge (DataModel.edgeST n x) model
+
+                        False ->
+                            model
+            in
+                deleteAscN n xs m1
+
+
+deleteAsc : List DataModel.Node -> List DataModel.Node -> Model.Model -> Model.Model
+deleteAsc asc_n asc_m model =
+    case asc_n of
+        [] ->
+            model
+
+        x :: xs ->
+            deleteAsc xs asc_m (deleteAscN x asc_m model)
+
+
+deleteEdgeWithAsc : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+deleteEdgeWithAsc n m model =
+    let
+        commonParent =
+            ModelManagement.findCommonParent model.dataModel.nodes n m
+
+        asc_n =
+            ModelManagement.getAscendants model.dataModel.nodes n commonParent
+
+        asc_m =
+            ModelManagement.getAscendants model.dataModel.nodes m commonParent
+
+        z =
+            Debug.log "asc_n" asc_n
+    in
+        deleteAsc asc_n asc_m model
+
+
+canDelete : DataModel.Node -> DataModel.Node -> Model.Model -> Bool
+canDelete n m model =
+    let
+        childs_n =
+            DataModel.childs n model.dataModel.nodes
+
+        childs_plus_n =
+            n :: childs_n
+
+        childs_m =
+            DataModel.childs m model.dataModel.nodes
+
+        childs_plus_m =
+            m :: childs_m
+
+        b1 =
+            DataModel.anyLinks childs_plus_m childs_n model.dataModel.edges
+
+        b2 =
+            DataModel.anyLinks childs_plus_n childs_m model.dataModel.edges
+
+        b =
+            not (b1 || b2)
+
+        -- zb1 =
+        --     Debug.log "anyLinks" ( childs_plus_m, childs_n )
+        --
+        -- zb2 =
+        --     Debug.log "anyLinks" ( childs_plus_n, childs_m )
+        z =
+            Debug.log "canDelete" ( n.name, m.name, b )
+    in
+        b
+
+
+
+{--
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+--}
 
 
 deleteEdgeUp : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
-deleteEdgeUp n ext model =
+deleteEdgeUp n m model =
     let
-        -- recherche du parent de n : pn
-        maybe_id_parent =
-            n.parent
+        m0 =
+            delJustEdge (DataModel.edgeST n m) model
 
-        m1 =
-            case maybe_id_parent of
-                Nothing ->
-                    model
-
-                Just id_parent ->
-                    -- model
-                    let
-                        maybe_pn =
-                            DataModel.getNodeFromId id_parent model.dataModel.nodes
-
-                        m2 =
-                            case maybe_pn of
-                                Nothing ->
-                                    model
-
-                                Just pn ->
-                                    -- on a trouvé le node parent dans la liste
-                                    let
-                                        -- on construit la liste des enfants
-                                        children =
-                                            ModelManagement.getChildren model.dataModel.nodes pn
-
-                                        children_except_n =
-                                            List.filter (\x -> not (x.id == n.id)) children
-
-                                        b =
-                                            linkExistance_ children_except_n ext model
-
-                                        m3 =
-                                            case b of
-                                                True ->
-                                                    -- il existe un lien {fils (pn) --> ext}, donc pas de modification
-                                                    model
-
-                                                False ->
-                                                    let
-                                                        -- on supprime le lien {pn -> ext}
-                                                        edges1 =
-                                                            delEdge { id = 0, source = pn.id, target = ext.id } model.dataModel.edges
-
-                                                        model_dataModel =
-                                                            model.dataModel
-
-                                                        dataModel1 =
-                                                            { model_dataModel | edges = edges1 }
-
-                                                        m4 =
-                                                            { model | dataModel = dataModel1 }
-
-                                                        m5 =
-                                                            deleteEdgeUp pn ext m4
-                                                    in
-                                                        m5
-                                    in
-                                        m3
-                    in
-                        m2
-
-        -- recherche liens :  {fils (pn) -> ext}
-        -- si vide, alors on supprime le lien {pn -> ext}
-        -- puis appel de deleteUp pn ext
-        -- sinon fin
+        m2 =
+            deleteEdgeWithAsc n m m0
     in
-        m1
+        m2
 
 
 linkExistanceOne_ : DataModel.Node -> Model.Model -> DataModel.Node -> Bool
@@ -388,7 +468,6 @@ linkExistanceOne_ ext model n =
     let
         b1 =
             DataModel.isEdgePresent { id = 0, source = n.id, target = ext.id } model.dataModel.edges
-                || DataModel.isEdgePresent { id = 0, source = ext.id, target = n.id } model.dataModel.edges
 
         -- z =
         --     Debug.log "linkExistanceOne_" b1
@@ -406,34 +485,6 @@ linkExistance_ children ext model =
         --     Debug.log "linkExistance_" b
     in
         b
-
-
-
-{--
-delEdgeForList_ : delete les liens id -> x.id et x.id -> id pour x dans list
---}
-
-
-delEdgeForList_ : DataModel.Identifier -> List DataModel.Node -> List DataModel.Edge -> List DataModel.Edge
-delEdgeForList_ id list edges =
-    case list of
-        x :: xs ->
-            let
-                edge =
-                    { id = 0, source = id, target = x.id }
-
-                newEdges =
-                    delEdge edge edges
-            in
-                delEdgeForList_ id xs newEdges
-
-        [] ->
-            edges
-
-
-delEdge : DataModel.Edge -> List DataModel.Edge -> List DataModel.Edge
-delEdge edge list =
-    List.filter (\x -> not ((x.source == edge.source && x.target == edge.target) || (x.target == edge.source && x.source == edge.target))) list
 
 
 
