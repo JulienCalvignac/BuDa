@@ -9,16 +9,8 @@
     <script src="js/jquery-2.2.4.min.js"></script>
 		<script src="./js/cytoscape.js"></script>
     <script src="./js/cytoutils.js"></script>
-		<!-- <script src="./js/data.js"></script> -->
-		<script src="./js/cola.js"></script>
-		<script src="./js/cytoscape-cola.js"></script>
-
     <script src="./js/dagre.js"></script>
 		<script src="./js/cytoscape-dagre.js"></script>
-
-    <script src="./js/arbor.js"></script>
-		<script src="./js/cytoscape-arbor.js"></script>
-
     <script src="./js/download.js"></script>
     <script src="./js/loadFile.js"></script>
 
@@ -34,7 +26,6 @@
 
 
       app.ports.layout.subscribe(function(word) {
-        // _layout_cola();
         _layout_dagre();
       });
 
@@ -47,7 +38,6 @@
       app.ports.sendDataBullesModel.subscribe(function(word) {
         var obj = JSON.parse(word);
         _sendDataModel_(obj);
-        //_layout_cola();
         _layout_dagre();
       });
 

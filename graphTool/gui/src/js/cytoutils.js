@@ -3,9 +3,9 @@
 var options = { cyreference : null };
 
 // var cy_reference = null;
-var cola_layout = { name: 'cola', fit: true, maxSimulationTime: 1000, };
+// var cola_layout = { name: 'cola', fit: true, maxSimulationTime: 1000, };
 var dagre_layout = { name: 'dagre' };
-var arbor_layout = { name: 'arbor' };
+// var arbor_layout = { name: 'arbor' };
 
 var dataElements = {
 		nodes: [
@@ -77,8 +77,8 @@ function getCyReference() {
 			, style: stylesheet
 			// , layout: concentricOptions
 			// , layout: cola_layout
-			// , layout: dagre
-			, layout : arbor
+			, layout: dagre
+			// , layout : arbor
 
 		});
 		options.cyreference = cy;
@@ -194,7 +194,7 @@ function _layout_dagre () {
 
 }
 
-function _layout_cola () {
-	var cy = getCyReference();
-	cy.layout(cola_layout);
-}
+// function _layout_cola () {
+// 	var cy = getCyReference();
+// 	cy.layout(cola_layout);
+// }
