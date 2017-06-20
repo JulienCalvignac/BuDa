@@ -12,7 +12,6 @@ import ModelViews
 import Keyboard
 
 
--- import Time
 -- MSG
 
 
@@ -21,19 +20,17 @@ type Msg
     | LoadLNK String
     | ShowAllData
     | Layout
-      -- | DeleteElement
     | CreateNode
     | RenameNode
     | CreateLink
     | InputChange String
     | Selection (List String)
     | ModelToElm String
-      -- | RequestModelFromJS
     | SaveModel
     | LoadModel
     | ShowBulles
     | ShowPBS
-    | ChangeViewType
+    | SwitchToView Model.ViewType
     | ShowView
     | KeyPresses Keyboard.KeyCode
     | KeyUps Keyboard.KeyCode
@@ -106,7 +103,10 @@ showView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showView msg model =
     let
         m1 =
-            if (model.isPBSActive == True) then
+            if (model.viewType == Model.ALL) then
+                -- if (model.isAllDataActive == True) then
+                showAllData msg model
+            else if (model.viewType == Model.PBS) then
                 showPBS msg model
             else
                 showBulles msg model
@@ -115,6 +115,20 @@ showView msg model =
         --     Debug.log "Any Edge Doublon: " (DataModel.anyEdgeDoublon model.dataModel.edges)
     in
         m1
+
+
+showAllData : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
+showAllData msg model =
+    let
+        subModel =
+            model.dataModel
+
+        -- z =
+        --     Debug.log "ShowAllData: " subModel
+        newModel =
+            { model | selection = [] }
+    in
+        ( newModel, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
 
 
 showPBS : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -220,10 +234,10 @@ update msg model =
         LoadLNK s ->
             ( model, Cmd.none )
 
-        ChangeViewType ->
+        SwitchToView s ->
             let
                 m1 =
-                    { model | isPBSActive = not model.isPBSActive }
+                    { model | viewType = s }
             in
                 ( m1, Cmd.none )
 
@@ -294,8 +308,6 @@ update msg model =
                 -- ( newModel, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel newModel.dataModel) )
                 showView msg newModel
 
-        -- RequestModelFromJS ->
-        --     ( model, LinkToJS.reqModelfromJS "" )
         InputChange s ->
             ( { model | input = s }, Cmd.none )
 
