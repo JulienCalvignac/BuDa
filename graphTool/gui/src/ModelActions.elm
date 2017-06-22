@@ -1,5 +1,8 @@
 module ModelActions exposing (createLink, createNode, deleteEdge, deleteNode, renameNode)
 
+import Identifier exposing (Identifier)
+import Node exposing (Node)
+import Link exposing (Edge)
 import DataModel
 import Model
 import ModelManagement
@@ -20,14 +23,12 @@ createLink
 --}
 
 
-createAtomicEdge_ : DataModel.Identifier -> DataModel.Identifier -> Model.Model -> Model.Model
+createAtomicEdge_ : Identifier -> Identifier -> Model.Model -> Model.Model
 createAtomicEdge_ src dest model =
     let
         edge =
-            { id = 0, source = src, target = dest }
-
-        edge_inv =
-            { id = 0, target = src, source = dest }
+            --{ id = 0, source = src, target = dest }
+            (Link.link src dest)
 
         dataModelNewId =
             case (DataModel.isEdgePresent edge model.dataModel.edges) of
@@ -50,7 +51,7 @@ createAtomicEdge_ src dest model =
         { model | dataModel = dataModelNewId }
 
 
-createAtomicDoubleEdge_ : DataModel.Identifier -> DataModel.Identifier -> Model.Model -> Model.Model
+createAtomicDoubleEdge_ : Identifier -> Identifier -> Model.Model -> Model.Model
 createAtomicDoubleEdge_ src dest model =
     let
         m1 =
@@ -63,7 +64,7 @@ createAtomicDoubleEdge_ src dest model =
         m2
 
 
-createAtomicEdgeForList_ : List DataModel.Node -> DataModel.Identifier -> Model.Model -> Model.Model
+createAtomicEdgeForList_ : List Node -> Identifier -> Model.Model -> Model.Model
 createAtomicEdgeForList_ list dest model =
     case list of
         x :: xs ->
@@ -90,7 +91,7 @@ createAtomicEdgeForList_ list dest model =
 --}
 
 
-createLink : DataModel.Identifier -> DataModel.Identifier -> Model.Model -> Model.Model
+createLink : Identifier -> Identifier -> Model.Model -> Model.Model
 createLink s t model =
     let
         ns =
@@ -110,7 +111,7 @@ createLink s t model =
         newModel
 
 
-createLink_ : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+createLink_ : Node -> Node -> Model.Model -> Model.Model
 createLink_ ns1 nt1 model =
     let
         commonParent =
@@ -128,7 +129,7 @@ createLink_ ns1 nt1 model =
         m2
 
 
-createLinkEdgeForLists_ : List DataModel.Node -> List DataModel.Node -> Model.Model -> Model.Model
+createLinkEdgeForLists_ : List Node -> List Node -> Model.Model -> Model.Model
 createLinkEdgeForLists_ ls lt model =
     case ls of
         [] ->
@@ -172,7 +173,8 @@ createNode model =
             newDataModel.curNodeId
 
         n =
-            { id = newId, name = newName, parent = newParent }
+            --{ id = newId, name = newName, parent = newParent }
+            (Node.node newId newName newParent)
 
         newNodes =
             n :: newDataModel.nodes
@@ -210,7 +212,7 @@ on delete dans les 2 sens src -> a[i], et a[i] -> src
 --}
 
 
-deleteEdge : DataModel.Identifier -> Model.Model -> Model.Model
+deleteEdge : Identifier -> Model.Model -> Model.Model
 deleteEdge id model =
     let
         -- recherche edge associé a id
@@ -255,7 +257,7 @@ deleteEdge id model =
         m1
 
 
-deleteEdge_ : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+deleteEdge_ : Node -> Node -> Model.Model -> Model.Model
 deleteEdge_ n ext model =
     let
         m1 =
@@ -270,7 +272,7 @@ deleteEdge_ n ext model =
         m2
 
 
-deleteEdgeDown : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+deleteEdgeDown : Node -> Node -> Model.Model -> Model.Model
 deleteEdgeDown n m model =
     let
         model_dataModel =
@@ -288,7 +290,7 @@ deleteEdgeDown n m model =
         m1
 
 
-delEdgeDownForLists_ : List DataModel.Node -> List DataModel.Node -> Model.Model -> Model.Model
+delEdgeDownForLists_ : List Node -> List Node -> Model.Model -> Model.Model
 delEdgeDownForLists_ lx ly model =
     case lx of
         [] ->
@@ -298,7 +300,7 @@ delEdgeDownForLists_ lx ly model =
             delEdgeDownForLists_ xs ly (delEdgeDownForList_ x ly model)
 
 
-delEdgeDownForList_ : DataModel.Node -> List DataModel.Node -> Model.Model -> Model.Model
+delEdgeDownForList_ : Node -> List Node -> Model.Model -> Model.Model
 delEdgeDownForList_ n list model =
     case list of
         [] ->
@@ -308,14 +310,17 @@ delEdgeDownForList_ n list model =
             delEdgeDownForList_ n xs (delEdgeFromModel_ n x model)
 
 
-delEdgeFromModel_ : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+delEdgeFromModel_ : Node -> Node -> Model.Model -> Model.Model
 delEdgeFromModel_ n m model =
     let
         data_model =
             model.dataModel
 
         newEdges =
-            delEdge { id = 0, source = n.id, target = m.id } data_model.edges
+            delEdge
+                --{ id = 0, source = n.id, target = m.id }
+                (Link.link n.id m.id)
+                data_model.edges
 
         new_data_model =
             { data_model | edges = newEdges }
@@ -326,12 +331,12 @@ delEdgeFromModel_ n m model =
         m1
 
 
-delEdge : DataModel.Edge -> List DataModel.Edge -> List DataModel.Edge
+delEdge : Edge -> List Edge -> List Edge
 delEdge edge list =
     List.filter (\x -> not ((x.source == edge.source && x.target == edge.target) || (x.target == edge.source && x.source == edge.target))) list
 
 
-delJustEdge : DataModel.Edge -> Model.Model -> Model.Model
+delJustEdge : Edge -> Model.Model -> Model.Model
 delJustEdge edge model =
     let
         z =
@@ -358,7 +363,7 @@ delJustEdge edge model =
 --}
 
 
-deleteAscN : DataModel.Node -> List DataModel.Node -> Model.Model -> Model.Model
+deleteAscN : Node -> List Node -> Model.Model -> Model.Model
 deleteAscN n asc_m model =
     case asc_m of
         [] ->
@@ -377,7 +382,7 @@ deleteAscN n asc_m model =
                 deleteAscN n xs m1
 
 
-deleteAsc : List DataModel.Node -> List DataModel.Node -> Model.Model -> Model.Model
+deleteAsc : List Node -> List Node -> Model.Model -> Model.Model
 deleteAsc asc_n asc_m model =
     case asc_n of
         [] ->
@@ -387,7 +392,7 @@ deleteAsc asc_n asc_m model =
             deleteAsc xs asc_m (deleteAscN x asc_m model)
 
 
-deleteEdgeWithAsc : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+deleteEdgeWithAsc : Node -> Node -> Model.Model -> Model.Model
 deleteEdgeWithAsc n m model =
     let
         commonParent =
@@ -405,7 +410,7 @@ deleteEdgeWithAsc n m model =
         deleteAsc asc_n asc_m model
 
 
-canDelete : DataModel.Node -> DataModel.Node -> Model.Model -> Bool
+canDelete : Node -> Node -> Model.Model -> Bool
 canDelete n m model =
     let
         childs_n =
@@ -451,7 +456,7 @@ canDelete n m model =
 --}
 
 
-deleteEdgeUp : DataModel.Node -> DataModel.Node -> Model.Model -> Model.Model
+deleteEdgeUp : Node -> Node -> Model.Model -> Model.Model
 deleteEdgeUp n m model =
     let
         m0 =
@@ -463,11 +468,14 @@ deleteEdgeUp n m model =
         m2
 
 
-linkExistanceOne_ : DataModel.Node -> Model.Model -> DataModel.Node -> Bool
+linkExistanceOne_ : Node -> Model.Model -> Node -> Bool
 linkExistanceOne_ ext model n =
     let
         b1 =
-            DataModel.isEdgePresent { id = 0, source = n.id, target = ext.id } model.dataModel.edges
+            DataModel.isEdgePresent
+                --{ id = 0, source = n.id, target = ext.id }
+                (Link.link n.id ext.id)
+                model.dataModel.edges
 
         -- z =
         --     Debug.log "linkExistanceOne_" b1
@@ -475,7 +483,7 @@ linkExistanceOne_ ext model n =
         b1
 
 
-linkExistance_ : List DataModel.Node -> DataModel.Node -> Model.Model -> Bool
+linkExistance_ : List Node -> Node -> Model.Model -> Bool
 linkExistance_ children ext model =
     let
         b =
@@ -505,7 +513,7 @@ supprimer n de la liste
 --}
 
 
-deleteNode : DataModel.Identifier -> Model.Model -> Model.Model
+deleteNode : Identifier -> Model.Model -> Model.Model
 deleteNode id model =
     let
         maybe_n =
@@ -529,7 +537,7 @@ deleteNode id model =
         m1
 
 
-deleteEdgesAndNodeFromListNode_ : List DataModel.Node -> Model.Model -> Model.Model
+deleteEdgesAndNodeFromListNode_ : List Node -> Model.Model -> Model.Model
 deleteEdgesAndNodeFromListNode_ list model =
     case list of
         x :: xs ->
@@ -543,7 +551,7 @@ deleteEdgesAndNodeFromListNode_ list model =
             model
 
 
-deleteEdgesAndNode_ : DataModel.Node -> Model.Model -> Model.Model
+deleteEdgesAndNode_ : Node -> Model.Model -> Model.Model
 deleteEdgesAndNode_ n model =
     let
         edgesToDelete =
@@ -567,7 +575,7 @@ deleteEdgesAndNode_ n model =
         m2
 
 
-deleteEdgeFromList_ : List DataModel.Edge -> Model.Model -> Model.Model
+deleteEdgeFromList_ : List Edge -> Model.Model -> Model.Model
 deleteEdgeFromList_ list model =
     case list of
         x :: xs ->
@@ -591,12 +599,12 @@ rename node select dans le Model.dataModel
 --}
 
 
-renameNode_ : DataModel.Node -> String -> DataModel.Node
+renameNode_ : Node -> String -> Node
 renameNode_ n s =
     { n | name = s }
 
 
-process_ : String -> Maybe DataModel.Identifier -> DataModel.Node -> DataModel.Node
+process_ : String -> Maybe Identifier -> Node -> Node
 process_ s id n =
     let
         n1 =
@@ -615,7 +623,7 @@ process_ s id n =
         n1
 
 
-renameNodeInList_ : String -> Maybe DataModel.Identifier -> List DataModel.Node -> List DataModel.Node
+renameNodeInList_ : String -> Maybe Identifier -> List Node -> List Node
 renameNodeInList_ s id list =
     List.map (process_ s id) list
 
