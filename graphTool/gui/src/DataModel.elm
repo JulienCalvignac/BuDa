@@ -3,11 +3,11 @@ module DataModel
         ( DataEdge
         , DataModel
         , DataNode
-        , Edge
-        , Identifier
+          -- , Edge
+          -- , Identifier
         , MetaModel
         , Model
-        , Node
+          -- , Node
         , addNewNodeToModel
         , anyLink
         , anyLinks
@@ -31,17 +31,9 @@ module DataModel
         , anyEdgeDoublon
         )
 
-
-type alias Identifier =
-    Int
-
-
-type alias Node =
-    { id : Identifier, name : String, parent : Maybe Identifier }
-
-
-type alias Edge =
-    { id : Identifier, source : Identifier, target : Identifier }
+import Identifier exposing (Identifier)
+import Link exposing (Edge)
+import Node exposing (Node)
 
 
 type alias Model =
@@ -238,7 +230,8 @@ makeNewNode name pname model =
             getNodeIdFromName pname m1.nodes
 
         newNode =
-            { id = m1.curNodeId, name = name, parent = pId }
+            --{ id = m1.curNodeId, name = name, parent = pId }
+            Node.node m1.curNodeId name pId
     in
         ( newNode, m1 )
 
@@ -353,7 +346,8 @@ anyLink list n edges =
             False
 
         x :: xs ->
-            case isEdgePresent { id = 0, source = x.id, target = n.id } edges of
+            case isEdgePresent (Link.link x.id n.id) edges of
+                -- { id = 0, source = x.id, target = n.id }
                 True ->
                     True
 
@@ -378,7 +372,8 @@ anyLinks l1 list edges =
 
 edgeST : Node -> Node -> Edge
 edgeST n m =
-    { id = 0, source = n.id, target = m.id }
+    --{ id = 0, source = n.id, target = m.id }
+    Link.link n.id m.id
 
 
 childs : Node -> List Node -> List Node

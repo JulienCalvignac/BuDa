@@ -1,10 +1,14 @@
 module DataModelEncoders exposing (encodeModel, encodeMetaModel)
 
+import Identifier exposing (Identifier)
+import Node exposing (Node)
+import Link exposing (Edge)
 import DataModel
 import Json.Encode exposing (Value, array, bool, encode, float, int, list, null, object, string)
+import Set exposing (Set)
 
 
-encodeIdentifier : DataModel.Identifier -> Value
+encodeIdentifier : Identifier -> Value
 encodeIdentifier identifier =
     Json.Encode.int identifier
 
@@ -19,7 +23,7 @@ maybe encoder maybeVal =
             encoder val
 
 
-encodeNode_ : DataModel.Node -> Value
+encodeNode_ : Node -> Value
 encodeNode_ n =
     object
         [ ( "id", encodeIdentifier n.id )
@@ -28,33 +32,34 @@ encodeNode_ n =
         ]
 
 
-encodeNode : DataModel.Node -> Value
+encodeNode : Node -> Value
 encodeNode n =
     object
         [ ( "data", encodeNode_ n ) ]
 
 
-encodeNodes : List DataModel.Node -> Value
+encodeNodes : List Node -> Value
 encodeNodes l =
     Json.Encode.list <| List.map encodeNode l
 
 
-encodeEdge_ : DataModel.Edge -> Value
+encodeEdge_ : Edge -> Value
 encodeEdge_ je =
     object
         [ ( "id", encodeIdentifier je.id )
         , ( "source", encodeIdentifier je.source )
         , ( "target", encodeIdentifier je.target )
+        , ( "parameters", (Json.Encode.list <| List.map encodeIdentifier (Set.toList je.parameters)) )
         ]
 
 
-encodeEdge : DataModel.Edge -> Value
+encodeEdge : Edge -> Value
 encodeEdge je =
     object
         [ ( "data", encodeEdge_ je ) ]
 
 
-encodeEdges : List DataModel.Edge -> Value
+encodeEdges : List Edge -> Value
 encodeEdges l =
     Json.Encode.list <| List.map encodeEdge l
 
