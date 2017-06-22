@@ -7,6 +7,7 @@ module ModelViews
         , getPBSViewFromNodeName
         )
 
+import Identifier exposing (Identifier)
 import DataModel
 import ModelManagement
 
@@ -16,7 +17,7 @@ getPBSView model =
     ModelManagement.listNodeToPBS model.nodes
 
 
-getBullesViewFromNodeId : DataModel.Model -> DataModel.Identifier -> DataModel.Model
+getBullesViewFromNodeId : DataModel.Model -> Identifier -> DataModel.Model
 getBullesViewFromNodeId model id =
     ModelManagement.subBullesModelFromId model id
 
@@ -31,7 +32,7 @@ getBullesViewFromNodeName model s =
     ModelManagement.subBullesModelFromName model s
 
 
-getPBSViewFromNodeId : DataModel.Model -> DataModel.Identifier -> DataModel.Model
+getPBSViewFromNodeId : DataModel.Model -> Identifier -> DataModel.Model
 getPBSViewFromNodeId model id =
     ModelManagement.listNodeToPBSFromNodeId model.nodes id
 

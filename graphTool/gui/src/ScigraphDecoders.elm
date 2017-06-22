@@ -27,7 +27,7 @@ decodeOneField s =
         tab =
             Array.fromList (Regex.split Regex.All (Regex.regex " -- ") s)
     in
-    ( Array.get 0 tab, Array.get 1 tab )
+        ( Array.get 0 tab, Array.get 1 tab )
 
 
 decodeFields : List String -> List ( Maybe String, Maybe String )
@@ -52,7 +52,7 @@ decodePBS s model =
         ls2 =
             decodeFields lst
     in
-    decodePBSToModel ls2 model
+        decodePBSToModel ls2 model
 
 
 decodeLNK : String -> DataModel.Model -> DataModel.Model
@@ -70,7 +70,7 @@ decodeLNK s model =
         -- z =
         --     Debug.log "ls2:" ls2
     in
-    decodeLNKToModel ls2 model
+        decodeLNKToModel ls2 model
 
 
 addOneNodeToModel : String -> String -> DataModel.Model -> DataModel.Model
@@ -87,7 +87,7 @@ addOneNodeToModel s pname model =
                 False ->
                     DataModel.addNewNodeToModel s pname model
     in
-    newModel
+        newModel
 
 
 add2SNodeToModel : ( String, String ) -> DataModel.Model -> DataModel.Model
@@ -99,7 +99,7 @@ add2SNodeToModel ( parent, child ) model =
         model2 =
             addOneNodeToModel child parent model1
     in
-    model2
+        model2
 
 
 add2SLNKToModel : ( String, String ) -> DataModel.Model -> DataModel.Model
@@ -119,7 +119,9 @@ add2SLNKToModel ( parent, child ) model =
                 Just np ->
                     case nchild of
                         Just nc ->
-                            { id = m1.curNodeId, source = np, target = nc } :: m1.edges
+                            --{ id = m1.curNodeId, source = np, target = nc }
+                            (Link.makeLink m1.curNodeId np nc)
+                                :: m1.edges
 
                         Nothing ->
                             m1.edges
@@ -127,7 +129,7 @@ add2SLNKToModel ( parent, child ) model =
                 Nothing ->
                     m1.edges
     in
-    { m1 | edges = newEdges }
+        { m1 | edges = newEdges }
 
 
 addNodetoModel : ( Maybe String, Maybe String ) -> DataModel.Model -> DataModel.Model
@@ -148,7 +150,7 @@ decodePBSToModel list model =
                 m1 =
                     addNodetoModel x model
             in
-            decodePBSToModel xs m1
+                decodePBSToModel xs m1
 
         [] ->
             model
@@ -172,7 +174,7 @@ decodeLNKToModel list model =
                 m1 =
                     addLNKtoModel x model
             in
-            decodeLNKToModel xs m1
+                decodeLNKToModel xs m1
 
         [] ->
             model

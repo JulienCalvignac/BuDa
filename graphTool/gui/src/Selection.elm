@@ -1,19 +1,30 @@
 module Selection exposing (Model, updateModelSelection, decodeFromJSMsg)
 
+import Identifier exposing (Identifier)
+
+
+-- import Node exposing (Node)
+-- import Link exposing (Edge)
+
 import DataModel
 import Json.Decode
 import DataModelDecoders
 
 
 type alias SelectionId =
-    { id : DataModel.Identifier, err : Bool }
+    { id : Identifier, err : Bool }
 
 
 type alias Model =
-    List DataModel.Identifier
+    List Identifier
 
 
-getIdentifier : SelectionId -> DataModel.Identifier
+selection : Identifier -> Bool -> SelectionId
+selection i b =
+    { id = i, err = b }
+
+
+getIdentifier : SelectionId -> Identifier
 getIdentifier s =
     s.id
 
@@ -41,15 +52,17 @@ decodeFromJSId s =
         x =
             Json.Decode.decodeString (Json.Decode.field "id" DataModelDecoders.decodeIdentifier) s
 
-        selection =
+        select =
             case x of
                 Ok v ->
-                    { id = v, err = False }
+                    --{ id = v, err = False }
+                    selection v False
 
                 Err _ ->
-                    { id = -1, err = True }
+                    --{ id = -1, err = True }
+                    selection -1 True
     in
-        selection
+        select
 
 
 decodeFromJSMsg : List String -> List SelectionId
