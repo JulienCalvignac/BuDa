@@ -2,11 +2,12 @@ module Main exposing (..)
 
 import Actions
 import Html exposing (Html, Attribute, button, div, fieldset, input, label, span, text, section)
-import Html.Attributes exposing (id, name, style, type_, checked, value, placeholder)
+import Html.Attributes exposing (id, name, style, type_, checked, value, placeholder, class)
 import Html.Events exposing (onClick, on, onInput)
 import Json.Decode
 import Model exposing (..)
 import View
+import ParametersView
 
 
 onInputFile : msg -> Html.Attribute msg
@@ -41,6 +42,8 @@ view model =
         , button [ onClick Actions.CreateNode, id "new", value "new element" ] [ text "new node" ]
         , button [ onClick Actions.CreateLink, id "edge", value "edge" ] [ text "new link" ]
         , button [ onClick Actions.RenameNode, id "rename", value "rename" ] [ text "rename" ]
+        , ParametersView.view model
+          -- , button [ onClick Actions.ParametersDialog, id "dialog", value "dialog" ] [ text "dialog" ]
         , input [ onInput Actions.InputChange, id "input", placeholder "undefined" ] []
         , button [ onClick Actions.SaveModel, id "saveModel", value "saveModel" ] [ text "saveModel" ]
         , input [ onInputFile Actions.LoadModel, id model.loadModelId, type_ "file" ] []

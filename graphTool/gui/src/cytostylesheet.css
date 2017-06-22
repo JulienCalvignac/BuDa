@@ -36,50 +36,50 @@ stroke-opacity: 1;
     width: 9.7%;
     height: 5%;
     position: absolute;
-    top: 10%;
+    top: 5%;
     right: 5%;
 }
 #new {
     width: 10%;
     height: 5%;
     position: absolute;
-    top: 15%;
+    top: 10%;
     right: 5%;
 }
 #edge {
     width: 10%;
     height: 5%;
     position: absolute;
+    top: 15%;
+    right: 5%;
+}
+#rename {
+    width: 10%;
+    height: 5%;
+    position: absolute;
     top: 20%;
     right: 5%;
 }
-#dialog {
+#parameters {
     width: 10%;
-    height: 5%;
+    height: 20%;
     position: absolute;
     top: 30%;
     right: 5%;
 }
 
-#rename {
-    width: 10%;
-    height: 5%;
-    position: absolute;
-    top: 40%;
-    right: 5%;
-}
 #fieldset {
     width: 9%;
     height: 5%;
     position: absolute;
-    top: 55%;
+    top: 70%;
     right: 5%;
 }
 #showView {
     width: 10%;
     height: 5%;
     position: absolute;
-    top: 70%;
+    top: 80%;
     right: 5%;
 }
 #saveModel {

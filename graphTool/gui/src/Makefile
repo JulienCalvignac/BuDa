@@ -1,6 +1,6 @@
 FILENAME := ../graphTool-bin$(shell date +_%Y%m%d_%Hh%M).tar.gz
 JSFILES = js/jquery-2.2.4.min.js js/cytoscape.js js/cytoutils.js js/dagre.js js/cytoscape-dagre.js js/download.js js/loadFile.js
-BINARIES = graphTool.html graphTool.css cytostylesheet.css elm.js m12.json $(JSFILES)
+BINARIES = graphTool.html graphTool.css cytostylesheet.css elm.js nm14.json $(JSFILES)
 
 all : clean test app
 	elm-make Main.elm --output elm.js --yes

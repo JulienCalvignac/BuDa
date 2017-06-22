@@ -36,6 +36,12 @@ type Msg
     | KeyUps Keyboard.KeyCode
     | KeyDowns Keyboard.KeyCode
     | DoubleClick String
+    | UpdateFlux String Bool
+    | NoOp
+
+
+
+-- | ParametersDialog
 
 
 subscriptions : Model.Model -> Sub Msg
@@ -228,6 +234,21 @@ deleteElement msg model =
 update : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 update msg model =
     case msg of
+        -- ParametersDialog ->
+        --     let
+        --         mdl_parameters =
+        --             model.parameters
+        --
+        --         new_parameters =
+        --             { mdl_parameters | visible = not model.parameters.visible }
+        --     in
+        --         ( { model | parameters = new_parameters }, Cmd.none )
+        NoOp ->
+            ( model, Cmd.none )
+
+        UpdateFlux s b ->
+            ( model, Cmd.none )
+
         LoadPSB s ->
             ( model, Cmd.none )
 

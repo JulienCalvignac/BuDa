@@ -5,8 +5,11 @@ module Model
         , defaultModel
         )
 
+import Identifier exposing (Identifier)
 import DataModel
 import Selection
+import FluxType
+import LinkParameters
 
 
 type ViewType
@@ -22,7 +25,8 @@ type alias Model =
     , selection : Selection.Model
     , loadModelId : String
     , viewType : ViewType
-    , nodeViewId : Maybe DataModel.Identifier
+    , nodeViewId : Maybe Identifier
+    , parameters : LinkParameters.Model
     }
 
 
@@ -35,4 +39,5 @@ defaultModel =
     , loadModelId = "loadModel"
     , viewType = BULL
     , nodeViewId = Nothing
+    , parameters = LinkParameters.defaultModel
     }
