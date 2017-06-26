@@ -6,6 +6,7 @@ import Link exposing (Edge)
 import DataModel
 import Json.Encode exposing (Value, array, bool, encode, float, int, list, null, object, string)
 import Set exposing (Set)
+import LinkParameters
 
 
 encodeIdentifier : Identifier -> Value
@@ -62,6 +63,19 @@ encodeEdge je =
 encodeEdges : List Edge -> Value
 encodeEdges l =
     Json.Encode.list <| List.map encodeEdge l
+
+
+encodeProperty : LinkParameters.Property -> Value
+encodeProperty property =
+    object
+        [ ( "id", encodeIdentifier property.id )
+        , ( "source", Json.Encode.string property.name )
+        ]
+
+
+encodeParameters : LinkParameters.Model -> Value
+encodeParameters param =
+    (Json.Encode.list <| List.map encodeProperty (param.properties))
 
 
 encodeModel_ : DataModel.Model -> Value
