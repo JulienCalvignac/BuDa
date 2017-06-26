@@ -1,4 +1,4 @@
-module LinkParameters exposing (Model, createProperty, defaultModel)
+module LinkParameters exposing (Model, Property, createProperty, defaultModel, getPropertyIdFromName)
 
 import Identifier exposing (Identifier)
 import List
@@ -16,6 +16,21 @@ type alias Model =
     }
 
 
+getPropertyIdFromName : String -> List Property -> Maybe Identifier
+getPropertyIdFromName s list =
+    case list of
+        [] ->
+            Nothing
+
+        x :: xs ->
+            case x.name == s of
+                True ->
+                    (Just x.id)
+
+                False ->
+                    getPropertyIdFromName s xs
+
+
 zeroModel : Model
 zeroModel =
     { properties = []
@@ -30,11 +45,22 @@ defaultModel =
 
 fromList : List String -> Model -> Model
 fromList list model =
-    let
-        new_properties =
-            List.map (\x -> (property (getNodeIdentifier model).curIdentifier x)) list
-    in
-        { model | properties = new_properties }
+    case list of
+        [] ->
+            model
+
+        x :: xs ->
+            let
+                new_properties =
+                    (property model.curIdentifier x) :: model.properties
+
+                m1 =
+                    getNodeIdentifier model
+
+                m2 =
+                    { m1 | properties = new_properties }
+            in
+                fromList xs m2
 
 
 sampleModel : Model
