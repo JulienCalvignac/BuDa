@@ -10,6 +10,7 @@ import Selection
 import ModelActions
 import ModelViews
 import Keyboard
+import Link exposing (Edge)
 
 
 -- MSG
@@ -36,12 +37,8 @@ type Msg
     | KeyUps Keyboard.KeyCode
     | KeyDowns Keyboard.KeyCode
     | DoubleClick String
-    | UpdateFlux String Bool
+    | CheckProperty Edge String
     | NoOp
-
-
-
--- | ParametersDialog
 
 
 subscriptions : Model.Model -> Sub Msg
@@ -227,28 +224,17 @@ deleteElement msg model =
         showView msg newModel
 
 
-
--- ( model, LinkToJS.deleteElement "" )
-
-
 update : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 update msg model =
     case msg of
-        -- ParametersDialog ->
-        --     let
-        --         mdl_parameters =
-        --             model.parameters
-        --
-        --         new_parameters =
-        --             { mdl_parameters | visible = not model.parameters.visible }
-        --     in
-        --         ( { model | parameters = new_parameters }, Cmd.none )
+        CheckProperty edge s ->
+            ( ModelActions.updateProperty edge s model, Cmd.none )
+
         NoOp ->
             ( model, Cmd.none )
 
-        UpdateFlux s b ->
-            ( model, Cmd.none )
-
+        -- UpdateFlux s b ->
+        --     ( model, Cmd.none )
         LoadPSB s ->
             ( model, Cmd.none )
 

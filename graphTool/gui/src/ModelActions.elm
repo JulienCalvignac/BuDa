@@ -1,4 +1,4 @@
-module ModelActions exposing (createLink, createNode, deleteEdge, deleteNode, renameNode)
+module ModelActions exposing (createLink, createNode, deleteEdge, deleteNode, renameNode, updateProperty)
 
 import Identifier exposing (Identifier)
 import Node exposing (Node)
@@ -6,6 +6,7 @@ import Link exposing (Edge)
 import DataModel
 import Model
 import ModelManagement
+import LinkParameters
 
 
 {--
@@ -652,3 +653,44 @@ renameNode model =
             { nd1 | nodes = newNodes }
     in
         { model | dataModel = newDataModel }
+
+
+processProperty_ : Edge -> Identifier -> Edge -> Edge
+processProperty_ x prop_id edge =
+    case (x.id == edge.id) of
+        False ->
+            edge
+
+        True ->
+            Link.changeActive prop_id edge
+
+
+updatePropertyInEdgeList_ : Edge -> Identifier -> List Edge -> List Edge
+updatePropertyInEdgeList_ x propId list =
+    List.map (\y -> processProperty_ x propId y) list
+
+
+updateProperty : Edge -> String -> Model.Model -> Model.Model
+updateProperty edge s model =
+    let
+        maybe_propId =
+            LinkParameters.getPropertyIdFromName s model.parameters.properties
+
+        z =
+            Debug.log "updateProperty" ( maybe_propId, s )
+
+        newEdges =
+            case maybe_propId of
+                Nothing ->
+                    model.dataModel.edges
+
+                Just propId ->
+                    updatePropertyInEdgeList_ edge propId model.dataModel.edges
+
+        model_datamodel =
+            model.dataModel
+
+        new_dataModel =
+            { model_datamodel | edges = newEdges }
+    in
+        { model | dataModel = new_dataModel }
