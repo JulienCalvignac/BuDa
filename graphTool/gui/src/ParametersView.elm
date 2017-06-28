@@ -30,7 +30,7 @@ fluxLine_ m_edge ( key, b ) =
     case m_edge of
         Nothing ->
             div []
-                [ checkbox b (Actions.NoOp) key
+                [ checkbox b (Actions.CheckFlux key) key
                 ]
 
         Just x ->
@@ -56,10 +56,10 @@ makeKeyValueList : Maybe Edge -> Model -> List ( String, Bool )
 makeKeyValueList m_edge model =
     case m_edge of
         Nothing ->
-            List.map (\x -> ( x.name, False )) model.parameters.properties
+            List.map (\x -> ( x.name, False )) model.dataModel.parameters
 
         Just edge ->
-            List.map (\x -> ( x.name, Link.isActive x.id edge )) model.parameters.properties
+            List.map (\x -> ( x.name, Link.isActive x.id edge )) model.dataModel.parameters
 
 
 expose : Model -> Html Actions.Msg
