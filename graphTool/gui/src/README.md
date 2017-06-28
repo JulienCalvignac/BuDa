@@ -15,10 +15,10 @@
     On filtre la liste newEdges1 avec mainFilter_
 
       mainFilter_ x
-        x.source != n et x.target != n -> True
-        x.source == n
-          il existe un lien entre x.target et un enfant de n -> False
-          sinon -> True
-        x.target == n
-          il existe un lien entre x.source et un enfant de n -> False
-          sinon -> True
+        * x.source != n et x.target != n -> True
+        * x.source == n
+            il existe un lien entre x.target et un enfant de n -> False
+            sinon -> True
+        * x.target == n
+            il existe un lien entre x.source et un enfant de n -> False
+            sinon -> True
