@@ -4,6 +4,7 @@ import Array
 import DataModel
 import Regex
 import String.Extra
+import Link
 
 
 begin : String

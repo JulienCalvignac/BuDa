@@ -1,6 +1,8 @@
 module ScigraphEncoders exposing (encodeLNK, encodePBS)
 
 import DataModel
+import Node exposing (Node)
+import Link exposing (Edge)
 
 
 encodePBS : DataModel.Model -> String
@@ -13,7 +15,7 @@ encodeLNK model =
     "graph app_graph {\noverlap=false\n" ++ encodeLinks model model.edges ++ "}\n"
 
 
-nodeParentToString : DataModel.Node -> List DataModel.Node -> String
+nodeParentToString : Node -> List Node -> String
 nodeParentToString n l =
     case n.parent of
         Nothing ->
@@ -28,7 +30,7 @@ nodeParentToString n l =
                     s
 
 
-encodeNode : DataModel.Node -> List DataModel.Node -> String
+encodeNode : Node -> List Node -> String
 encodeNode n l =
     case DataModel.nodeHasParent n of
         True ->
@@ -38,7 +40,7 @@ encodeNode n l =
             ""
 
 
-encodeNodes : List DataModel.Node -> String
+encodeNodes : List Node -> String
 encodeNodes list =
     case list of
         x :: xs ->
@@ -48,7 +50,7 @@ encodeNodes list =
             ""
 
 
-encodeLink : DataModel.Model -> DataModel.Edge -> String
+encodeLink : DataModel.Model -> Edge -> String
 encodeLink model edge =
     let
         from_name =
@@ -70,10 +72,10 @@ encodeLink model edge =
                 Nothing ->
                     "Undefined" ++ " -- " ++ "Undefined" ++ ";\n"
     in
-    result
+        result
 
 
-encodeLinks : DataModel.Model -> List DataModel.Edge -> String
+encodeLinks : DataModel.Model -> List Edge -> String
 encodeLinks model list =
     case list of
         x :: xs ->
