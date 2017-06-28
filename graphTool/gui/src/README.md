@@ -14,11 +14,11 @@
     On filtre la liste des liens du model tels que source et target sont dans newNodes. (nommée newEdges1)
     On filtre la liste newEdges1 avec mainFilter_
 
-      mainFilter_ x
-        * x.source != n et x.target != n -> True
-        * x.source == n
+      mainFilter_ x =
+      * x.source != n et x.target != n -> True
+      * x.source == n
             il existe un lien entre x.target et un enfant de n -> False
             sinon -> True
-        * x.target == n
+      * x.target == n
             il existe un lien entre x.source et un enfant de n -> False
             sinon -> True
