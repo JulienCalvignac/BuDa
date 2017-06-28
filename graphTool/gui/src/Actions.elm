@@ -11,6 +11,7 @@ import ModelActions
 import ModelViews
 import Keyboard
 import Link exposing (Edge)
+import ScigraphEncoders
 
 
 -- MSG
@@ -38,6 +39,8 @@ type Msg
     | KeyDowns Keyboard.KeyCode
     | DoubleClick String
     | CheckProperty Edge String
+    | CheckFlux String
+    | ExportLink
     | NoOp
 
 
@@ -227,14 +230,36 @@ deleteElement msg model =
 update : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 update msg model =
     case msg of
-        CheckProperty edge s ->
-            ( ModelActions.updateProperty edge s model, Cmd.none )
-
         NoOp ->
             ( model, Cmd.none )
 
-        -- UpdateFlux s b ->
-        --     ( model, Cmd.none )
+        ExportLink ->
+            let
+                saveName =
+                    case (String.isEmpty model.input) of
+                        True ->
+                            "model.json"
+
+                        False ->
+                            model.input
+
+                m1 =
+                    ModelActions.exportLink model
+
+                s =
+                    DataModelEncoders.encodeExport { filename = saveName, model = (ScigraphEncoders.encodeLNK m1.dataModel) }
+
+                z =
+                    Debug.log "encodeExport" s
+            in
+                ( model, LinkToJS.exportLNK (s) )
+
+        CheckFlux s ->
+            ( ModelActions.updateSelectedFlux s model, Cmd.none )
+
+        CheckProperty edge s ->
+            ( ModelActions.updateProperty edge s model, Cmd.none )
+
         LoadPSB s ->
             ( model, Cmd.none )
 

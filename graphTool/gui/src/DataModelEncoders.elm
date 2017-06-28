@@ -1,4 +1,4 @@
-module DataModelEncoders exposing (encodeModel, encodeMetaModel)
+module DataModelEncoders exposing (encodeModel, encodeMetaModel, encodeExport)
 
 import Identifier exposing (Identifier)
 import Node exposing (Node)
@@ -69,13 +69,13 @@ encodeProperty : LinkParameters.Property -> Value
 encodeProperty property =
     object
         [ ( "id", encodeIdentifier property.id )
-        , ( "source", Json.Encode.string property.name )
+        , ( "name", Json.Encode.string property.name )
         ]
 
 
 encodeParameters : LinkParameters.Model -> Value
-encodeParameters param =
-    (Json.Encode.list <| List.map encodeProperty (param.properties))
+encodeParameters parameters =
+    (Json.Encode.list <| List.map encodeProperty parameters)
 
 
 encodeModel_ : DataModel.Model -> Value
@@ -83,6 +83,7 @@ encodeModel_ jsmodel =
     object
         [ ( "nodes", encodeNodes jsmodel.nodes )
         , ( "edges", encodeEdges jsmodel.edges )
+        , ( "parameters", encodeParameters jsmodel.parameters )
         ]
 
 
@@ -102,3 +103,16 @@ encodeMetaModel_ meta =
 encodeMetaModel : DataModel.MetaModel -> String
 encodeMetaModel =
     encode 0 << encodeMetaModel_
+
+
+encodeExport_ : DataModel.ExportLink -> Value
+encodeExport_ meta =
+    object
+        [ ( "filename", string meta.filename )
+        , ( "model", string meta.model )
+        ]
+
+
+encodeExport : DataModel.ExportLink -> String
+encodeExport =
+    encode 0 << encodeExport_

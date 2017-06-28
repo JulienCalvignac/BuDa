@@ -8,6 +8,7 @@ import Set exposing (Set)
 import Json.Decode exposing (field)
 import Json.Decode.Pipeline
 import Json.Decode.Extra
+import LinkParameters
 
 
 decodeIdentifier : Json.Decode.Decoder Identifier
@@ -60,8 +61,21 @@ decodeEdges =
     Json.Decode.list decodeEdge
 
 
+decodeProperty : Json.Decode.Decoder LinkParameters.Property
+decodeProperty =
+    Json.Decode.Pipeline.decode LinkParameters.Property
+        |> Json.Decode.Pipeline.required "id" decodeIdentifier
+        |> Json.Decode.Pipeline.required "name" Json.Decode.string
+
+
+decodeParameters : Json.Decode.Decoder (List LinkParameters.Property)
+decodeParameters =
+    Json.Decode.list decodeProperty
+
+
 decodeDataModel : Json.Decode.Decoder DataModel.DataModel
 decodeDataModel =
     Json.Decode.Pipeline.decode DataModel.DataModel
         |> Json.Decode.Pipeline.required "nodes" decodeNodes
         |> Json.Decode.Pipeline.required "edges" decodeEdges
+        |> Json.Decode.Pipeline.required "parameters" decodeParameters

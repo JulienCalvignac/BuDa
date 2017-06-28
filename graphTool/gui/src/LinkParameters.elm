@@ -1,7 +1,6 @@
-module LinkParameters exposing (Model, Property, createProperty, defaultModel, getPropertyIdFromName)
+module LinkParameters exposing (Model, Property, defaultModel, getPropertyIdFromName, property)
 
 import Identifier exposing (Identifier)
-import List
 
 
 type alias Property =
@@ -11,9 +10,7 @@ type alias Property =
 
 
 type alias Model =
-    { properties : List Property
-    , curIdentifier : Identifier
-    }
+    List Property
 
 
 getPropertyIdFromName : String -> List Property -> Maybe Identifier
@@ -31,77 +28,26 @@ getPropertyIdFromName s list =
                     getPropertyIdFromName s xs
 
 
-zeroModel : Model
-zeroModel =
-    { properties = []
-    , curIdentifier = 0
-    }
-
-
 defaultModel : Model
 defaultModel =
-    sampleModel
-
-
-fromList : List String -> Model -> Model
-fromList list model =
-    case list of
-        [] ->
-            model
-
-        x :: xs ->
-            let
-                new_properties =
-                    (property model.curIdentifier x) :: model.properties
-
-                m1 =
-                    getNodeIdentifier model
-
-                m2 =
-                    { m1 | properties = new_properties }
-            in
-                fromList xs m2
+    []
 
 
 sampleModel : Model
 sampleModel =
-    Debug.log "sampleModel"
-        fromList
-        [ "Air"
-        , "Fresh Water"
-        , "Salt Water"
-        , "400 V AC"
-        , "230 V AC"
-        , "48 V DC"
-        , "Command & Control"
-          -- , "Digital"
-          -- , "DO/HFO"
-          -- , "Others"
-        ]
-        zeroModel
+    [ { id = 0, name = "Air" }
+    , { id = 1, name = "Fresh Water" }
+    , { id = 2, name = "Salt Water" }
+    , { id = 3, name = "400 V AC" }
+    , { id = 4, name = "230 V AC" }
+    , { id = 5, name = "48 V DC" }
+    , { id = 6, name = "Command & Control" }
+      -- , "Digital"
+      -- , "DO/HFO"
+      -- , "Others"
+    ]
 
 
 property : Identifier -> String -> Property
 property i s =
     { id = i, name = s }
-
-
-getNodeIdentifier : Model -> Model
-getNodeIdentifier model =
-    let
-        newId =
-            model.curIdentifier + 1
-    in
-        { model | curIdentifier = newId }
-
-
-createProperty : String -> Model -> Model
-createProperty s model =
-    let
-        new_properties =
-            (property model.curIdentifier s) :: model.properties
-
-        m1 =
-            { model | properties = new_properties }
-    in
-        getNodeIdentifier m1

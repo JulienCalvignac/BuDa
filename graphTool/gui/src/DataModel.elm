@@ -3,6 +3,7 @@ module DataModel
         ( DataEdge
         , DataModel
         , DataNode
+        , ExportLink
           -- , Edge
           -- , Identifier
         , MetaModel
@@ -34,11 +35,13 @@ module DataModel
 import Identifier exposing (Identifier)
 import Link exposing (Edge)
 import Node exposing (Node)
+import LinkParameters
 
 
 type alias Model =
     { nodes : List Node
     , edges : List Edge
+    , parameters : LinkParameters.Model
     , curNodeId : Identifier
     }
 
@@ -46,6 +49,12 @@ type alias Model =
 type alias MetaModel =
     { filename : String
     , model : Model
+    }
+
+
+type alias ExportLink =
+    { filename : String
+    , model : String
     }
 
 
@@ -60,6 +69,7 @@ type alias DataEdge =
 type alias DataModel =
     { nodes : List DataNode
     , edges : List DataEdge
+    , parameters : LinkParameters.Model
     }
 
 
@@ -67,6 +77,7 @@ defaultModel : Model
 defaultModel =
     { nodes = []
     , edges = []
+    , parameters = LinkParameters.defaultModel
     , curNodeId = 0
     }
 
@@ -101,6 +112,16 @@ maximumEdgeId le =
             m
 
 
+maximumParameterId : List LinkParameters.Property -> Identifier
+maximumParameterId list =
+    case List.maximum (List.map (\x -> x.id) list) of
+        Nothing ->
+            0
+
+        Just m ->
+            m
+
+
 dataModelToModel : DataModel -> Model -> Model
 dataModelToModel dm model =
     let
@@ -112,7 +133,7 @@ dataModelToModel dm model =
 
         newId =
             case
-                List.maximum [ maximumNodeId ln, maximumEdgeId le ]
+                List.maximum [ maximumNodeId ln, maximumEdgeId le, maximumParameterId dm.parameters ]
             of
                 Just m ->
                     m
@@ -122,6 +143,7 @@ dataModelToModel dm model =
     in
         { nodes = ln
         , edges = le
+        , parameters = dm.parameters
         , curNodeId = newId
         }
 
@@ -218,6 +240,18 @@ nodeHasParent n =
 
         _ ->
             True
+
+
+createProperty : String -> Model -> Model
+createProperty s model =
+    let
+        new_parameters =
+            (LinkParameters.property model.curNodeId s) :: model.parameters
+
+        m1 =
+            { model | parameters = new_parameters }
+    in
+        getNodeIdentifier m1
 
 
 makeNewNode : String -> String -> Model -> ( Node, Model )

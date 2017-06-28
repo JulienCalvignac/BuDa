@@ -3,9 +3,11 @@ module Link
         ( Edge
         , ActivePoperties
         , isActive
+        , isActiveProperty
         , link
         , makeLink
         , changeActive
+        , changeActiveProperty
           -- , Link
         )
 
@@ -43,6 +45,31 @@ changeActive x edge =
 
         True ->
             unActivate x edge
+
+
+changeActiveProperty : Identifier -> ActivePoperties -> ActivePoperties
+changeActiveProperty x set =
+    case isActiveProperty x set of
+        False ->
+            activateProperty x set
+
+        True ->
+            unActivateProperty x set
+
+
+isActiveProperty : Identifier -> ActivePoperties -> Bool
+isActiveProperty x set =
+    Set.member x set
+
+
+activateProperty : Identifier -> ActivePoperties -> ActivePoperties
+activateProperty x set =
+    Set.insert x set
+
+
+unActivateProperty : Identifier -> ActivePoperties -> ActivePoperties
+unActivateProperty x set =
+    Set.remove x set
 
 
 isActive : Identifier -> Edge -> Bool
