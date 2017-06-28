@@ -22,3 +22,19 @@
       * x.target == n
             il existe un lien entre x.source et un enfant de n -> False
             sinon -> True
+
+## Implementation creation lien
+
+Algo de creation de lien entre les nodes n et m
+
+* on recherche le pere commun a (n,m). noté p. p peut valoir Nothing
+* on crée la liste des ascendants de n jusqu'a p. notée ln
+* on crée la liste des ascendants de m jusqu'a p. notée lm
+* on crée tous les liens possibles entre un élément de ln et un élément de lm.
+
+  * ln = [n, pn, ppn, ..., lastpn] ou lastpn est un fils du père commun p
+  * lm = [m, pm, ppm, ..., lastpm] ou lastpm est un fils du père commun p
+  * Les liens créés sont : n - m, n - pm, n - ppm, ..., m - pn, m - ppn, ..., m - lastpm
+
+
+  ou pm est le pere de m, ppm est le pere de pm
