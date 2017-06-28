@@ -23,7 +23,7 @@
             il existe un lien entre x.source et un enfant de n -> False
             sinon -> True
 
-## Implementation creation lien
+## Implementation creation de lien
 
 Algo de creation de lien entre les nodes n et m
 
