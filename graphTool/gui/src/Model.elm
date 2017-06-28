@@ -8,8 +8,8 @@ module Model
 import Identifier exposing (Identifier)
 import DataModel
 import Selection
-import FluxType
 import LinkParameters
+import Set exposing (Set)
 
 
 type ViewType
@@ -27,6 +27,7 @@ type alias Model =
     , viewType : ViewType
     , nodeViewId : Maybe Identifier
     , parameters : LinkParameters.Model
+    , exportFlux : Set Identifier
     }
 
 
@@ -40,4 +41,5 @@ defaultModel =
     , viewType = BULL
     , nodeViewId = Nothing
     , parameters = LinkParameters.defaultModel
+    , exportFlux = Set.empty
     }
