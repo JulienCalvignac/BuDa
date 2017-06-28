@@ -48,6 +48,14 @@
         download( JSON.stringify ( model ), filename, "text/plain");
       });
 
+      app.ports.exportLNK.subscribe(function(word) {
+        var obj = JSON.parse(word);
+        var filename = obj.filename;
+        var model = obj.model;
+        console.log (model);
+        download(model, filename, "text/plain");
+      });
+
       app.ports.loadModel.subscribe(function(word) {
         var msg = loadModelFromFile(word);
         // console.log('loadmodel:' + msg);

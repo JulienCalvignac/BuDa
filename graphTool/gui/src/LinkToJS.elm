@@ -1,6 +1,7 @@
 port module LinkToJS
     exposing
-        ( layout
+        ( exportLNK
+        , layout
         , loadModel
         , modeltoelm
         , doubleclick
@@ -30,6 +31,9 @@ port saveModel : String -> Cmd msg
 
 
 port loadModel : String -> Cmd msg
+
+
+port exportLNK : String -> Cmd msg
 
 
 

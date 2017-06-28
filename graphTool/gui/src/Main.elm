@@ -44,6 +44,7 @@ view model =
         , button [ onClick Actions.RenameNode, id "rename", value "rename" ] [ text "rename" ]
         , ParametersView.view model
           -- , button [ onClick Actions.ParametersDialog, id "dialog", value "dialog" ] [ text "dialog" ]
+        , button [ onClick Actions.ExportLink, id "export", value "export" ] [ text "export" ]
         , input [ onInput Actions.InputChange, id "input", placeholder "undefined" ] []
         , button [ onClick Actions.SaveModel, id "saveModel", value "saveModel" ] [ text "saveModel" ]
         , input [ onInputFile Actions.LoadModel, id model.loadModelId, type_ "file" ] []

@@ -1,4 +1,4 @@
-module ModelActions exposing (createLink, createNode, deleteEdge, deleteNode, renameNode, updateProperty)
+module ModelActions exposing (createLink, createNode, deleteEdge, deleteNode, renameNode, updateProperty, exportLink, updateSelectedFlux)
 
 import Identifier exposing (Identifier)
 import Node exposing (Node)
@@ -7,6 +7,7 @@ import DataModel
 import Model
 import ModelManagement
 import LinkParameters
+import Set exposing (Set)
 
 
 {--
@@ -674,7 +675,7 @@ updateProperty : Edge -> String -> Model.Model -> Model.Model
 updateProperty edge s model =
     let
         maybe_propId =
-            LinkParameters.getPropertyIdFromName s model.parameters.properties
+            LinkParameters.getPropertyIdFromName s model.dataModel.parameters
 
         z =
             Debug.log "updateProperty" ( maybe_propId, s )
@@ -694,3 +695,58 @@ updateProperty edge s model =
             { model_datamodel | edges = newEdges }
     in
         { model | dataModel = new_dataModel }
+
+
+updateSelectedFlux : String -> Model.Model -> Model.Model
+updateSelectedFlux s model =
+    let
+        maybe_propId =
+            LinkParameters.getPropertyIdFromName s model.dataModel.parameters
+
+        newExportFlux =
+            case maybe_propId of
+                Nothing ->
+                    model.exportFlux
+
+                Just propId ->
+                    Link.changeActiveProperty propId model.exportFlux
+
+        z =
+            Debug.log "newExportFlux" newExportFlux
+    in
+        { model | exportFlux = newExportFlux }
+
+
+isIn_ : List Identifier -> Set Identifier -> Bool
+isIn_ list set =
+    case list of
+        [] ->
+            True
+
+        x :: xs ->
+            (Set.member x set) && (isIn_ xs set)
+
+
+filterLinks_ : Set Identifier -> List Edge -> List Edge
+filterLinks_ set list =
+    -- on garde les edge tels que edge.parameters contient set
+    List.filter (\x -> (isIn_ (Set.toList set) x.parameters)) list
+
+
+exportLink : Model.Model -> Model.Model
+exportLink model =
+    let
+        m1 =
+            Model.defaultModel
+
+        newEdges =
+            -- [ { id = 11, source = 8, target = 10, parameters = Set.fromList [ 0, 1 ] } ]
+            filterLinks_ model.exportFlux model.dataModel.edges
+
+        dataModel =
+            model.dataModel
+
+        newDataModel =
+            { dataModel | edges = newEdges }
+    in
+        { m1 | dataModel = newDataModel }
