@@ -99,8 +99,117 @@ filtNodeWithList_ l1 l2 =
     )
 
 
+isCommonPt_ : List Node -> Node -> Node -> Bool
+isCommonPt_ list n x =
+    let
+        maybe_p =
+            findCommonParent list n x
+
+        res =
+            case maybe_p of
+                Nothing ->
+                    (x.parent == Nothing)
+
+                Just p ->
+                    (x.parent == Just p.id)
+    in
+        res
+
+
+mainFilter_ : Edge -> Node -> DataModel.Model -> List Node -> List Edge -> Bool
+mainFilter_ x n model childNodes edges =
+    if ((DataModel.isNodeIdPresent x.source childNodes) && (DataModel.isNodeIdPresent x.target childNodes)) then
+        True
+    else if (x.source == n.id) then
+        let
+            maybe_node =
+                DataModel.getNodeFromId x.target model.nodes
+
+            result =
+                case maybe_node of
+                    Nothing ->
+                        -- ne devrait pas arriver
+                        False
+
+                    Just node ->
+                        not (DataModel.anyLink childNodes node edges)
+        in
+            result
+    else if (x.target == n.id) then
+        let
+            maybe_node =
+                DataModel.getNodeFromId x.source model.nodes
+
+            result =
+                case maybe_node of
+                    Nothing ->
+                        -- ne devrait pas arriver
+                        False
+
+                    Just node ->
+                        not (DataModel.anyLink childNodes node edges)
+        in
+            result
+    else
+        True
+
+
 subBullesModelFromNode : DataModel.Model -> Node -> DataModel.Model
 subBullesModelFromNode model n =
+    let
+        childNodes =
+            getChildren model.nodes n
+
+        -- on cherche les nodes qui ont un lien avec n
+        others =
+            List.filter
+                (\x ->
+                    (existLinkTo [ n ] x model.edges)
+                )
+                model.nodes
+
+        -- on filtre others tels que ( n.parent == x.parent || x.parent == Nothing )
+        -- findCommonParent : List Node -> Node -> Node -> Maybe Node
+        -- findCommonParent (others n x) == x.parent
+        externNodes =
+            List.filter
+                (\x ->
+                    -- (n.parent == x.parent || x.parent == Nothing)
+                    ((isCommonPt_ model.nodes n x) || x.parent == Nothing)
+                )
+                others
+
+        newNodes =
+            n :: (List.append childNodes externNodes)
+
+        newEdges1 =
+            List.filter
+                (\x ->
+                    (DataModel.isNodeIdPresent x.source newNodes) && (DataModel.isNodeIdPresent x.target newNodes)
+                )
+                model.edges
+
+        newEdges2 =
+            List.filter
+                (\x ->
+                    (mainFilter_ x n model childNodes newEdges1)
+                )
+                newEdges1
+
+        newEdges =
+            newEdges2
+
+        -- []
+    in
+        { model
+            | nodes = newNodes
+            , edges = newEdges
+            , curNodeId = 0
+        }
+
+
+subBullesModelFromNode0 : DataModel.Model -> Node -> DataModel.Model
+subBullesModelFromNode0 model n =
     let
         childNodes =
             getChildren model.nodes n
@@ -167,9 +276,10 @@ subBullesModelFromNode model n =
         -- zzz =
         --     Debug.log "newEdges1" newEdges1
     in
-        { nodes = newNodes1
-        , edges = newEdges1
-        , curNodeId = 0
+        { model
+            | nodes = newNodes1
+            , edges = newEdges1
+            , curNodeId = 0
         }
 
 
