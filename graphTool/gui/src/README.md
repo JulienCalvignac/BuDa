@@ -23,7 +23,7 @@
             il existe un lien entre x.source et un enfant de n -> False
             sinon -> True
 
-## Implementation creation de lien
+## Creation de lien
 
 Algo de creation de lien entre les nodes n et m
 
@@ -38,3 +38,21 @@ Algo de creation de lien entre les nodes n et m
 
 
   ou pm est le pere de m, ppm est le pere de pm
+
+## Ajout d'un parametre sur un lien
+
+Algo d' ajout de parametre au lien entre les nodes n et m
+
+* on recherche le pere commun a (n,m). noté p. p peut valoir Nothing
+* on crée la liste des ascendants de n jusqu'a p. notée ln
+* on crée la liste des ascendants de m jusqu'a p. notée lm
+* on ajoute le parametre à tous les liens existant entre un élément de ln et un élément de lm.
+
+## Suppression d'un parametre sur un lien
+
+Algo de suppression de parametre au lien entre les nodes n et m
+
+* On supprime le parametre à tous les liens descendant
+* On supprime le parametre à tous les liens ascendants si la condition (1) est remplie
+
+(1) : aucun lien bros ne contient la parametre a supprimer
