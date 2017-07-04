@@ -8,6 +8,7 @@ import Model
 import ModelManagement
 import LinkParameters
 import Set exposing (Set)
+import LinkParametersActions
 
 
 {--
@@ -236,15 +237,16 @@ deleteEdge id model =
                         maybe_ntarget =
                             DataModel.getNodeFromId edge1.target model.dataModel.nodes
 
-                        model_dataModel =
-                            model.dataModel
+                        -- unActivate all parameters for edge
+                        m20 =
+                            LinkParametersActions.unActivateAllParameters edge1 model
 
                         m2 =
                             case ( maybe_nsrc, maybe_ntarget ) of
                                 ( Just nsrc, Just ntarget ) ->
                                     let
                                         m3 =
-                                            deleteEdge_ nsrc ntarget model
+                                            deleteEdge_ nsrc ntarget m20
 
                                         -- m4 =
                                         --     deleteEdge_ ntarget nsrc m3
@@ -252,7 +254,7 @@ deleteEdge id model =
                                         m3
 
                                 ( _, _ ) ->
-                                    model
+                                    m20
                     in
                         m2
     in
@@ -656,21 +658,6 @@ renameNode model =
         { model | dataModel = newDataModel }
 
 
-processProperty_ : Edge -> Identifier -> Edge -> Edge
-processProperty_ x prop_id edge =
-    case (x.id == edge.id) of
-        False ->
-            edge
-
-        True ->
-            Link.changeActive prop_id edge
-
-
-updatePropertyInEdgeList_ : Edge -> Identifier -> List Edge -> List Edge
-updatePropertyInEdgeList_ x propId list =
-    List.map (\y -> processProperty_ x propId y) list
-
-
 updateProperty : Edge -> String -> Model.Model -> Model.Model
 updateProperty edge s model =
     let
@@ -680,21 +667,20 @@ updateProperty edge s model =
         z =
             Debug.log "updateProperty" ( maybe_propId, s )
 
-        newEdges =
+        newModel =
             case maybe_propId of
                 Nothing ->
-                    model.dataModel.edges
+                    model
 
                 Just propId ->
-                    updatePropertyInEdgeList_ edge propId model.dataModel.edges
+                    case Link.isActive propId edge of
+                        False ->
+                            LinkParametersActions.activateParameter propId edge model
 
-        model_datamodel =
-            model.dataModel
-
-        new_dataModel =
-            { model_datamodel | edges = newEdges }
+                        True ->
+                            LinkParametersActions.unActivateParameter propId edge model
     in
-        { model | dataModel = new_dataModel }
+        newModel
 
 
 updateSelectedFlux : String -> Model.Model -> Model.Model
