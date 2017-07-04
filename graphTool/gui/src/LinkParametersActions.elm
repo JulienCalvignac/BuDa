@@ -1,4 +1,4 @@
-module LinkParametersActions exposing (activateParameter, unActivateParameter)
+module LinkParametersActions exposing (activateParameter, unActivateParameter, unActivateAllParameters)
 
 import Identifier exposing (Identifier)
 import Node exposing (Node)
@@ -6,6 +6,7 @@ import Link exposing (Edge)
 import Model
 import DataModel
 import ModelManagement
+import Set
 
 
 {--
@@ -14,6 +15,21 @@ unActivateParameter
 ////////////////////////////////////////////////////////////////////////////////
 
 --}
+
+
+unActivateAllParameters : Edge -> Model.Model -> Model.Model
+unActivateAllParameters edge model =
+    unActivateAllParameters_ (Set.toList edge.parameters) edge model
+
+
+unActivateAllParameters_ : List Identifier -> Edge -> Model.Model -> Model.Model
+unActivateAllParameters_ list edge model =
+    case list of
+        [] ->
+            model
+
+        x :: xs ->
+            unActivateAllParameters_ xs edge (unActivateParameter x edge model)
 
 
 unActivateParameter : Identifier -> Edge -> Model.Model -> Model.Model
