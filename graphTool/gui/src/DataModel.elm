@@ -12,12 +12,14 @@ module DataModel
         , addNewNodeToModel
         , anyLink
         , anyLinks
+        , anyLinksParameter
         , bros
         , childs
         , dataModelToModel
         , defaultModel
         , edgeST
         , getEdgeFromId
+        , getEdgeFromNodesId
         , getNodeFromId
         , getNodeFromName
         , getNodeIdFromName
@@ -182,6 +184,21 @@ getEdgeFromId id list =
 
                 False ->
                     getEdgeFromId id xs
+
+        [] ->
+            Nothing
+
+
+getEdgeFromNodesId : Identifier -> Identifier -> List Edge -> Maybe Edge
+getEdgeFromNodesId ids idt list =
+    case list of
+        x :: xs ->
+            case (x.source == ids && x.target == idt) || (x.source == idt && x.target == ids) of
+                True ->
+                    Just x
+
+                False ->
+                    getEdgeFromNodesId ids idt xs
 
         [] ->
             Nothing
@@ -402,6 +419,51 @@ anyLinks l1 list edges =
 
                 False ->
                     anyLinks l1 xs edges
+
+
+anyLinkParameter : Identifier -> List Node -> Node -> List Edge -> Bool
+anyLinkParameter idx list n edges =
+    case list of
+        [] ->
+            False
+
+        x :: xs ->
+            let
+                m_edge =
+                    getEdgeFromNodesId x.id n.id edges
+
+                b =
+                    case m_edge of
+                        Nothing ->
+                            False
+
+                        Just edge ->
+                            Link.isActive idx edge
+
+                b1 =
+                    case b of
+                        True ->
+                            True
+
+                        False ->
+                            anyLinkParameter idx xs n edges
+            in
+                b1
+
+
+anyLinksParameter : Identifier -> List Node -> List Node -> List Edge -> Bool
+anyLinksParameter idx l1 list edges =
+    case list of
+        [] ->
+            False
+
+        x :: xs ->
+            case anyLinkParameter idx l1 x edges of
+                True ->
+                    True
+
+                False ->
+                    anyLinksParameter idx l1 xs edges
 
 
 edgeST : Node -> Node -> Edge
