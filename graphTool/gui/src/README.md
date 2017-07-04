@@ -48,7 +48,7 @@ Algo d' ajout de parametre au lien entre les nodes n et m
 * on crée la liste des ascendants de m jusqu'a p. notée lm
 * on ajoute le parametre à tous les liens existant entre un élément de ln et un élément de lm.
 
-## Suppression d'un parametre sur un lien
+## Suppression d'un parametre sur un lien
 
 Algo de suppression de parametre au lien entre les nodes n et m
 
