@@ -2,6 +2,8 @@ module Link
     exposing
         ( Edge
         , ActivePoperties
+        , activate
+        , unActivate
         , isActive
         , isActiveProperty
         , link
