@@ -1,0 +1,76 @@
+{"nodes":[
+  {"data":{"id":62,"name":"Control & Command network","parent":8}}
+  ,{"data":{"id":53,"name":"OD PWM link","parent":11}}
+  ,{"data":{"id":52,"name":"OD ethernet card","parent":11}}
+  ,{"data":{"id":49,"name":"OD Post Processing","parent":11}}
+  ,{"data":{"id":48,"name":"OD Sensors","parent":11}}
+  ,{"data":{"id":40,"name":"Calculator (Mission)","parent":9}}
+  ,{"data":{"id":39,"name":"Mission network","parent":9}}
+  ,{"data":{"id":34,"name":"Autopilot","parent":8}}
+  ,{"data":{"id":29,"name":"Safe & Secure Comms","parent":6}}
+  ,{"data":{"id":28,"name":"Mission Comms","parent":6}}
+  ,{"data":{"id":11,"name":"Obstacle Detection Devices","parent":1}}
+  ,{"data":{"id":10,"name":"Sensors","parent":1}}
+  ,{"data":{"id":9,"name":"Mission system incl network","parent":1}}
+  ,{"data":{"id":8,"name":"Autopilot & CC network","parent":1}}
+  ,{"data":{"id":7,"name":"Manual command","parent":1}}
+  ,{"data":{"id":6,"name":"Communications","parent":1}}
+  ,{"data":{"id":5,"name":"Steering & Propulsion","parent":1}}
+  ,{"data":{"id":4,"name":"Obstacle","parent":null}}
+  ,{"data":{"id":3,"name":"Ocean","parent":null}}
+  ,{"data":{"id":2,"name":"Operator","parent":null}}
+  ,{"data":{"id":1,"name":"USV","parent":null}}
+  ]
+  ,"edges":[
+    {"data":{"id":66,"source":7,"target":34,"parameters":[]}}
+    ,{"data":{"id":65,"source":7,"target":62,"parameters":[]}}
+    ,{"data":{"id":64,"source":5,"target":62,"parameters":[]}}
+    ,{"data":{"id":63,"source":34,"target":62,"parameters":[]}}
+    ,{"data":{"id":61,"source":9,"target":52,"parameters":[]}}
+    ,{"data":{"id":60,"source":39,"target":52,"parameters":[]}}
+    ,{"data":{"id":59,"source":8,"target":11,"parameters":[]}}
+    ,{"data":{"id":58,"source":34,"target":11,"parameters":[]}}
+    ,{"data":{"id":57,"source":8,"target":53,"parameters":[]}}
+    ,{"data":{"id":56,"source":34,"target":53,"parameters":[]}}
+    ,{"data":{"id":55,"source":49,"target":52,"parameters":[]}}
+    ,{"data":{"id":54,"source":49,"target":53,"parameters":[]}}
+    ,{"data":{"id":51,"source":48,"target":49,"parameters":[]}}
+    ,{"data":{"id":50,"source":4,"target":48,"parameters":[]}}
+    ,{"data":{"id":47,"source":6,"target":39,"parameters":[]}}
+    ,{"data":{"id":46,"source":28,"target":39,"parameters":[]}}
+    ,{"data":{"id":45,"source":34,"target":9,"parameters":[]}}
+    ,{"data":{"id":44,"source":8,"target":39,"parameters":[]}}
+    ,{"data":{"id":43,"source":34,"target":39,"parameters":[]}}
+    ,{"data":{"id":42,"source":11,"target":39,"parameters":[]}}
+    ,{"data":{"id":41,"source":39,"target":40,"parameters":[]}}
+    ,{"data":{"id":37,"source":5,"target":35,"parameters":[]}}
+    ,{"data":{"id":33,"source":2,"target":28,"parameters":[]}}
+    ,{"data":{"id":32,"source":2,"target":29,"parameters":[]}}
+    ,{"data":{"id":31,"source":9,"target":28,"parameters":[]}}
+    ,{"data":{"id":30,"source":8,"target":29,"parameters":[]}}
+    ,{"data":{"id":27,"source":6,"target":8,"parameters":[]}}
+    ,{"data":{"id":26,"source":6,"target":9,"parameters":[]}}
+    ,{"data":{"id":25,"source":7,"target":8,"parameters":[]}}
+    ,{"data":{"id":24,"source":8,"target":9,"parameters":[]}}
+    ,{"data":{"id":23,"source":5,"target":8,"parameters":[]}}
+    ,{"data":{"id":21,"source":9,"target":11,"parameters":[]}}
+    ,{"data":{"id":20,"source":9,"target":10,"parameters":[]}}
+    ,{"data":{"id":19,"source":4,"target":11,"parameters":[]}}
+    ,{"data":{"id":18,"source":4,"target":1,"parameters":[]}}
+    ,{"data":{"id":17,"source":4,"target":10,"parameters":[]}}
+    ,{"data":{"id":16,"source":3,"target":1,"parameters":[]}}
+    ,{"data":{"id":15,"source":3,"target":5,"parameters":[]}}
+    ,{"data":{"id":14,"source":2,"target":6,"parameters":[]}}
+    ,{"data":{"id":13,"source":2,"target":1,"parameters":[]}}
+    ,{"data":{"id":12,"source":2,"target":7,"parameters":[]}}
+    ]
+    ,"parameters":[
+      {"id":67,"name":"Air"}
+      ,{"id":68,"name":"Fresh Water"}
+      ,{"id":69,"name":"Salt Water"}
+      ,{"id":70,"name":"400 V AC"}
+      ,{"id":71,"name":"230 V AC"}
+      ,{"id":72,"name":"48 V DC"}
+      ,{"id":73,"name":"Command & Control"}
+      ]
+  }
