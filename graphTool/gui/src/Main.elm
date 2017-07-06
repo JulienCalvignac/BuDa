@@ -43,6 +43,8 @@ view model =
         , button [ onClick Actions.CreateLink, id "edge", value "edge" ] [ text "new link" ]
         , button [ onClick Actions.RenameNode, id "rename", value "rename" ] [ text "rename" ]
         , ParametersView.view model
+        , button [ onClick Actions.CreateParameter, id "createParameter", value "createParameter" ] [ text "+" ]
+        , button [ onClick Actions.DeleteParameter, id "deleteParameter", value "deleteParameter" ] [ text "-" ]
           -- , button [ onClick Actions.ParametersDialog, id "dialog", value "dialog" ] [ text "dialog" ]
         , button [ onClick Actions.ExportLink, id "export", value "export" ] [ text "export" ]
         , input [ onInput Actions.InputChange, id "input", placeholder "undefined" ] []

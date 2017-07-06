@@ -56,3 +56,7 @@ Algo de suppression de parametre au lien entre les nodes n et m
 * On supprime le parametre à tous les liens ascendants si la condition (1) est remplie
 
 (1) : aucun lien bros ne contient la parametre a supprimer
+
+## Suppression d'un parametre dans le model
+* on desactive le parametre dans tous les liens du modele
+* on supprime le parametre dans la liste des parametres (dataModel.parameters)

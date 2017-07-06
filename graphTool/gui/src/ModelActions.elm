@@ -1,4 +1,16 @@
-module ModelActions exposing (createLink, createNode, deleteEdge, deleteNode, renameNode, updateProperty, exportLink, updateSelectedFlux)
+module ModelActions
+    exposing
+        ( createLink
+        , createNode
+        , deleteEdge
+        , deleteNode
+        , renameNode
+        , updateProperty
+        , exportLink
+        , updateSelectedFlux
+        , createParameter
+        , deleteParameter
+        )
 
 import Identifier exposing (Identifier)
 import Node exposing (Node)
@@ -9,6 +21,7 @@ import ModelManagement
 import LinkParameters
 import Set exposing (Set)
 import LinkParametersActions
+import LinkParameters
 
 
 {--
@@ -736,3 +749,58 @@ exportLink model =
             { dataModel | edges = newEdges }
     in
         { m1 | dataModel = newDataModel }
+
+
+createParameter : Model.Model -> Model.Model
+createParameter model =
+    let
+        newDataModel =
+            (DataModel.createProperty model.input model.dataModel)
+    in
+        { model | dataModel = newDataModel }
+
+
+desactivateParameterOnAllLinks : Identifier -> Model.Model -> Model.Model
+desactivateParameterOnAllLinks idx model =
+    let
+        dataModel =
+            model.dataModel
+
+        newEdges =
+            List.map (\x -> Link.unActivate idx x) model.dataModel.edges
+
+        z =
+            Debug.log "desactivateParameterOnAllLinks" newEdges
+
+        newDataModel =
+            { dataModel | edges = newEdges }
+    in
+        { model | dataModel = newDataModel }
+
+
+deleteParameter : Model.Model -> Model.Model
+deleteParameter model =
+    let
+        maybe_parameter =
+            (LinkParameters.getPropertyIdFromName model.input model.dataModel.parameters)
+
+        m1 =
+            case maybe_parameter of
+                Nothing ->
+                    let
+                        z =
+                            Debug.log "Cannot Find Id for Parameter" model.input
+                    in
+                        model
+
+                Just p ->
+                    let
+                        m2 =
+                            desactivateParameterOnAllLinks p model
+
+                        newDataModel =
+                            (DataModel.deleteProperty m2.input m2.dataModel)
+                    in
+                        { m2 | dataModel = newDataModel }
+    in
+        m1

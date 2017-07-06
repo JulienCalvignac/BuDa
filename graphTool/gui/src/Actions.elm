@@ -41,6 +41,8 @@ type Msg
     | CheckProperty Edge String
     | CheckFlux String
     | ExportLink
+    | CreateParameter
+    | DeleteParameter
     | NoOp
 
 
@@ -232,6 +234,12 @@ update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
+
+        CreateParameter ->
+            ( ModelActions.createParameter model, Cmd.none )
+
+        DeleteParameter ->
+            ( ModelActions.deleteParameter model, Cmd.none )
 
         ExportLink ->
             let

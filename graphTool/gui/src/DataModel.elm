@@ -15,8 +15,10 @@ module DataModel
         , anyLinksParameter
         , bros
         , childs
+        , createProperty
         , dataModelToModel
         , defaultModel
+        , deleteProperty
         , edgeST
         , getEdgeFromId
         , getEdgeFromNodesId
@@ -269,6 +271,27 @@ createProperty s model =
             { model | parameters = new_parameters }
     in
         getNodeIdentifier m1
+
+
+deleteProperty : String -> Model -> Model
+deleteProperty s model =
+    let
+        maybe_param =
+            LinkParameters.getPropertyIdFromName s model.parameters
+
+        newModel =
+            case maybe_param of
+                Nothing ->
+                    model
+
+                Just p ->
+                    let
+                        newParameters =
+                            List.filter (\x -> not (x.id == p)) model.parameters
+                    in
+                        { model | parameters = newParameters }
+    in
+        newModel
 
 
 makeNewNode : String -> String -> Model -> ( Node, Model )
