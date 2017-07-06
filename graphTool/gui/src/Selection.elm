@@ -1,4 +1,4 @@
-module Selection exposing (Model, updateModelSelection, decodeFromJSMsg)
+module Selection exposing (Model, SelectionId, updateModelSelection, decodeFromJSMsg, decodeFromJSId)
 
 import Identifier exposing (Identifier)
 

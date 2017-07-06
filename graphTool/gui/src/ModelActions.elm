@@ -174,13 +174,19 @@ createNode model =
         newName =
             model.input
 
+        -- on corrige le bug de la selection renvoyee par js
         newParent =
-            case model.selection of
-                x :: xs ->
-                    Just x
-
-                [] ->
+            case List.length model.selection > 1 of
+                True ->
                     Nothing
+
+                False ->
+                    case model.selection of
+                        x :: xs ->
+                            Just x
+
+                        [] ->
+                            Nothing
 
         newDataModel =
             DataModel.getNodeIdentifier model.dataModel

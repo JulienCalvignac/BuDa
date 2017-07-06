@@ -34,9 +34,7 @@ type Msg
     | ShowPBS
     | SwitchToView Model.ViewType
     | ShowView
-    | KeyPresses Keyboard.KeyCode
     | KeyUps Keyboard.KeyCode
-    | KeyDowns Keyboard.KeyCode
     | DoubleClick String
     | CheckProperty Edge String
     | CheckFlux String
@@ -54,9 +52,7 @@ subscriptions model =
           LinkToJS.selection Selection
         , LinkToJS.modeltoelm ModelToElm
         , LinkToJS.doubleclick DoubleClick
-        , Keyboard.presses KeyPresses
         , Keyboard.ups KeyUps
-        , Keyboard.downs KeyDowns
         ]
 
 
@@ -93,10 +89,7 @@ upView msg model =
                                                     -- model
                                                     let
                                                         m3 =
-                                                            { model | selection = [ pId ] }
-
-                                                        -- z =
-                                                        --     Debug.log "upView selection" m3.selection
+                                                            { model | nodeViewId = Just pId }
                                                     in
                                                         m3
                                     in
@@ -110,19 +103,21 @@ upView msg model =
 showView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showView msg model =
     let
-        m1 =
-            if (model.viewType == Model.ALL) then
-                -- if (model.isAllDataActive == True) then
-                showAllData msg model
-            else if (model.viewType == Model.PBS) then
-                showPBS msg model
-            else
-                showBulles msg model
+        ( m1, cmd ) =
+            case model.viewType of
+                Model.ALL ->
+                    showAllData msg model
 
-        -- zz =
-        --     Debug.log "Any Edge Doublon: " (DataModel.anyEdgeDoublon model.dataModel.edges)
+                Model.PBS ->
+                    showPBS msg model
+
+                _ ->
+                    showBulles msg model
+
+        m2 =
+            { m1 | selection = [] }
     in
-        m1
+        ( m2, cmd )
 
 
 showAllData : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -130,78 +125,36 @@ showAllData msg model =
     let
         subModel =
             model.dataModel
-
-        -- z =
-        --     Debug.log "ShowAllData: " subModel
-        newModel =
-            { model | selection = [] }
     in
-        ( newModel, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
+        ( model, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
 
 
 showPBS : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showPBS msg model =
     let
-        ( nId, subModel ) =
-            -- model.subModel
-            case model.selection of
-                [] ->
-                    ( Nothing, (ModelViews.getPBSView model.dataModel) )
+        subModel =
+            case model.nodeViewId of
+                Nothing ->
+                    (ModelViews.getPBSView model.dataModel)
 
-                x :: xs ->
-                    let
-                        -- on verifie que x definit un noeud
-                        maybe_n =
-                            DataModel.getNodeFromId x model.dataModel.nodes
-                    in
-                        case maybe_n of
-                            Nothing ->
-                                ( Nothing, (ModelViews.getPBSView model.dataModel) )
-
-                            _ ->
-                                ( Just x, (ModelViews.getPBSViewFromNodeId model.dataModel x) )
-
-        -- z =
-        --     Debug.log "ShowPBS: " subModel
-        newModel =
-            { model | selection = [], nodeViewId = nId }
-
-        -- z =
-        --     Debug.log "showPBS nodeViewId" newModel.nodeViewId
+                Just x ->
+                    (ModelViews.getPBSViewFromNodeId model.dataModel x)
     in
-        ( newModel, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
+        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel subModel) )
 
 
 showBulles : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showBulles msg model =
     let
-        ( nId, subModel ) =
-            -- model.subModel
-            case model.selection of
-                [] ->
-                    ( Nothing, (ModelViews.getBullesView model.dataModel) )
+        subModel =
+            case model.nodeViewId of
+                Nothing ->
+                    (ModelViews.getBullesView model.dataModel)
 
-                x :: xs ->
-                    let
-                        -- on verifie que x definit un noeud
-                        maybe_n =
-                            DataModel.getNodeFromId x model.dataModel.nodes
-                    in
-                        case maybe_n of
-                            Nothing ->
-                                ( Nothing, (ModelViews.getBullesView model.dataModel) )
-
-                            _ ->
-                                ( Just x, (ModelViews.getBullesViewFromNodeId model.dataModel x) )
-
-        newModel =
-            { model | selection = [], nodeViewId = nId }
-
-        -- z =
-        --     Debug.log "showBulles nodeViewId" newModel.nodeViewId
-        -- (ModelManagement.subBullesModelFromId model.dataModel x)
+                Just x ->
+                    (ModelViews.getBullesViewFromNodeId model.dataModel x)
     in
-        ( newModel, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel subModel) )
+        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel subModel) )
 
 
 deleteElement : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -219,14 +172,8 @@ deleteElement msg model =
 
                 _ ->
                     model
-
-        -- z =
-        --     Debug.log "deleteEdge" m1
-        newModel =
-            { m1 | selection = [] }
     in
-        -- ( newModel, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel newModel.dataModel) )
-        showView msg newModel
+        showView msg m1
 
 
 update : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -288,13 +235,8 @@ update msg model =
             let
                 subModel =
                     model.dataModel
-
-                -- z =
-                --     Debug.log "ShowAllData: " subModel
-                newModel =
-                    { model | selection = [] }
             in
-                ( newModel, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
+                ( model, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
 
         ShowPBS ->
             showPBS msg model
@@ -309,28 +251,17 @@ update msg model =
             let
                 m1 =
                     ModelActions.createNode model
-
-                newModel =
-                    { m1 | selection = [] }
             in
-                -- ( newModel, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel newModel.dataModel) )
-                showView msg newModel
+                showView msg m1
 
-        -- ( model, LinkToJS.createNode "" )
         RenameNode ->
             let
                 m1 =
                     ModelActions.renameNode model
-
-                newModel =
-                    { m1 | selection = [] }
             in
-                -- ( newModel, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel newModel.dataModel) )
-                showView msg newModel
+                showView msg m1
 
-        -- ( model, LinkToJS.renameNode "" )
         CreateLink ->
-            -- ( model, LinkToJS.createEdge "" )
             let
                 m1 =
                     case model.selection of
@@ -339,28 +270,24 @@ update msg model =
 
                         _ ->
                             model
-
-                -- z =
-                --     Debug.log "CreateEdge" newModel
-                newModel =
-                    { m1 | selection = [] }
             in
-                -- ( newModel, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel newModel.dataModel) )
-                showView msg newModel
+                showView msg m1
 
         InputChange s ->
             ( { model | input = s }, Cmd.none )
 
         Selection s ->
             let
-                -- z = Debug.log "Suggest: " s
                 x =
                     Selection.decodeFromJSMsg (s)
 
                 newSelection =
                     Selection.updateModelSelection model.selection x
+
+                m1 =
+                    { model | selection = newSelection }
             in
-                ( { model | selection = newSelection }, Cmd.none )
+                ( m1, Cmd.none )
 
         ModelToElm s ->
             {--
@@ -382,11 +309,8 @@ update msg model =
 
                         Err _ ->
                             model
-
-                newModel =
-                    { m1 | selection = [] }
             in
-                showView msg newModel
+                showView msg m1
 
         SaveModel ->
             let
@@ -403,20 +327,6 @@ update msg model =
         LoadModel ->
             ( model, LinkToJS.loadModel model.loadModelId )
 
-        KeyPresses k ->
-            let
-                z =
-                    Debug.log "KeyPresses" k
-            in
-                ( model, Cmd.none )
-
-        KeyDowns k ->
-            let
-                z =
-                    Debug.log "KeyDown" k
-            in
-                ( model, Cmd.none )
-
         KeyUps k ->
             case k of
                 38 ->
@@ -430,7 +340,21 @@ update msg model =
 
         DoubleClick s ->
             let
+                element =
+                    Selection.decodeFromJSId s
+
                 z =
-                    Debug.log "DoubleClick on Model"
+                    Debug.log "DoubleClick on Model" element
+
+                newNodeViewId =
+                    case element.err of
+                        True ->
+                            Nothing
+
+                        False ->
+                            Just element.id
+
+                m1 =
+                    { model | nodeViewId = newNodeViewId }
             in
-                showView msg model
+                showView msg m1
