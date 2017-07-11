@@ -59,43 +59,11 @@ subscriptions model =
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 upView msg model =
     let
+        maybe_parent =
+            DataModel.getParentFromNodeId model.nodeViewId model.dataModel.nodes
+
         m0 =
-            case model.nodeViewId of
-                Nothing ->
-                    model
-
-                Just nId ->
-                    let
-                        maybe_n =
-                            DataModel.getNodeFromId nId model.dataModel.nodes
-
-                        m1 =
-                            case maybe_n of
-                                Nothing ->
-                                    model
-
-                                Just n ->
-                                    let
-                                        maybe_pId =
-                                            n.parent
-
-                                        m2 =
-                                            -- model
-                                            case maybe_pId of
-                                                Nothing ->
-                                                    model
-
-                                                Just pId ->
-                                                    -- model
-                                                    let
-                                                        m3 =
-                                                            { model | nodeViewId = Just pId }
-                                                    in
-                                                        m3
-                                    in
-                                        m2
-                    in
-                        m1
+            { model | nodeViewId = maybe_parent }
     in
         showView msg m0
 
