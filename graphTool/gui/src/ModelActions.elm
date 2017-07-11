@@ -174,11 +174,20 @@ createNode model =
         newName =
             model.input
 
+        -- on prend le parent de nodeViewId
+        useParent =
+            case model.nodeViewId of
+                Nothing ->
+                    Nothing
+
+                Just idx ->
+                    DataModel.getParentFromNodeId model.nodeViewId model.dataModel.nodes
+
         -- on corrige le bug de la selection renvoyee par js
         newParent =
             case List.length model.selection > 1 of
                 True ->
-                    Nothing
+                    useParent
 
                 False ->
                     case model.selection of
@@ -186,7 +195,7 @@ createNode model =
                             Just x
 
                         [] ->
-                            Nothing
+                            useParent
 
         newDataModel =
             DataModel.getNodeIdentifier model.dataModel
@@ -195,7 +204,6 @@ createNode model =
             newDataModel.curNodeId
 
         n =
-            --{ id = newId, name = newName, parent = newParent }
             (Node.node newId newName newParent)
 
         newNodes =
