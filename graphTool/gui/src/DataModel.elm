@@ -27,6 +27,7 @@ module DataModel
         , getNodeIdFromName
         , getNodeIdentifier
         , getNodeNameFromId
+        , getParentFromNodeId
         , isEdgePresent
         , isNamePresent
         , isNodePresent
@@ -174,6 +175,28 @@ getNodeFromId id list =
 
         [] ->
             Nothing
+
+
+getParentFromNodeId : Maybe Identifier -> List Node -> Maybe Identifier
+getParentFromNodeId maybe_idx nodes =
+    case maybe_idx of
+        Nothing ->
+            Nothing
+
+        Just idx ->
+            let
+                maybe_n =
+                    getNodeFromId idx nodes
+
+                parent =
+                    case maybe_n of
+                        Nothing ->
+                            Nothing
+
+                        Just n ->
+                            n.parent
+            in
+                parent
 
 
 getEdgeFromId : Identifier -> List Edge -> Maybe Edge
