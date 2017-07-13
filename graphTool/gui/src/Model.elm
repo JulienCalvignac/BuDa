@@ -28,6 +28,7 @@ type alias Model =
     , nodeViewId : Maybe Identifier
     , parameters : LinkParameters.Model
     , exportFlux : Set Identifier
+    , error : Maybe String
     }
 
 
@@ -42,4 +43,5 @@ defaultModel =
     , nodeViewId = Nothing
     , parameters = LinkParameters.defaultModel
     , exportFlux = Set.empty
+    , error = Nothing
     }

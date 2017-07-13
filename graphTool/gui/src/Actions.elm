@@ -12,6 +12,8 @@ import ModelViews
 import Keyboard
 import Link exposing (Edge)
 import ScigraphEncoders
+import Dom exposing (focus)
+import Task
 
 
 -- MSG
@@ -20,6 +22,8 @@ import ScigraphEncoders
 type Msg
     = LoadPSB String
     | LoadLNK String
+    | FocusOn String
+    | FocusResult (Result Dom.Error ())
     | ShowAllData
     | Layout
     | CreateNode
@@ -85,7 +89,13 @@ showView msg model =
         m2 =
             { m1 | selection = [] }
     in
-        ( m2, cmd )
+        -- ( m2, cmd )
+        ( m2
+        , Cmd.batch
+            [ cmd
+            , Task.attempt FocusResult (Dom.focus "input")
+            ]
+        )
 
 
 showAllData : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -149,6 +159,17 @@ update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
+
+        FocusOn id ->
+            model ! [ Task.attempt FocusResult (focus id) ]
+
+        FocusResult result ->
+            case result of
+                Err (Dom.NotFound id) ->
+                    { model | error = Just ("Could not find dom id: " ++ id) } ! []
+
+                Ok () ->
+                    { model | error = Nothing } ! []
 
         CreateParameter ->
             ( ModelActions.createParameter model, Cmd.none )
