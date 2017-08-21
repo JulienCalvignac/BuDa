@@ -10,6 +10,7 @@ module ModelActions
         , updateSelectedFlux
         , createParameter
         , deleteParameter
+        , updateAttribute
         )
 
 import Identifier exposing (Identifier)
@@ -818,3 +819,75 @@ deleteParameter model =
                         { m2 | dataModel = newDataModel }
     in
         m1
+
+
+fnode_ : Identifier -> String -> Node -> Node
+fnode_ id s n =
+    let
+        newNode =
+            case n.id == id of
+                True ->
+                    case String.length s of
+                        0 ->
+                            { n | attribut = Nothing }
+
+                        _ ->
+                            { n | attribut = Just s }
+
+                False ->
+                    n
+    in
+        newNode
+
+
+fedge_ : Identifier -> String -> Edge -> Edge
+fedge_ id s e =
+    let
+        newEdge =
+            case e.id == id of
+                True ->
+                    case String.length s of
+                        0 ->
+                            { e | attribut = Nothing }
+
+                        _ ->
+                            { e | attribut = Just s }
+
+                False ->
+                    e
+    in
+        newEdge
+
+
+updateDataModelAttribute_ : Maybe Identifier -> String -> DataModel.Model -> DataModel.Model
+updateDataModelAttribute_ m_id s dataModel =
+    case m_id of
+        Nothing ->
+            dataModel
+
+        Just id ->
+            let
+                newNodes =
+                    List.map (\x -> (fnode_ id s x)) dataModel.nodes
+
+                newEdges =
+                    List.map (\x -> fedge_ id s x) dataModel.edges
+            in
+                { dataModel | nodes = newNodes, edges = newEdges }
+
+
+updateAttribute : Model.Model -> String -> Model.Model
+updateAttribute model s =
+    let
+        m_id =
+            case model.selection of
+                x :: xs ->
+                    Just x
+
+                [] ->
+                    Nothing
+
+        newDatamodel =
+            updateDataModelAttribute_ m_id s model.dataModel
+    in
+        { model | dataModel = newDatamodel }

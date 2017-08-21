@@ -1,10 +1,10 @@
 module DataModelDecoders exposing (decodeIdentifier, decodeDataModel)
 
 import Identifier exposing (Identifier)
+import Attribut exposing (Attribut)
 import Node exposing (Node)
 import Link exposing (Edge)
 import DataModel
-import Set exposing (Set)
 import Json.Decode exposing (field)
 import Json.Decode.Pipeline
 import Json.Decode.Extra
@@ -16,12 +16,18 @@ decodeIdentifier =
     Json.Decode.int
 
 
+decodeAttribut : Json.Decode.Decoder Attribut
+decodeAttribut =
+    Json.Decode.string
+
+
 decodeNode_ : Json.Decode.Decoder Node
 decodeNode_ =
     Json.Decode.Pipeline.decode Node
         |> Json.Decode.Pipeline.required "id" decodeIdentifier
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
         |> Json.Decode.Pipeline.required "parent" (Json.Decode.maybe decodeIdentifier)
+        |> Json.Decode.Pipeline.required "attribut" (Json.Decode.maybe decodeAttribut)
 
 
 decodeNode : Json.Decode.Decoder DataModel.DataNode
@@ -48,6 +54,7 @@ decodeEdge_ =
         |> Json.Decode.Pipeline.required "source" decodeIdentifier
         |> Json.Decode.Pipeline.required "target" decodeIdentifier
         |> Json.Decode.Pipeline.required "parameters" (Json.Decode.Extra.set decodeIdentifier)
+        |> Json.Decode.Pipeline.required "attribut" (Json.Decode.maybe decodeAttribut)
 
 
 decodeEdge : Json.Decode.Decoder DataModel.DataEdge

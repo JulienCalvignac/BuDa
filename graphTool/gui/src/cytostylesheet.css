@@ -111,10 +111,18 @@ stroke-opacity: 1;
     top: 90%;
     right: 5%;
 }
+#attribut {
+    width: 10%;
+    height: 20%;
+    position: absolute;
+    top: 110%;
+    right: 5%;
+}
+
 #export {
     width: 10%;
     height: 5%;
     position: absolute;
-    top: 110%;
+    top: 120%;
     right: 5%;
 }

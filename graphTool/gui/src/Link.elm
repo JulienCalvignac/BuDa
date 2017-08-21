@@ -15,6 +15,7 @@ module Link
 
 import Identifier exposing (Identifier)
 import Set exposing (Set)
+import Attribut exposing (Attribut)
 
 
 type alias ActivePoperties =
@@ -26,12 +27,13 @@ type alias Edge =
     , source : Identifier
     , target : Identifier
     , parameters : ActivePoperties
+    , attribut : Maybe Attribut
     }
 
 
 makeLink : Identifier -> Identifier -> Identifier -> Edge
 makeLink i s t =
-    { id = i, source = s, target = t, parameters = Set.empty }
+    { id = i, source = s, target = t, parameters = Set.empty, attribut = Nothing }
 
 
 link : Identifier -> Identifier -> Edge

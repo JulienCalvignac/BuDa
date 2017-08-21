@@ -1,6 +1,7 @@
-module DataModelEncoders exposing (encodeModel, encodeMetaModel, encodeExport)
+module DataModelEncoders exposing (encodeMaybeIdentifier, encodeModel, encodeMetaModel, encodeExport)
 
 import Identifier exposing (Identifier)
+import Attribut exposing (Attribut)
 import Node exposing (Node)
 import Link exposing (Edge)
 import DataModel
@@ -9,9 +10,19 @@ import Set exposing (Set)
 import LinkParameters
 
 
+encodeMaybeIdentifier : Maybe Identifier -> String
+encodeMaybeIdentifier =
+    encode 0 << maybe encodeIdentifier
+
+
 encodeIdentifier : Identifier -> Value
 encodeIdentifier identifier =
     Json.Encode.int identifier
+
+
+encodeAttribut : Attribut -> Value
+encodeAttribut attribut =
+    Json.Encode.string attribut
 
 
 maybe : (a -> Json.Encode.Value) -> Maybe a -> Json.Encode.Value
@@ -30,6 +41,7 @@ encodeNode_ n =
         [ ( "id", encodeIdentifier n.id )
         , ( "name", Json.Encode.string n.name )
         , ( "parent", maybe encodeIdentifier n.parent )
+        , ( "attribut", maybe encodeAttribut n.attribut )
         ]
 
 
@@ -51,6 +63,7 @@ encodeEdge_ je =
         , ( "source", encodeIdentifier je.source )
         , ( "target", encodeIdentifier je.target )
         , ( "parameters", (Json.Encode.list <| List.map encodeIdentifier (Set.toList je.parameters)) )
+        , ( "attribut", maybe encodeAttribut je.attribut )
         ]
 
 

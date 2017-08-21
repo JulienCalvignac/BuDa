@@ -144,6 +144,9 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
+        UpdateAttribute s ->
+            ( ModelActions.updateAttribute model s, Cmd.none )
+
         FocusOn id ->
             model ! [ Task.attempt FocusResult (focus id) ]
 
