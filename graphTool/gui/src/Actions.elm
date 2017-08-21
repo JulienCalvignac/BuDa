@@ -1,4 +1,14 @@
-module Actions exposing (Msg(..), subscriptions, update)
+module Actions
+    exposing
+        ( deleteElement
+        , upView
+        , showView
+        , showAllData
+        , showPBS
+        , showBulles
+        , subscriptions
+        , update
+        )
 
 import DataModel
 import DataModelDecoders
@@ -10,42 +20,10 @@ import Selection
 import ModelActions
 import ModelViews
 import Keyboard
-import Link exposing (Edge)
 import ScigraphEncoders
 import Dom exposing (focus)
 import Task
-
-
--- MSG
-
-
-type Msg
-    = LoadPSB String
-    | LoadLNK String
-    | FocusOn String
-    | FocusResult (Result Dom.Error ())
-    | ShowAllData
-    | Layout
-    | CreateNode
-    | RenameNode
-    | CreateLink
-    | InputChange String
-    | Selection (List String)
-    | ModelToElm String
-    | SaveModel
-    | LoadModel
-    | ShowBulles
-    | ShowPBS
-    | SwitchToView Model.ViewType
-    | ShowView
-    | KeyUps Keyboard.KeyCode
-    | DoubleClick String
-    | CheckProperty Edge String
-    | CheckFlux String
-    | ExportLink
-    | CreateParameter
-    | DeleteParameter
-    | NoOp
+import Messages exposing (Msg(..))
 
 
 subscriptions : Model.Model -> Sub Msg
