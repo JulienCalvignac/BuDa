@@ -118,7 +118,13 @@ showPBS msg model =
                 Just x ->
                     (ModelViews.getPBSViewFromNodeId model.dataModel x)
     in
-        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel subModel) )
+        ( model
+        , Cmd.batch
+            [ LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel subModel)
+              -- en mode PBS, on renvoie le pere vers JS pour creer tous les fils
+            , LinkToJS.sendParentSelection (DataModelEncoders.encodeMaybeIdentifier (Selection.getFirstSelectionIdentifier model.selection))
+            ]
+        )
 
 
 showBulles : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
