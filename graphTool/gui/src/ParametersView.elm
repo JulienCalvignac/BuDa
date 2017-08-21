@@ -2,9 +2,9 @@ module ParametersView exposing (view)
 
 import Html exposing (Html, Attribute, button, div, fieldset, input, label, span, text, section)
 import Html.Attributes exposing (id, name, style, type_, checked, value, placeholder, class)
-import Html.Events exposing (onClick, on, onInput)
+import Html.Events exposing (onClick, onCheck, on, onInput)
 import Model exposing (..)
-import Actions
+import Messages
 import DataModel
 import Link exposing (Edge)
 
@@ -19,27 +19,38 @@ checkbox b msg name =
             ]
         ]
         [ label []
-            [ input [ type_ "checkbox", onClick msg, checked b ] []
+            [ input
+                [ type_ "checkbox"
+                , onClick msg
+                , checked b
+                ]
+                []
             , text name
             ]
         ]
 
 
-fluxLine_ : Maybe Edge -> ( String, Bool ) -> Html Actions.Msg
+fluxLine_ : Maybe Edge -> ( String, Bool ) -> Html Messages.Msg
 fluxLine_ m_edge ( key, b ) =
     case m_edge of
         Nothing ->
             div []
-                [ checkbox b (Actions.CheckFlux key) key
+                [ checkbox b
+                    (Messages.CheckFlux key)
+                    -- Actions.NoOp
+                    key
                 ]
 
         Just x ->
             div []
-                [ checkbox b (Actions.CheckProperty x key) key
+                [ checkbox b
+                    (Messages.CheckProperty x key)
+                    -- Actions.NoOp
+                    key
                 ]
 
 
-exposeList_ : Maybe Edge -> List ( String, Bool ) -> Html Actions.Msg
+exposeList_ : Maybe Edge -> List ( String, Bool ) -> Html Messages.Msg
 exposeList_ m_edge list =
     case list of
         [] ->
@@ -62,7 +73,7 @@ makeKeyValueList m_edge model =
             List.map (\x -> ( x.name, Link.isActive x.id edge )) model.dataModel.parameters
 
 
-expose : Model -> Html Actions.Msg
+expose : Model -> Html Messages.Msg
 expose model =
     let
         m_id =
@@ -84,7 +95,7 @@ expose model =
         exposeList_ m_edge (makeKeyValueList m_edge model)
 
 
-view : Model -> Html Actions.Msg
+view : Model -> Html Messages.Msg
 view model =
     div [ id "parameters", style [ ( "text-align", "center" ) ] ]
         [ text "Parameters"
@@ -93,31 +104,7 @@ view model =
         ]
 
 
-
--- view : Model -> Html Actions.Msg
--- view model =
---     div []
---         [
---         Dialog.render
---             { styles =
---                 [ ( "text-align", "center" )
---                   -- , ( "width", "20%" )
---                   -- , ( "height", "50%" )
---                   -- , ( "padding", "10px" )
---                   -- , ( "margin", "10px" )
---                 ]
---             , title = "Parameters"
---             , content =
---                 [ (Html.hr [] [])
---                 , expose model
---                 ]
---             , actionBar = [ dialogButton "Close" ]
---             }
---           model.parameters.visible
---         ]
-
-
-dialogButton : String -> Html Actions.Msg
+dialogButton : String -> Html Messages.Msg
 dialogButton caption =
     button
         [ -- onClick Actions.ParametersDialog
