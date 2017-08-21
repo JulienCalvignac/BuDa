@@ -1,4 +1,4 @@
-module Selection exposing (Model, SelectionId, updateModelSelection, decodeFromJSMsg, decodeFromJSId)
+module Selection exposing (Model, SelectionId, updateModelSelection, decodeFromJSMsg, decodeFromJSId, getFirstSelectionIdentifier)
 
 import Identifier exposing (Identifier)
 
@@ -6,7 +6,6 @@ import Identifier exposing (Identifier)
 -- import Node exposing (Node)
 -- import Link exposing (Edge)
 
-import DataModel
 import Json.Decode
 import DataModelDecoders
 
@@ -27,6 +26,16 @@ selection i b =
 getIdentifier : SelectionId -> Identifier
 getIdentifier s =
     s.id
+
+
+getFirstSelectionIdentifier : Model -> Maybe Identifier
+getFirstSelectionIdentifier model =
+    case model of
+        [] ->
+            Nothing
+
+        x :: xs ->
+            Just x
 
 
 updateModelSelection : Model -> List SelectionId -> Model
