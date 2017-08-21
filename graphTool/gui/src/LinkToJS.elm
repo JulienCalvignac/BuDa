@@ -8,6 +8,7 @@ port module LinkToJS
         , saveModel
         , sendDataPBSModel
         , sendDataBullesModel
+        , sendParentSelection
         , selection
         )
 
@@ -16,12 +17,24 @@ port module LinkToJS
 -- communication Elm -> JS
 //////////////////////////////////////////////////////////////////////////////
 --}
+-- sendDataPBSModel: envoi du modele PBS vers javascript
 
 
 port sendDataPBSModel : String -> Cmd msg
 
 
+
+-- sendDataBullesModel: envoi du modele Bulles vers javascript
+
+
 port sendDataBullesModel : String -> Cmd msg
+
+
+
+-- sendParentSelection: envoi du node parent vers javascript, pour conserver la selection du parent
+
+
+port sendParentSelection : String -> Cmd msg
 
 
 port layout : String -> Cmd msg
