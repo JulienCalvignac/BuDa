@@ -41,6 +41,14 @@
         _layout_dagre();
       });
 
+      app.ports.sendParentSelection.subscribe(function(word) {
+        var obj = JSON.parse(word);
+        if (obj != null)
+        {
+          cy.$('#' + obj ).select();
+        }
+      });
+
       app.ports.saveModel.subscribe(function(word) {
         var obj = JSON.parse(word);
         var filename = obj.filename;
