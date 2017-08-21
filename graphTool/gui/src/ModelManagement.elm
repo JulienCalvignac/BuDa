@@ -185,7 +185,10 @@ subBullesModelFromNode model n =
         newEdges1 =
             List.filter
                 (\x ->
-                    (DataModel.isNodeIdPresent x.source newNodes) && (DataModel.isNodeIdPresent x.target newNodes)
+                    (DataModel.isNodeIdPresent x.source newNodes)
+                        && (DataModel.isNodeIdPresent x.target newNodes)
+                        && -- on filtre les liens entre externes
+                           not (DataModel.isNodeIdPresent x.source externNodes && DataModel.isNodeIdPresent x.target externNodes)
                 )
                 model.edges
 
