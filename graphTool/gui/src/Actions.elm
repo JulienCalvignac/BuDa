@@ -50,8 +50,8 @@ showView msg model =
                 Model.BULL ->
                     showBulles msg model
 
-                _ ->
-                    showBulles msg model
+                Model.ALL_LIGHT ->
+                    showAllDataLight msg model
 
         m2 =
             { m1 | selection = [], selectionType = Model.PARENT }
@@ -83,6 +83,22 @@ showAllData msg model =
             model.dataModel
     in
         ( model, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
+
+
+showAllDataLight : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
+showAllDataLight msg model =
+    let
+        subModel =
+            model.dataModel
+
+        -- on garde les liens de plus bas niveau
+        lowestEdges =
+            ModelActions.lowestLevelEdges model
+
+        m2 =
+            { subModel | edges = lowestEdges }
+    in
+        ( model, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel m2) )
 
 
 showPBS : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
