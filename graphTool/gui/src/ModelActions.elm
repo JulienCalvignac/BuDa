@@ -17,7 +17,7 @@ import Identifier exposing (Identifier)
 import Node exposing (Node)
 import Link exposing (Edge)
 import DataModel
-import Model
+import Model exposing (Model)
 import ModelManagement
 import LinkParameters
 import Set exposing (Set)
@@ -120,7 +120,14 @@ createLink s t model =
         newModel =
             case ( ns, nt ) of
                 ( Just ns1, Just nt1 ) ->
-                    createLink_ ns1 nt1 model
+                    let
+                        m1 =
+                            createLink_ ns1 nt1 model
+
+                        m2 =
+                            { m1 | selectionType = Model.LINK (DataModel.getEdgeIdFromNodesId ns1.id nt1.id m1.dataModel.edges) }
+                    in
+                        m2
 
                 ( _, _ ) ->
                     model
