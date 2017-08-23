@@ -2,6 +2,7 @@ module Model
     exposing
         ( Model
         , ViewType(..)
+        , SelectionType(..)
         , defaultModel
         )
 
@@ -18,6 +19,11 @@ type ViewType
     | ALL
 
 
+type SelectionType
+    = PARENT
+    | LINK (Maybe Identifier)
+
+
 type alias Model =
     { dataModel : DataModel.Model
     , subModel : DataModel.Model
@@ -29,6 +35,7 @@ type alias Model =
     , parameters : LinkParameters.Model
     , exportFlux : Set Identifier
     , error : Maybe String
+    , selectionType : SelectionType
     }
 
 
@@ -44,4 +51,5 @@ defaultModel =
     , parameters = LinkParameters.defaultModel
     , exportFlux = Set.empty
     , error = Nothing
+    , selectionType = PARENT
     }
