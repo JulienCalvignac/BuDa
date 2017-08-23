@@ -7,7 +7,7 @@ import Html.Events exposing (onInput)
 
 -- import Html.Events exposing (onClick, onCheck, on, onInput)
 
-import Model exposing (..)
+import Model exposing (Model)
 import Messages
 import DataModel
 
@@ -21,6 +21,7 @@ textarea_ : Attribut -> Html Messages.Msg
 textarea_ attribut =
     textarea
         [ value attribut
+        , id "attributArea"
         , onInput (Messages.UpdateAttribute)
         ]
         []
