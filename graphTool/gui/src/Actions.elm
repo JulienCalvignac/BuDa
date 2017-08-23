@@ -6,7 +6,6 @@ module Actions
         , showAllData
         , showPBS
         , showBulles
-        , subscriptions
         , update
         )
 
@@ -19,23 +18,10 @@ import Model
 import Selection
 import ModelActions
 import ModelViews
-import Keyboard
 import ScigraphEncoders
 import Dom exposing (focus)
 import Task
 import Messages exposing (Msg(..))
-
-
-subscriptions : Model.Model -> Sub Msg
-subscriptions model =
-    -- Sub.none
-    Sub.batch
-        [ -- WebSocket.listen (model.modelURL) (NewSimuState << Json.Decode.decodeString Decoders.timerResponseDecode)
-          LinkToJS.selection Selection
-        , LinkToJS.modeltoelm ModelToElm
-        , LinkToJS.doubleclick DoubleClick
-        , Keyboard.ups KeyUps
-        ]
 
 
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
