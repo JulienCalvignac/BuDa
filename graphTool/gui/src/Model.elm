@@ -17,6 +17,7 @@ type ViewType
     = BULL
     | PBS
     | ALL
+    | ALL_LIGHT
 
 
 type SelectionType
