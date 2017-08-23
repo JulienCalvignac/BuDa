@@ -297,6 +297,9 @@ update msg model =
         LoadModel ->
             ( model, LinkToJS.loadModel model.loadModelId )
 
+        KeyDowns k ->
+            ( model, Cmd.none )
+
         KeyUps k ->
             case k of
                 38 ->
