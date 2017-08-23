@@ -47,16 +47,30 @@ showView msg model =
                 Model.PBS ->
                     showPBS msg model
 
+                Model.BULL ->
+                    showBulles msg model
+
                 _ ->
                     showBulles msg model
 
         m2 =
-            { m1 | selection = [] }
+            { m1 | selection = [], selectionType = Model.PARENT }
+
+        cmd1 =
+            case model.selectionType of
+                Model.PARENT ->
+                    -- on renvoie le pere vers JS pour creer tous les fils
+                    LinkToJS.sendParentSelection (DataModelEncoders.encodeMaybeIdentifier (Selection.getFirstSelectionIdentifier model.selection))
+
+                Model.LINK m_id ->
+                    -- on renvoie id du lien
+                    LinkToJS.sendParentSelection (DataModelEncoders.encodeMaybeIdentifier m_id)
     in
         -- ( m2, cmd )
         ( m2
         , Cmd.batch
             [ cmd
+            , cmd1
             , Task.attempt FocusResult (Dom.focus "input")
             ]
         )
@@ -82,13 +96,7 @@ showPBS msg model =
                 Just x ->
                     (ModelViews.getPBSViewFromNodeId model.dataModel x)
     in
-        ( model
-        , Cmd.batch
-            [ LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel subModel)
-              -- en mode PBS, on renvoie le pere vers JS pour creer tous les fils
-            , LinkToJS.sendParentSelection (DataModelEncoders.encodeMaybeIdentifier (Selection.getFirstSelectionIdentifier model.selection))
-            ]
-        )
+        ( model, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
 
 
 showBulles : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
