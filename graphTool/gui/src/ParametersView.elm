@@ -3,7 +3,7 @@ module ParametersView exposing (view)
 import Html exposing (Html, Attribute, button, div, fieldset, input, label, span, text, section)
 import Html.Attributes exposing (id, name, style, type_, checked, value, placeholder, class)
 import Html.Events exposing (onClick, onCheck, on, onInput)
-import Model exposing (..)
+import Model exposing (Model)
 import Messages
 import DataModel
 import Link exposing (Edge)
