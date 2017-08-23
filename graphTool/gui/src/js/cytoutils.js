@@ -28,17 +28,17 @@ var stylesheet = [
         selector: 'node',
         style: {
           shape: 'rectangle',
-          'background-color': 'blue',
-          // 'width': 'mapData(bar, 0, 10, 10, 50)',
-          // 'height': 'mapData(bar, 0, 10, 10, 50)',
-          label: 'data(name)'
+          'background-color': '#F2F5A9',
+					label: 'data(name)'
+					, 'color': '#555'
         }
       }
       , {
         selector: ':selected',
         style: {
-          'border-width': 4,
-          'border-color': 'purple'
+          'border-width': 1,
+          'border-color': '#5F4C0B',
+					'line-color': '#FE2E2E'
         }
       }
       , {
@@ -52,11 +52,83 @@ var stylesheet = [
       , {
 				selector: 'edge',
 				style: {
-					// 'target-arrow-shape': 'triangle'
            'curve-style': 'haystack'
+					 , 'width': 1
 				}
 			}
 ];
+
+var stylesheetPBS = [
+      {
+        selector: 'node',
+        style: {
+          shape: 'rectangle',
+          'background-color': '#F2F5A9',
+					label: 'data(name)'
+					, 'color': '#555'
+        }
+      }
+      , {
+        selector: ':selected',
+        style: {
+          'border-width': 1,
+          'border-color': '#5F4C0B',
+					'line-color': '#0169D9'
+        }
+      }
+      , {
+        selector: ':parent',
+        style: {
+          'background-opacity': 0.1
+          , shape: 'ellipse'
+
+        }
+      }
+      , {
+				selector: 'edge',
+				style: {
+           'curve-style': 'haystack'
+					 , 'width': 1
+				}
+			}
+];
+
+var stylesheetBubble = [
+			      {
+			        selector: 'node',
+			        style: {
+			          shape: 'rectangle',
+			          'background-color': '#F2F5A9',
+								label: 'data(name)'
+								, 'color': '#555'
+			        }
+			      }
+			      , {
+			        selector: ':selected',
+			        style: {
+			          'border-width': 1,
+			          'border-color': '#5F4C0B',
+								'line-color': '#FE2E2E'
+			        }
+			      }
+			      , {
+			        selector: ':parent',
+			        style: {
+			          'background-opacity': 0.1
+			          , shape: 'ellipse'
+
+			        }
+			      }
+			      , {
+							selector: 'edge',
+							style: {
+			           'curve-style': 'haystack'
+								 , 'width': 1
+							}
+						}
+			];
+
+
 
 function getIdentifer() {
 	var res = idx;
@@ -177,6 +249,17 @@ function getSelectedEls() {
 	var cy = getCyReference();
 	return cy.elements(':selected');
 }
+
+function setPBSStyle() {
+	var cy = getCyReference();
+	cy.setStyle (stylesheetPBS);
+}
+
+function setBullesStyle() {
+	var cy = getCyReference();
+	cy.setStyle (stylesheetBubble);
+}
+
 
 
 function _sendDataModel_ (obj) {
