@@ -11,6 +11,7 @@ module ModelActions
         , createParameter
         , deleteParameter
         , updateAttribute
+        , lowestLevelEdges
         )
 
 import Identifier exposing (Identifier)
@@ -898,3 +899,28 @@ updateAttribute model s =
             updateDataModelAttribute_ m_id s model.dataModel
     in
         { model | dataModel = newDatamodel }
+
+
+isLowestLevel : Edge -> Model -> Bool
+isLowestLevel edge model =
+    let
+        m_n =
+            DataModel.getNodeFromId edge.source model.dataModel.nodes
+
+        m_p =
+            DataModel.getNodeFromId edge.target model.dataModel.nodes
+
+        b =
+            case ( m_n, m_p ) of
+                ( Just n, Just p ) ->
+                    canDelete n p model
+
+                ( _, _ ) ->
+                    False
+    in
+        b
+
+
+lowestLevelEdges : Model -> List Edge
+lowestLevelEdges model =
+    List.filter (\x -> isLowestLevel x model) model.dataModel.edges

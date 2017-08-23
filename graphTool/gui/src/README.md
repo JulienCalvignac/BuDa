@@ -60,3 +60,12 @@ Algo de suppression de parametre au lien entre les nodes n et m
 ## Suppression d'un parametre dans le model
 * on desactive le parametre dans tous les liens du modele
 * on supprime le parametre dans la liste des parametres (dataModel.parameters)
+
+## la condition ModelActions.canDelete
+* canDelete : Node -> Node -> Model.Model -> Bool
+* cette fonction precise si on peut deleter un lien
+
+
+## Recherche des liens de plus bas niveau
+* cette fonctionnalité est implémentée dans la fonction ModelActions.lowestLevelEdges: On filtre la liste des liens avec la condition ModelActions.isLowestLevel
+* L'implémenation de isLowestLevel est equivalente à celle de ModelActions.canDelete
