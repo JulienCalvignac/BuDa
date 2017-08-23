@@ -212,9 +212,6 @@ update msg model =
         --
         -- ShowBulles ->
         --     showBulles msg model
-        Layout ->
-            ( model, LinkToJS.layout "" )
-
         CreateNode ->
             let
                 m1 =

@@ -9,7 +9,6 @@ import Dom exposing (focus)
 type Msg
     = FocusOn String
     | FocusResult (Result Dom.Error ())
-    | Layout
     | CreateNode
     | RenameNode
     | CreateLink
