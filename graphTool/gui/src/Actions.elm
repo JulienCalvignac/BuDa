@@ -185,12 +185,11 @@ update msg model =
         CheckProperty edge s ->
             ( ModelActions.updateProperty edge s model, Cmd.none )
 
-        LoadPSB s ->
-            ( model, Cmd.none )
-
-        LoadLNK s ->
-            ( model, Cmd.none )
-
+        -- LoadPSB s ->
+        --     ( model, Cmd.none )
+        --
+        -- LoadLNK s ->
+        --     ( model, Cmd.none )
         SwitchToView s ->
             let
                 m1 =
@@ -201,19 +200,18 @@ update msg model =
         ShowView ->
             showView msg model
 
-        ShowAllData ->
-            let
-                subModel =
-                    model.dataModel
-            in
-                ( model, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
-
-        ShowPBS ->
-            showPBS msg model
-
-        ShowBulles ->
-            showBulles msg model
-
+        -- ShowAllData ->
+        --     let
+        --         subModel =
+        --             model.dataModel
+        --     in
+        --         ( model, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
+        --
+        -- ShowPBS ->
+        --     showPBS msg model
+        --
+        -- ShowBulles ->
+        --     showBulles msg model
         Layout ->
             ( model, LinkToJS.layout "" )
 

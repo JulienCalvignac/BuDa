@@ -7,11 +7,8 @@ import Dom exposing (focus)
 
 
 type Msg
-    = LoadPSB String
-    | LoadLNK String
-    | FocusOn String
+    = FocusOn String
     | FocusResult (Result Dom.Error ())
-    | ShowAllData
     | Layout
     | CreateNode
     | RenameNode
@@ -21,8 +18,6 @@ type Msg
     | ModelToElm String
     | SaveModel
     | LoadModel
-    | ShowBulles
-    | ShowPBS
     | SwitchToView Model.ViewType
     | ShowView
     | KeyUps Keyboard.KeyCode
