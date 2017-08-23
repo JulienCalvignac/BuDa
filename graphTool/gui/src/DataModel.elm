@@ -22,6 +22,7 @@ module DataModel
         , edgeST
         , getEdgeFromId
         , getEdgeFromNodesId
+        , getEdgeIdFromNodesId
         , getNodeFromId
         , getNodeFromName
         , getNodeIdFromName
@@ -227,6 +228,16 @@ getEdgeFromNodesId ids idt list =
 
         [] ->
             Nothing
+
+
+getEdgeIdFromNodesId : Identifier -> Identifier -> List Edge -> Maybe Identifier
+getEdgeIdFromNodesId ids idt list =
+    case (getEdgeFromNodesId ids idt list) of
+        Nothing ->
+            Nothing
+
+        Just edge ->
+            Just edge.id
 
 
 getNodeFromName : String -> List Node -> Maybe Node
