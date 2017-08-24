@@ -33,6 +33,14 @@ var stylesheet = [
 					, 'color': '#555'
         }
       }
+			, {
+				selector: 'edge',
+				style: {
+           'curve-style': 'haystack'
+					 , 'width': 1
+					 , 'line-color': '#555'
+				}
+			}
       , {
         selector: ':selected',
         style: {
@@ -46,16 +54,8 @@ var stylesheet = [
         style: {
           'background-opacity': 0.1
           , shape: 'ellipse'
-
         }
       }
-      , {
-				selector: 'edge',
-				style: {
-           'curve-style': 'haystack'
-					 , 'width': 1
-				}
-			}
 ];
 
 var stylesheetPBS = [
@@ -68,12 +68,21 @@ var stylesheetPBS = [
 					, 'color': '#555'
         }
       }
+			, {
+				selector: 'edge',
+				style: {
+           'curve-style': 'haystack'
+					 , 'width': 1
+					 , 'line-color': '#555'
+				}
+			}
+
       , {
         selector: ':selected',
         style: {
           'border-width': 1,
           'border-color': '#5F4C0B',
-					'line-color': '#0169D9'
+					'line-color': 'blue'
         }
       }
       , {
@@ -81,16 +90,8 @@ var stylesheetPBS = [
         style: {
           'background-opacity': 0.1
           , shape: 'ellipse'
-
         }
       }
-      , {
-				selector: 'edge',
-				style: {
-           'curve-style': 'haystack'
-					 , 'width': 1
-				}
-			}
 ];
 
 var stylesheetBubble = [
@@ -103,6 +104,14 @@ var stylesheetBubble = [
 								, 'color': '#555'
 			        }
 			      }
+						, {
+							selector: 'edge',
+							style: {
+			           'curve-style': 'haystack'
+								 , 'width': 1
+								 , 'line-color': '#555'
+							}
+						}
 			      , {
 			        selector: ':selected',
 			        style: {
@@ -119,13 +128,6 @@ var stylesheetBubble = [
 
 			        }
 			      }
-			      , {
-							selector: 'edge',
-							style: {
-			           'curve-style': 'haystack'
-								 , 'width': 1
-							}
-						}
 			];
 
 
