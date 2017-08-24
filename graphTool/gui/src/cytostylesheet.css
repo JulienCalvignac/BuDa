@@ -48,30 +48,22 @@
     height: 3em;
     position: absolute;
     top: 0em;
-    left: 67em;
+    left: 70em;
 }
 #edge {
   width: 5em;
   height: 3em;
   position: absolute;
   top: 0em;
-  left: 72em;
+  left: 75em;
 }
 #rename {
   width: 5em;
   height: 3em;
   position: absolute;
   top: 0em;
-  left: 77em;
+  left: 80em;
 }
-#export {
-  width: 5em;
-  height: 3em;
-  position: absolute;
-  top: 0em;
-  left: 86em;
-}
-
 #undo {
   width: 5em;
   height: 3em;
@@ -79,19 +71,28 @@
   top: 0em;
   left: 85em;
 }
+
+#export {
+  width: 5em;
+  height: 3em;
+  position: absolute;
+  top: 0em;
+  left: 90em;
+}
+
 #parameters {
     width: 14em;
     height: 20em;
     position: absolute;
     top: 5em;
-    right:2em;
+    right:5em;
 }
 #createParameter
 {
     width: 5em;
     height: 3em;
     position: absolute;
-    top: 28em;
+    top: 38em;
     right: 11em;
 }
 #deleteParameter
@@ -99,15 +100,15 @@
   width: 5em;
   height: 3em;
   position: absolute;
-  top: 28em;
+  top: 38em;
   right: 6em;
 }
 #attribut {
     width: 14em;
-    height: 20em;
+    height: 18em;
     position: absolute;
-    top: 30em;
-    right: 2em;
+    top: 42em;
+    right: 5em;
 }
 
 #attributArea {
