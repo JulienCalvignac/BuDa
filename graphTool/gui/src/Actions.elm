@@ -17,10 +17,10 @@ import Model
 import Selection
 import ModelActions
 import ModelViews
-import ScigraphEncoders
 import Dom exposing (focus)
 import Task
 import Messages exposing (Msg(..))
+import Export
 
 
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -182,21 +182,18 @@ update msg model =
                 saveName =
                     case (String.isEmpty model.inputFile) of
                         True ->
-                            "model.json"
+                            "export"
 
                         False ->
                             model.inputFile
 
-                m1 =
-                    ModelActions.exportLink model
+                expNodes =
+                    DataModelEncoders.encodeExport { filename = saveName ++ "Nodes.txt", model = (Export.encodeNodes model.dataModel) }
 
-                s =
-                    DataModelEncoders.encodeExport { filename = saveName, model = (ScigraphEncoders.encodeLNK m1.dataModel) }
-
-                z =
-                    Debug.log "encodeExport" s
+                expEdges =
+                    DataModelEncoders.encodeExport { filename = saveName ++ "Links.csv", model = (Export.encodeLinks model.dataModel) }
             in
-                ( model, LinkToJS.exportLNK (s) )
+                ( model, Cmd.batch [ LinkToJS.exportLNK (expNodes), LinkToJS.exportLNK (expEdges) ] )
 
         CheckFlux s ->
             ( ModelActions.updateSelectedFlux s model, Cmd.none )
