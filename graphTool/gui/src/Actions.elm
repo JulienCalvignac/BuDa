@@ -180,12 +180,12 @@ update msg model =
         ExportLink ->
             let
                 saveName =
-                    case (String.isEmpty model.input) of
+                    case (String.isEmpty model.inputFile) of
                         True ->
                             "model.json"
 
                         False ->
-                            model.input
+                            model.inputFile
 
                 m1 =
                     ModelActions.exportLink model
@@ -243,6 +243,9 @@ update msg model =
         InputChange s ->
             ( { model | input = s }, Cmd.none )
 
+        InputFileChange s ->
+            ( { model | inputFile = s }, Cmd.none )
+
         Selection s ->
             let
                 x =
@@ -270,12 +273,12 @@ update msg model =
         SaveModel ->
             let
                 saveName =
-                    case (String.isEmpty model.input) of
+                    case (String.isEmpty model.inputFile) of
                         True ->
                             "model.json"
 
                         False ->
-                            model.input
+                            model.inputFile
             in
                 ( model, LinkToJS.saveModel (DataModelEncoders.encodeMetaModel { filename = saveName, model = model.dataModel }) )
 

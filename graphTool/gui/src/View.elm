@@ -55,6 +55,7 @@ view model =
           -- , button [ onClick Actions.ParametersDialog, id "dialog", value "dialog" ] [ text "dialog" ]
         , button [ onClick Messages.ExportLink, id "export", value "export" ] [ text "Export" ]
         , input [ onInput Messages.InputChange, id "input", placeholder "undefined" ] []
+        , input [ onInput Messages.InputFileChange, id "inputFile", placeholder "undefined" ] []
         , button [ onClick Messages.SaveModel, id "saveModel", value "saveModel" ] [ text "Save" ]
         , input [ onInputFile Messages.LoadModel, id model.loadModelId, type_ "file" ] []
         , button [ onClick Messages.Undo, id "undo", value "undo" ] [ text "undo" ]

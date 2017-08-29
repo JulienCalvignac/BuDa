@@ -13,6 +13,7 @@ type Msg
     | RenameNode
     | CreateLink
     | InputChange String
+    | InputFileChange String
     | Selection (List String)
     | ModelToElm String
     | SaveModel

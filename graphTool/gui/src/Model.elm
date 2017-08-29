@@ -30,6 +30,7 @@ type alias Model =
     { dataModel : DataModel.Model
     , subModel : DataModel.Model
     , input : String
+    , inputFile : String
     , selection : Selection.Model
     , loadModelId : String
     , viewType : ViewType
@@ -47,6 +48,7 @@ defaultModel =
     { dataModel = DataModel.defaultModel
     , subModel = DataModel.defaultModel
     , input = "undefined"
+    , inputFile = "undefined"
     , selection = []
     , loadModelId = "loadModel"
     , viewType = BULL
