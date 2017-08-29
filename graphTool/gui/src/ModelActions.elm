@@ -56,11 +56,15 @@ createLink s t model =
         newDataModel =
             DataModelActions.createLink s t model.dataModel
 
-        lds1 =
-            (ModelManagement.getAscendants model.dataModel.nodes ns1 commonParent)
+        newUndo =
+            Scenario.addMsg (Scenario.CreateLink s t) model.undo
 
-        m2 =
-            createLinkEdgeForLists_ lds1 ldt1 model
+        m1 =
+            { model
+                | selectionType = Model.LINK (DataModel.getEdgeIdFromNodesId s t newDataModel.edges)
+                , dataModel = newDataModel
+                , undo = newUndo
+            }
     in
         m1
 
@@ -108,9 +112,12 @@ createNode model =
                             useParent
 
         newDataModel1 =
-            { newDataModel | nodes = newNodes }
+            DataModelActions.createNode newName newParent model.dataModel
+
+        newUndo =
+            Scenario.addMsg (Scenario.CreateNode newName newParent) model.undo
     in
-        { model | dataModel = newDataModel1 }
+        { model | dataModel = newDataModel1, undo = newUndo }
 
 
 
@@ -146,7 +153,13 @@ deleteEdge id model =
         newDataModel =
             DataModelActions.deleteEdge id model.dataModel
 
+        newUndo =
+            Scenario.addMsg (Scenario.DeleteLink id) model.undo
     in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
 
 
 
@@ -173,7 +186,10 @@ deleteNode id model =
         newDataModel =
             DataModelActions.deleteNode id model.dataModel
 
+        newUndo =
+            Scenario.addMsg (Scenario.DeleteNode id) model.undo
     in
+        { model | dataModel = newDataModel, undo = newUndo }
 
 
 
@@ -207,7 +223,13 @@ renameNode model =
         newDataModel =
             DataModelActions.renameNode newName nId model.dataModel
 
+        newUndo =
+            Scenario.addMsg (Scenario.RenameNode newName nId) model.undo
     in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
 
 
 
@@ -307,6 +329,13 @@ createParameter model =
         newDataModel =
             (DataModelActions.createParameter model.input model.dataModel)
 
+        newUndo =
+            Scenario.addMsg (Scenario.CreateParameter model.input) model.undo
+    in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
 
 
 
@@ -328,7 +357,13 @@ deleteParameter model =
         newDataModel =
             DataModelActions.deleteParameter model.input model.dataModel
 
+        newUndo =
+            Scenario.addMsg (Scenario.DeleteParameter model.input) model.undo
     in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
 
 
 
@@ -358,7 +393,13 @@ updateAttribute model s =
         newDataModel =
             DataModelActions.updateAttribute m_id s model.dataModel
 
+        newUndo =
+            Scenario.addMsg (Scenario.UpdateAttribute s m_id) model.undo
     in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
 
 
 
@@ -380,6 +421,13 @@ updateProperty edge s model =
         newDataModel =
             DataModelActions.updateProperty edge s model.dataModel
 
+        newUndo =
+            Scenario.addMsg (Scenario.UpdateProperty edge s) model.undo
+    in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
 
 
 
@@ -408,6 +456,13 @@ dataModelToModel s model =
                         newDataModel =
                             DataModel.dataModelToModel elements model.dataModel
 
+                        newUndo =
+                            Scenario.addMsg (Scenario.LoadModel elements) model.undo
+                    in
+                        { model
+                            | dataModel = newDataModel
+                            , undo = newUndo
+                        }
 
                 Err _ ->
                     model
@@ -415,3 +470,15 @@ dataModelToModel s model =
         m1
 
 
+undo : Model.Model -> Model.Model
+undo model =
+    let
+        ( newDataModel, newUndo ) =
+            case model.undo of
+                x :: xs ->
+                    ( Player.play (List.reverse xs) DataModel.defaultModel, xs )
+
+                [] ->
+                    ( model.dataModel, [] )
+    in
+        { model | dataModel = newDataModel, undo = newUndo }
