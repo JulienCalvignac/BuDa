@@ -19,7 +19,6 @@ type Msg
     | SaveModel
     | LoadModel
     | SwitchToView Model.ViewType
-    | ShowView
     | KeyUps Keyboard.KeyCode
     | KeyDowns Keyboard.KeyCode
     | DoubleClick String

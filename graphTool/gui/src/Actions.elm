@@ -211,9 +211,6 @@ update msg model =
             in
                 showView msg m1
 
-        ShowView ->
-            showView msg model
-
         CreateNode ->
             let
                 m1 =

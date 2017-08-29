@@ -35,9 +35,7 @@ radio msg value =
 view : Model.Model -> Html Messages.Msg
 view model =
     div []
-        [ button [ onClick Messages.ShowView, id "showView", value "View" ]
-            [ text "View" ]
-        , div []
+        [ div []
             [ fieldset [ id "fieldset" ]
                 [ radio (Messages.SwitchToView Model.BULL) "Bubble Diagram"
                 , radio (Messages.SwitchToView Model.PBS) "PBS"
