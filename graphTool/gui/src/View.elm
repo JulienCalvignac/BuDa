@@ -58,6 +58,6 @@ view model =
         , input [ onInput Messages.InputFileChange, id "inputFile", placeholder "undefined" ] []
         , button [ onClick Messages.SaveModel, id "saveModel", value "saveModel" ] [ text "Save" ]
         , input [ onInputFile Messages.LoadModel, id model.loadModelId, type_ "file" ] []
-        , button [ onClick Messages.Undo, id "undo", value "undo" ] [ text "undo" ]
+        , button [ onClick Messages.Undo, id "undo", value "undo" ] [ text "Undo" ]
           -- , input [ id "log", value "" ] [ text "" ]
         ]
