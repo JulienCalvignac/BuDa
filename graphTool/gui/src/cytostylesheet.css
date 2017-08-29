@@ -2,9 +2,89 @@
     width: 80%;
     height: 90%;
     position: absolute;
-    top: 52px;
+    top: 7em;
     left: 0px;
 }
+
+/*                  gestion des fichiers                 */
+#input {
+    width: 8em;
+    height: 2.5em;
+    position: absolute;
+    top: 0em;
+    left: 1em;
+}
+#saveModel {
+    width: 5em;
+    height: 3em;
+    position: absolute;
+    top: 0em;
+    left: 10em;
+}
+#export {
+  width: 5em;
+  height: 3em;
+  position: absolute;
+  top: 0em;
+  left: 15.5em;
+}
+#loadModel {
+    width: 6em;
+    height: 3em;
+    position: absolute;
+    top: 0em;
+    left: 21em;
+}
+#fieldset {
+    width: 30em;
+    height: 1em;
+    position: absolute;
+    top: 0.2em;
+    left: 40em;
+}
+
+/*                     gestion du modele                        */
+#inputFile {
+    width: 8em;
+    height: 2.5em;
+    position: absolute;
+    top: 3.2em;
+    left: 1em;
+}
+#new {
+    width: 5em;
+    height: 3em;
+    position: absolute;
+    top: 3.2em;
+    left: 10em;
+}
+#edge {
+  width: 5em;
+  height: 3em;
+  position: absolute;
+  top: 3.2em;
+  left: 15.5em;
+}
+#rename {
+  width: 5em;
+  height: 3em;
+  position: absolute;
+  top: 3.2em;
+  left: 21em;
+}
+#undo {
+  width: 5em;
+  height: 3em;
+  position: absolute;
+  top: 3.2em;
+  left: 26.5em;
+}
+
+
+
+
+
+
 #showView {
     width: 5em;
     height: 3em;
@@ -13,72 +93,8 @@
     left: 1px;
 }
 
-#fieldset {
-    width: 24em;
-    height: 1em;
-    position: absolute;
-    top: 0.2em;
-    left: 4.5em;
-}
-#loadModel {
-    width: 16em;
-    height: 3em;
-    position: absolute;
-    top: 0em;
-    left: 37em;
-}
-#saveModel {
-    width: 5em;
-    height: 3em;
-    position: absolute;
-    top: 0em;
-    left: 53em;
-}
 
-#input {
-    width: 8em;
-    height: 2.5em;
-    position: absolute;
-    top: 0em;
-    left: 58.2em;
-}
 
-#new {
-    width: 5em;
-    height: 3em;
-    position: absolute;
-    top: 0em;
-    left: 70em;
-}
-#edge {
-  width: 5em;
-  height: 3em;
-  position: absolute;
-  top: 0em;
-  left: 75em;
-}
-#rename {
-  width: 5em;
-  height: 3em;
-  position: absolute;
-  top: 0em;
-  left: 80em;
-}
-#undo {
-  width: 5em;
-  height: 3em;
-  position: absolute;
-  top: 0em;
-  left: 85em;
-}
-
-#export {
-  width: 5em;
-  height: 3em;
-  position: absolute;
-  top: 0em;
-  left: 90em;
-}
 
 #parameters {
     width: 14em;
@@ -93,7 +109,7 @@
     height: 3em;
     position: absolute;
     top: 38em;
-    right: 11em;
+    right: 11.2em;
 }
 #deleteParameter
 {
@@ -101,7 +117,7 @@
   height: 3em;
   position: absolute;
   top: 38em;
-  right: 6em;
+  right: 5.8em;
 }
 #attribut {
     width: 14em;
