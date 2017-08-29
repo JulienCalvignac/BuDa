@@ -3,8 +3,7 @@ module LinkParametersActions exposing (activateParameter, unActivateParameter, u
 import Identifier exposing (Identifier)
 import Node exposing (Node)
 import Link exposing (Edge)
-import Model
-import DataModel
+import DataModel exposing (Model)
 import ModelManagement
 import Set
 
@@ -17,12 +16,12 @@ unActivateParameter
 --}
 
 
-unActivateAllParameters : Edge -> Model.Model -> Model.Model
+unActivateAllParameters : Edge -> Model -> Model
 unActivateAllParameters edge model =
     unActivateAllParameters_ (Set.toList edge.parameters) edge model
 
 
-unActivateAllParameters_ : List Identifier -> Edge -> Model.Model -> Model.Model
+unActivateAllParameters_ : List Identifier -> Edge -> Model -> Model
 unActivateAllParameters_ list edge model =
     case list of
         [] ->
@@ -32,14 +31,14 @@ unActivateAllParameters_ list edge model =
             unActivateAllParameters_ xs edge (unActivateParameter x edge model)
 
 
-unActivateParameter : Identifier -> Edge -> Model.Model -> Model.Model
+unActivateParameter : Identifier -> Edge -> Model -> Model
 unActivateParameter idx edge model =
     let
         ns =
-            (DataModel.getNodeFromId edge.source model.dataModel.nodes)
+            (DataModel.getNodeFromId edge.source model.nodes)
 
         nt =
-            (DataModel.getNodeFromId edge.target model.dataModel.nodes)
+            (DataModel.getNodeFromId edge.target model.nodes)
 
         newModel =
             case ( ns, nt ) of
@@ -52,7 +51,7 @@ unActivateParameter idx edge model =
         newModel
 
 
-unActivateParameter_ : Identifier -> Node -> Node -> Model.Model -> Model.Model
+unActivateParameter_ : Identifier -> Node -> Node -> Model -> Model
 unActivateParameter_ idx n m model =
     let
         m1 =
@@ -64,22 +63,22 @@ unActivateParameter_ idx n m model =
         m2
 
 
-unActivateParameterUp_ : Identifier -> Node -> Node -> Model.Model -> Model.Model
+unActivateParameterUp_ : Identifier -> Node -> Node -> Model -> Model
 unActivateParameterUp_ idx n m model =
     let
         commonParent =
-            ModelManagement.findCommonParent model.dataModel.nodes n m
+            ModelManagement.findCommonParent model.nodes n m
 
         asc_n =
-            ModelManagement.getAscendants model.dataModel.nodes n commonParent
+            ModelManagement.getAscendants model.nodes n commonParent
 
         asc_m =
-            ModelManagement.getAscendants model.dataModel.nodes m commonParent
+            ModelManagement.getAscendants model.nodes m commonParent
     in
         unActivateParameterUpForLists_ idx asc_n asc_m model
 
 
-unActivateParameterUpForLists_ : Identifier -> List Node -> List Node -> Model.Model -> Model.Model
+unActivateParameterUpForLists_ : Identifier -> List Node -> List Node -> Model -> Model
 unActivateParameterUpForLists_ idx ls lt model =
     case ls of
         [] ->
@@ -89,7 +88,7 @@ unActivateParameterUpForLists_ idx ls lt model =
             unActivateParameterUpForLists_ idx xs lt (unActivateParameterUpForOneList_ idx lt x.id model)
 
 
-unActivateParameterUpForOneList_ : Identifier -> List Node -> Identifier -> Model.Model -> Model.Model
+unActivateParameterUpForOneList_ : Identifier -> List Node -> Identifier -> Model -> Model
 unActivateParameterUpForOneList_ idx list nId model =
     case list of
         [] ->
@@ -103,36 +102,36 @@ unActivateParameterUpForOneList_ idx list nId model =
                 m1
 
 
-canUnactivate : Identifier -> Identifier -> Identifier -> Model.Model -> Bool
+canUnactivate : Identifier -> Identifier -> Identifier -> Model -> Bool
 canUnactivate idx mId nId model =
     let
         maybe_n =
-            DataModel.getNodeFromId nId model.dataModel.nodes
+            DataModel.getNodeFromId nId model.nodes
 
         maybe_m =
-            DataModel.getNodeFromId mId model.dataModel.nodes
+            DataModel.getNodeFromId mId model.nodes
 
         newModel =
             case ( maybe_n, maybe_m ) of
                 ( Just n, Just m ) ->
                     let
                         childs_n =
-                            DataModel.childs n model.dataModel.nodes
+                            DataModel.childs n model.nodes
 
                         childs_plus_n =
                             n :: childs_n
 
                         childs_m =
-                            DataModel.childs m model.dataModel.nodes
+                            DataModel.childs m model.nodes
 
                         childs_plus_m =
                             m :: childs_m
 
                         b1 =
-                            DataModel.anyLinksParameter idx childs_plus_m childs_n model.dataModel.edges
+                            DataModel.anyLinksParameter idx childs_plus_m childs_n model.edges
 
                         b2 =
-                            DataModel.anyLinksParameter idx childs_plus_n childs_m model.dataModel.edges
+                            DataModel.anyLinksParameter idx childs_plus_n childs_m model.edges
 
                         b =
                             not (b1 || b2)
@@ -146,7 +145,7 @@ canUnactivate idx mId nId model =
         newModel
 
 
-unActivateParameterUpForEdge_ : Identifier -> Identifier -> Identifier -> Model.Model -> Model.Model
+unActivateParameterUpForEdge_ : Identifier -> Identifier -> Identifier -> Model -> Model
 unActivateParameterUpForEdge_ idx mId nId model =
     case (canUnactivate idx mId nId model) of
         False ->
@@ -156,35 +155,26 @@ unActivateParameterUpForEdge_ idx mId nId model =
             unActivateParameterUpEdge_ idx mId nId model
 
 
-unActivateParameterUpEdge_ : Identifier -> Identifier -> Identifier -> Model.Model -> Model.Model
+unActivateParameterUpEdge_ : Identifier -> Identifier -> Identifier -> Model -> Model
 unActivateParameterUpEdge_ idx mId nId model =
     let
         edge =
             (Link.link mId nId)
 
         newEdges =
-            updatePropertyInEdgeList_ edge idx model.dataModel.edges Link.unActivate
-
-        model_datamodel =
-            model.dataModel
-
-        new_dataModel =
-            { model_datamodel | edges = newEdges }
+            updatePropertyInEdgeList_ edge idx model.edges Link.unActivate
     in
-        { model | dataModel = new_dataModel }
+        { model | edges = newEdges }
 
 
-unActivateParameterDown_ : Identifier -> Node -> Node -> Model.Model -> Model.Model
+unActivateParameterDown_ : Identifier -> Node -> Node -> Model -> Model
 unActivateParameterDown_ idx n m model =
     let
-        model_dataModel =
-            model.dataModel
-
         n_descendants =
-            ModelManagement.getDescendantsFromN model_dataModel.nodes n
+            ModelManagement.getDescendantsFromN model.nodes n
 
         m_descendants =
-            ModelManagement.getDescendantsFromN model_dataModel.nodes m
+            ModelManagement.getDescendantsFromN model.nodes m
 
         m1 =
             unActivateParameterDownForLists_ idx n_descendants m_descendants model
@@ -192,7 +182,7 @@ unActivateParameterDown_ idx n m model =
         m1
 
 
-unActivateParameterDownForLists_ : Identifier -> List Node -> List Node -> Model.Model -> Model.Model
+unActivateParameterDownForLists_ : Identifier -> List Node -> List Node -> Model -> Model
 unActivateParameterDownForLists_ idx ls lt model =
     case ls of
         [] ->
@@ -202,7 +192,7 @@ unActivateParameterDownForLists_ idx ls lt model =
             unActivateParameterDownForLists_ idx xs lt (unActivateParameterDownForOneList_ idx lt x.id model)
 
 
-unActivateParameterDownForOneList_ : Identifier -> List Node -> Identifier -> Model.Model -> Model.Model
+unActivateParameterDownForOneList_ : Identifier -> List Node -> Identifier -> Model -> Model
 unActivateParameterDownForOneList_ idx list nId model =
     case list of
         [] ->
@@ -216,22 +206,16 @@ unActivateParameterDownForOneList_ idx list nId model =
                 m1
 
 
-unActivateParameterDownForEdge_ : Identifier -> Identifier -> Identifier -> Model.Model -> Model.Model
+unActivateParameterDownForEdge_ : Identifier -> Identifier -> Identifier -> Model -> Model
 unActivateParameterDownForEdge_ idx mId nId model =
     let
         edge =
             (Link.link mId nId)
 
         newEdges =
-            updatePropertyInEdgeList_ edge idx model.dataModel.edges Link.unActivate
-
-        model_datamodel =
-            model.dataModel
-
-        new_dataModel =
-            { model_datamodel | edges = newEdges }
+            updatePropertyInEdgeList_ edge idx model.edges Link.unActivate
     in
-        { model | dataModel = new_dataModel }
+        { model | edges = newEdges }
 
 
 
@@ -243,14 +227,14 @@ unActivateParameter
 --}
 
 
-activateParameter : Identifier -> Edge -> Model.Model -> Model.Model
+activateParameter : Identifier -> Edge -> Model -> Model
 activateParameter idx edge model =
     let
         ns =
-            (DataModel.getNodeFromId edge.source model.dataModel.nodes)
+            (DataModel.getNodeFromId edge.source model.nodes)
 
         nt =
-            (DataModel.getNodeFromId edge.target model.dataModel.nodes)
+            (DataModel.getNodeFromId edge.target model.nodes)
 
         newModel =
             case ( ns, nt ) of
@@ -263,17 +247,17 @@ activateParameter idx edge model =
         newModel
 
 
-activateParameter_ : Identifier -> Node -> Node -> Model.Model -> Model.Model
+activateParameter_ : Identifier -> Node -> Node -> Model -> Model
 activateParameter_ idx n m model =
     let
         commonParent =
-            ModelManagement.findCommonParent model.dataModel.nodes n m
+            ModelManagement.findCommonParent model.nodes n m
 
         ln =
-            (ModelManagement.getAscendants model.dataModel.nodes n commonParent)
+            (ModelManagement.getAscendants model.nodes n commonParent)
 
         lm =
-            (ModelManagement.getAscendants model.dataModel.nodes m commonParent)
+            (ModelManagement.getAscendants model.nodes m commonParent)
 
         m2 =
             activateParameterForLists_ idx ln lm model
@@ -281,7 +265,7 @@ activateParameter_ idx n m model =
         m2
 
 
-activateParameterForLists_ : Identifier -> List Node -> List Node -> Model.Model -> Model.Model
+activateParameterForLists_ : Identifier -> List Node -> List Node -> Model -> Model
 activateParameterForLists_ idx ls lt model =
     case ls of
         [] ->
@@ -291,7 +275,7 @@ activateParameterForLists_ idx ls lt model =
             activateParameterForLists_ idx xs lt (activateParameterForOneList_ idx lt x.id model)
 
 
-activateParameterForOneList_ : Identifier -> List Node -> Identifier -> Model.Model -> Model.Model
+activateParameterForOneList_ : Identifier -> List Node -> Identifier -> Model -> Model
 activateParameterForOneList_ idx list nId model =
     case list of
         [] ->
@@ -305,22 +289,16 @@ activateParameterForOneList_ idx list nId model =
                 m1
 
 
-activateParameterForEdge_ : Identifier -> Identifier -> Identifier -> Model.Model -> Model.Model
+activateParameterForEdge_ : Identifier -> Identifier -> Identifier -> Model -> Model
 activateParameterForEdge_ idx mId nId model =
     let
         edge =
             (Link.link mId nId)
 
         newEdges =
-            updatePropertyInEdgeList_ edge idx model.dataModel.edges Link.activate
-
-        model_datamodel =
-            model.dataModel
-
-        new_dataModel =
-            { model_datamodel | edges = newEdges }
+            updatePropertyInEdgeList_ edge idx model.edges Link.activate
     in
-        { model | dataModel = new_dataModel }
+        { model | edges = newEdges }
 
 
 updatePropertyInEdgeList_ : Edge -> Identifier -> List Edge -> (Identifier -> Edge -> Edge) -> List Edge
