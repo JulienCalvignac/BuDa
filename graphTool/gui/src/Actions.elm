@@ -153,6 +153,10 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
+        Undo ->
+            -- ( ModelActions.undo model, Cmd.none )
+            showView msg (ModelActions.undo model)
+
         UpdateAttribute s ->
             ( ModelActions.updateAttribute model s, Cmd.none )
 
