@@ -10,9 +10,8 @@ module Actions
         )
 
 import DataModel
-import DataModelDecoders
 import DataModelEncoders
-import Json.Decode
+import DataModelActions
 import LinkToJS
 import Model
 import Selection
@@ -93,7 +92,7 @@ showAllDataLight msg model =
 
         -- on garde les liens de plus bas niveau
         lowestEdges =
-            ModelActions.lowestLevelEdges model
+            DataModelActions.lowestLevelEdges model.dataModel
 
         m2 =
             { subModel | edges = lowestEdges }
@@ -259,20 +258,8 @@ update msg model =
         ModelToElm permet de mettre a jour Model.Model avec le modele js
         --}
             let
-                newDataModel =
-                    Json.Decode.decodeString DataModelDecoders.decodeDataModel s
-
                 m1 =
-                    case newDataModel of
-                        Ok elements ->
-                            let
-                                newData =
-                                    DataModel.dataModelToModel elements model.dataModel
-                            in
-                                { model | dataModel = newData }
-
-                        Err _ ->
-                            model
+                    ModelActions.dataModelToModel s model
             in
                 showView msg m1
 
