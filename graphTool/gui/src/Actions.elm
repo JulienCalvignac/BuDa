@@ -209,7 +209,7 @@ update msg model =
                 m1 =
                     { model | viewType = s }
             in
-                ( m1, Cmd.none )
+                showView msg m1
 
         ShowView ->
             showView msg model
