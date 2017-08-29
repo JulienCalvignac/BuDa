@@ -28,4 +28,5 @@ type Msg
     | CreateParameter
     | DeleteParameter
     | UpdateAttribute String
+    | Undo
     | NoOp
