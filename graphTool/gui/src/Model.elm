@@ -11,6 +11,7 @@ import DataModel
 import Selection
 import LinkParameters
 import Set exposing (Set)
+import Scenario
 
 
 type ViewType
@@ -37,6 +38,7 @@ type alias Model =
     , exportFlux : Set Identifier
     , error : Maybe String
     , selectionType : SelectionType
+    , undo : Scenario.Model
     }
 
 
@@ -53,4 +55,5 @@ defaultModel =
     , exportFlux = Set.empty
     , error = Nothing
     , selectionType = PARENT
+    , undo = Scenario.defaultModel
     }
