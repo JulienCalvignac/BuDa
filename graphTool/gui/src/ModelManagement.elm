@@ -12,6 +12,7 @@ module ModelManagement
         , getChildren
         , getDescendantsFromN
         , findCommonParent
+        , orderingNodesToPBS
         )
 
 import DataModel
@@ -711,3 +712,26 @@ findCommonParentFromString list s1 s2 =
                     Nothing
     in
         res
+
+
+orderingNodesToPBS_ : List Node -> DataModel.Model -> List Node
+orderingNodesToPBS_ list model =
+    case list of
+        [] ->
+            []
+
+        x :: xs ->
+            List.append (getDescendantsFromN model.nodes x) (orderingNodesToPBS_ xs model)
+
+
+
+-- on ordonne la liste des nodes en mode PBS : [n,n2,n2.1,n2.2,n1,n1.1,p,p1,p2,p2.1,...]
+
+
+orderingNodesToPBS : DataModel.Model -> List Node
+orderingNodesToPBS model =
+    let
+        list =
+            (List.filter (\x -> x.parent == Nothing) model.nodes)
+    in
+        orderingNodesToPBS_ list model
