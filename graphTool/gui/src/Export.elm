@@ -75,7 +75,12 @@ nodeListEncode_ list model =
 
 encodeNodes : Model -> String
 encodeNodes model =
-    nodeListEncode_ model.nodes model
+    let
+        -- on ordonne la liste des nodes en mode PBS
+        list =
+            ModelManagement.orderingNodesToPBS model
+    in
+        nodeListEncode_ list model
 
 
 isActiveProperty : ActivePoperties -> LinkParameters.Property -> Bool
