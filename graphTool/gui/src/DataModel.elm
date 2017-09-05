@@ -33,6 +33,7 @@ module DataModel
         , isNamePresent
         , isNodePresent
         , isNodeIdPresent
+        , isIdPresentInList
         , nodeHasParent
         , maximumNodeId
         , anyEdgeDoublon
@@ -401,20 +402,19 @@ isNodePresent n list =
             False
 
 
+isIdPresentInList : Identifier -> List Identifier -> Bool
+isIdPresentInList id list =
+    case list of
+        x :: xs ->
+            case x == id of
+                True ->
+                    True
 
--- isEdgePresent : Edge -> List Edge -> Bool
--- isEdgePresent n list =
---     case list of
---         x :: xs ->
---             case (x.source == n.source && x.target == n.target) of
---                 True ->
---                     True
---
---                 False ->
---                     isEdgePresent n xs
---
---         [] ->
---             False
+                False ->
+                    isIdPresentInList id xs
+
+        [] ->
+            False
 
 
 isEdgePresent : Edge -> List Edge -> Bool
