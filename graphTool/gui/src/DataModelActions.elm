@@ -801,7 +801,8 @@ updateParameters_ edge model =
 cloneEdge_ : Edge -> Model -> Model
 cloneEdge_ edge model =
     -- si edge existe dans le modele, on concatene ses parametres avec ceux de edge
-    -- sinon on construit un nouveau lien dans le modele avec les caracteristiques de edge (source, target, parameters)
+    -- sinon on construit un nouveau lien dans le modele avec les caracteristiques de edge
+    -- (source, target, parameters, attribut=Nothing)
     -- cette fonction differe de createAtomicEdge_ a cause des parametres
     let
         dataModelNewId =
@@ -815,7 +816,7 @@ cloneEdge_ edge model =
                             DataModel.getNodeIdentifier model
 
                         newEdges =
-                            { edge | id = dm1.curNodeId } :: dm1.edges
+                            { edge | id = dm1.curNodeId, attribut = Nothing } :: dm1.edges
 
                         dm11 =
                             { dm1 | edges = newEdges }
