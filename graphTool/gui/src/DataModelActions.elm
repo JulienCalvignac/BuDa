@@ -408,9 +408,6 @@ deleteEdgeWithAsc n m model =
 
         asc_m =
             ModelManagement.getAscendants model.nodes m commonParent
-
-        z =
-            Debug.log "asc_n" asc_n
     in
         deleteAsc asc_n asc_m model
 
@@ -438,14 +435,6 @@ canDelete n m model =
 
         b =
             not (b1 || b2)
-
-        -- zb1 =
-        --     Debug.log "anyLinks" ( childs_plus_m, childs_n )
-        --
-        -- zb2 =
-        --     Debug.log "anyLinks" ( childs_plus_n, childs_m )
-        z =
-            Debug.log "canDelete" ( n.name, m.name, b )
     in
         b
 
@@ -679,9 +668,6 @@ updateProperty edge s model =
         maybe_propId =
             LinkParameters.getPropertyIdFromName s model.parameters
 
-        z =
-            Debug.log "updateProperty" ( maybe_propId, s )
-
         newModel =
             case maybe_propId of
                 Nothing ->
@@ -747,11 +733,7 @@ deleteParameter s model =
         m1 =
             case maybe_parameter of
                 Nothing ->
-                    let
-                        z =
-                            Debug.log "Cannot Find Id for Parameter" s
-                    in
-                        model
+                    model
 
                 Just p ->
                     let
@@ -861,9 +843,6 @@ makeGroupNodes_ list s m_p model =
         edges11 =
             List.map (\x -> { x | source = fatherId }) edges1
 
-        z =
-            Debug.log "edges11" edges11
-
         edges2 =
             List.filter
                 (\x ->
@@ -874,9 +853,6 @@ makeGroupNodes_ list s m_p model =
 
         edges21 =
             List.map (\x -> { x | target = fatherId }) edges2
-
-        zz =
-            Debug.log "edges21" edges21
 
         edgesTocreate =
             List.append edges11 edges21
@@ -895,9 +871,6 @@ groupNodes list s model =
     let
         ( condition, parent ) =
             DataModel.nodeListSameParent list
-
-        z =
-            Debug.log "groupNodes" ( condition, parent )
 
         m1 =
             case condition of

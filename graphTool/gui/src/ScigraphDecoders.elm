@@ -67,9 +67,6 @@ decodeLNK s model =
 
         ls2 =
             decodeFields lst
-
-        -- z =
-        --     Debug.log "ls2:" ls2
     in
         decodeLNKToModel ls2 model
 

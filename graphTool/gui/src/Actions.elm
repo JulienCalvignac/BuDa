@@ -301,9 +301,6 @@ update msg model =
                 element =
                     Selection.decodeFromJSId s
 
-                z =
-                    Debug.log "DoubleClick on Model" element
-
                 newNodeViewId =
                     case element.err of
                         True ->

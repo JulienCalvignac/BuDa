@@ -8,9 +8,6 @@ import DataModelActions
 playOne : Msg -> DataModel.Model -> DataModel.Model
 playOne msg model =
     let
-        z =
-            Debug.log "playOne" msg
-
         newModel =
             case msg of
                 CreateNode s m_id ->

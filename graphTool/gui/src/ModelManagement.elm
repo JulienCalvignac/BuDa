@@ -238,15 +238,11 @@ subBullesModelFromNode0 model n =
                 )
                 model.nodes
 
-        -- z =
-        --     Debug.log "externNodesWithoutN" externNodesWithoutN
         externEdges =
             List.filter
                 (filtNodeWithList_ externNodesWithoutN (n :: childNodes))
                 model.edges
 
-        -- aaa =
-        --     Debug.log "externEdges" externEdges
         -- on ne conserve que les externals qui on un lien avec un element de childNodes ou n
         externNodes =
             List.filter
@@ -267,18 +263,11 @@ subBullesModelFromNode0 model n =
                 )
                 brosN
 
-        -- aa =
-        --     Debug.log "externNodes" externNodes
         newNodes1 =
             n :: List.append brosNodes (List.append childNodes externNodes)
 
-        -- zz =
-        --     Debug.log "newNodes1" newNodes1
         newEdges1 =
             List.append brosEdges (List.append childEdges externEdges)
-
-        -- zzz =
-        --     Debug.log "newEdges1" newEdges1
     in
         { model
             | nodes = newNodes1
@@ -404,10 +393,6 @@ nodesToPbsLnk_ list treatedList model tmp =
 
                                 tp1 =
                                     edge :: tmp
-
-                                z =
-                                    -- Debug.log "new Edge"
-                                    tp1
                             in
                                 nodesToPbsLnk_ list xs newModel tp1
 
@@ -419,7 +404,6 @@ nodesToPbsLnk : List Node -> DataModel.Model -> ( List Edge, DataModel.Model )
 nodesToPbsLnk list model =
     let
         ( e, m ) =
-            -- Debug.log "nodesToPbsLnk"
             (nodesToPbsLnk_ list list model [])
     in
         ( e, m )
@@ -483,7 +467,6 @@ listNodeToPBSFromNode list n =
             { n | parent = Nothing }
 
         newList =
-            -- Debug.log "getDescendantsFromN"
             (getDescendantsFromN list n1)
 
         newModel =
@@ -494,7 +477,6 @@ listNodeToPBSFromNode list n =
 
 getChildren : List Node -> Node -> List Node
 getChildren list n =
-    -- Debug.log "getChildren"
     (List.filter (\x -> (x.parent == Just n.id)) list)
 
 
@@ -505,7 +487,6 @@ getDescendants list l1 =
             []
 
         x :: xs ->
-            -- Debug.log "List.append"
             (List.append (getDescendantsFromN list x) (getDescendants list xs))
 
 
@@ -672,15 +653,6 @@ findCommonParent list n m =
 
         commonElement =
             findCommonElement_ lp1 lp2
-
-        -- z0 =
-        --     Debug.log "getAscendants lp1" lp1
-        --
-        -- z1 =
-        --     Debug.log "getAscendants lp2" lp2
-        --
-        -- z =
-        --     Debug.log "findCommonParent" commonElement
     in
         commonElement
 

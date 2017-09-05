@@ -41,16 +41,11 @@ update msg model =
     case msg of
         Undo ->
             let
-                z =
-                    Debug.log "Call Undo" model.undoModel
-
                 newModel =
                     model.undoModel
 
                 newUndoModel =
                     Model.defaultModel
-
-                -- Debug.log "Call Undo" ( { model = model.undoModel, undoModel = Model.defaultModel }, Cmd.none )
             in
                 ( { model = newModel, undoModel = newUndoModel }, Cmd.none )
 
