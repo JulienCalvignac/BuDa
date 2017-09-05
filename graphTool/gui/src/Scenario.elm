@@ -2,6 +2,7 @@ module Scenario exposing (Msg(..), Model, defaultModel, addMsg)
 
 import Identifier exposing (Identifier)
 import Link exposing (Edge)
+import Node exposing (Node)
 import DataModel
 
 
@@ -17,6 +18,7 @@ type Msg
     | UpdateProperty Edge String
     | UpdateAttribute String (Maybe Identifier)
     | LoadModel DataModel.DataModel
+    | GroupNodes (List Node) String
 
 
 type alias Model =

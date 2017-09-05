@@ -43,6 +43,9 @@ playOne msg model =
                 LoadModel elements ->
                     DataModel.dataModelToModel elements model
 
+                GroupNodes list s ->
+                    DataModelActions.groupNodes list s model
+
                 _ ->
                     model
     in
