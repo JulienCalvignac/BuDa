@@ -229,7 +229,7 @@ update msg model =
             let
                 m1 =
                     case model.selection of
-                        x1 :: x2 :: xs ->
+                        x1 :: x2 :: [] ->
                             ModelActions.createLink x1 x2 model
 
                         _ ->
