@@ -212,21 +212,18 @@ cy.on('doubleTap', 'node', function(event) {
 });
 
 cy.on('select', function(event){
-        // window["selectedNodes"] = cy.$('node:selected');
 		var selected = getSelectedEls();
-		if(selected.length > 1)
+		if(selected.length > 0)
 		{
-			var s = 'selection: ' + selected[0].id() + ':' + selected[1].id();
-			console.log(s);
-			var msg = [ JSON.stringify ({id: parseInt(selected[0].id())}), JSON.stringify ({ id: parseInt(selected[1].id())})];
+			var msg = [];
+			selected.forEach(function (s)
+			{
+				msg.push ( JSON.stringify ({id: parseInt(s.id())}) );
+			});
+
+			console.log(msg);
 			_sendSelectionToElm_(msg);
 
-		}
-		else if(selected.length > 0)
-		{
-			console.log('selection: ' + selected[0].id());
-			var msg = [ JSON.stringify ({id: parseInt(selected[0].id())}) ];
-			_sendSelectionToElm_(msg);
 		}
 });
 
