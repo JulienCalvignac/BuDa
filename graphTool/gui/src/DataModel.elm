@@ -37,6 +37,7 @@ module DataModel
         , nodeHasParent
         , maximumNodeId
         , anyEdgeDoublon
+        , nodeListSameParent
         )
 
 import Identifier exposing (Identifier)
@@ -424,7 +425,7 @@ isEdgePresent e list =
             False
 
         x :: xs ->
-            case (x.source == e.source && x.target == e.target) || (x.source == e.target && x.target == e.source) of
+            case Link.isEqual x e of
                 True ->
                     True
 
@@ -537,3 +538,32 @@ childs n list =
 bros : Node -> List Node -> List Node
 bros n list =
     List.filter (\x -> (not (x.id == n.id)) && (x.parent == n.parent)) list
+
+
+nodeListSameParent_ : List Node -> Maybe Identifier -> Bool -> ( Bool, Maybe Identifier )
+nodeListSameParent_ list m_p b =
+    case list of
+        [] ->
+            ( b, m_p )
+
+        x :: xs ->
+            let
+                res =
+                    case m_p == x.parent of
+                        False ->
+                            ( False, m_p )
+
+                        True ->
+                            nodeListSameParent_ xs m_p True
+            in
+                res
+
+
+nodeListSameParent : List Node -> ( Bool, Maybe Identifier )
+nodeListSameParent list =
+    case list of
+        [] ->
+            ( False, Nothing )
+
+        x :: xs ->
+            nodeListSameParent_ xs x.parent True
