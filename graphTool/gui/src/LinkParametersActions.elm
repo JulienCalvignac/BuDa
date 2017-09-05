@@ -221,7 +221,8 @@ unActivateParameterDownForEdge_ idx mId nId model =
 
 {--
 ////////////////////////////////////////////////////////////////////////////////
-unActivateParameter
+activateParameter:
+fonction activate ascendante
 ////////////////////////////////////////////////////////////////////////////////
 
 --}
@@ -309,8 +310,7 @@ updatePropertyInEdgeList_ x idx list func =
 processProperty_ : Edge -> Identifier -> Edge -> (Identifier -> Edge -> Edge) -> Edge
 processProperty_ x idx edge func =
     case
-        (x.target == edge.target && x.source == edge.source)
-            || (x.source == edge.target && x.target == edge.source)
+        Link.isEqual x edge
     of
         False ->
             edge
