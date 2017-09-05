@@ -6,6 +6,7 @@ module Link
         , unActivate
         , isActive
         , isActiveProperty
+        , isEqual
         , link
         , makeLink
         , changeActive
@@ -39,6 +40,11 @@ makeLink i s t =
 link : Identifier -> Identifier -> Edge
 link s t =
     makeLink 0 s t
+
+
+isEqual : Edge -> Edge -> Bool
+isEqual x e =
+    (x.source == e.source && x.target == e.target) || (x.source == e.target && x.target == e.source)
 
 
 changeActive : Identifier -> Edge -> Edge
