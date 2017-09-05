@@ -11,6 +11,7 @@ module Link
         , makeLink
         , changeActive
         , changeActiveProperty
+        , updateActivePoperties
           -- , Link
         )
 
@@ -103,3 +104,13 @@ unActivate x edge =
             Set.remove x edge.parameters
     in
         { edge | parameters = new_parameters }
+
+
+updateActivePoperties : ActivePoperties -> Edge -> Edge
+updateActivePoperties x edge =
+    -- on complete les parametres de edge avec x
+    let
+        newParameters =
+            Set.union edge.parameters x
+    in
+        { edge | parameters = newParameters }
