@@ -10,6 +10,7 @@ module DataModelActions
         , updateAttribute
         , lowestLevelEdges
         , updateProperty
+        , groupNodes
         )
 
 import DataModel exposing (Model)
@@ -763,3 +764,160 @@ deleteParameter s model =
                         newDataModel
     in
         m1
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+groupNodes:
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+updateParameters_ : Edge -> Model -> Model
+updateParameters_ edge model =
+    -- on ajoute les parametres actifs de edge aux parametres des edges égaux du modele
+    let
+        newEdges =
+            List.map
+                (\x ->
+                    case Link.isEqual x edge of
+                        True ->
+                            Link.updateActivePoperties edge.parameters x
+
+                        False ->
+                            x
+                )
+                model.edges
+    in
+        { model | edges = newEdges }
+
+
+cloneEdge_ : Edge -> Model -> Model
+cloneEdge_ edge model =
+    -- si edge existe dans le modele, on concatene ses parametres avec ceux de edge
+    -- sinon on construit un nouveau lien dans le modele avec les caracteristiques de edge (source, target, parameters)
+    -- cette fonction differe de createAtomicEdge_ a cause des parametres
+    let
+        dataModelNewId =
+            case (DataModel.isEdgePresent edge model.edges) of
+                True ->
+                    updateParameters_ edge model
+
+                False ->
+                    let
+                        dm1 =
+                            DataModel.getNodeIdentifier model
+
+                        newEdges =
+                            { edge | id = dm1.curNodeId } :: dm1.edges
+
+                        dm11 =
+                            { dm1 | edges = newEdges }
+                    in
+                        dm11
+    in
+        dataModelNewId
+
+
+makeGroupNodes_ : List Node -> String -> Maybe Identifier -> Model -> Model
+makeGroupNodes_ list s m_p model =
+    let
+        -- create un father for all nodes in list
+        -- id for new father is model.curNodeId
+        m1 =
+            createNode s m_p model
+
+        fatherId =
+            m1.curNodeId
+
+        -- modify father to new father for all nodes in list
+        newNodes =
+            List.map
+                (\x ->
+                    case (DataModel.isNodePresent x list) of
+                        True ->
+                            { x | parent = Just fatherId }
+
+                        False ->
+                            x
+                )
+                m1.nodes
+
+        edges1 =
+            List.filter
+                (\x ->
+                    (DataModel.isNodeIdPresent x.source list)
+                        && not (DataModel.isNodeIdPresent x.target list)
+                )
+                m1.edges
+
+        edges11 =
+            List.map (\x -> { x | source = fatherId }) edges1
+
+        z =
+            Debug.log "edges11" edges11
+
+        edges2 =
+            List.filter
+                (\x ->
+                    (DataModel.isNodeIdPresent x.target list)
+                        && not (DataModel.isNodeIdPresent x.source list)
+                )
+                m1.edges
+
+        edges21 =
+            List.map (\x -> { x | target = fatherId }) edges2
+
+        zz =
+            Debug.log "edges21" edges21
+
+        edgesTocreate =
+            List.append edges11 edges21
+
+        m2 =
+            { m1 | nodes = newNodes }
+
+        m3 =
+            duplicateEdgesFromList edgesTocreate m2
+    in
+        m3
+
+
+groupNodes : List Node -> String -> Model -> Model
+groupNodes list s model =
+    let
+        ( condition, parent ) =
+            DataModel.nodeListSameParent list
+
+        z =
+            Debug.log "groupNodes" ( condition, parent )
+
+        m1 =
+            case condition of
+                False ->
+                    model
+
+                True ->
+                    makeGroupNodes_ list s parent model
+    in
+        m1
+
+
+duplicateEdgesFromList : List Edge -> Model -> Model
+duplicateEdgesFromList list model =
+    case list of
+        [] ->
+            model
+
+        x :: xs ->
+            let
+                m1 =
+                    cloneEdge_ x model
+            in
+                duplicateEdgesFromList xs m1
