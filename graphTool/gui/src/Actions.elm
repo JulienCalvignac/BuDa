@@ -157,6 +157,9 @@ update msg model =
             -- ( ModelActions.undo model, Cmd.none )
             showView msg (ModelActions.undo model)
 
+        GroupNodes ->
+            showView msg (ModelActions.groupNodes model)
+
         UpdateAttribute s ->
             ( ModelActions.updateAttribute model s, Cmd.none )
 

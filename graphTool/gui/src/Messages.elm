@@ -28,5 +28,6 @@ type Msg
     | CreateParameter
     | DeleteParameter
     | UpdateAttribute String
+    | GroupNodes
     | Undo
     | NoOp
