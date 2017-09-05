@@ -13,10 +13,12 @@ module ModelActions
         , updateAttribute
         , updateProperty
         , undo
+        , groupNodes
         )
 
 import Identifier exposing (Identifier)
 import Link exposing (Edge)
+import Node exposing (Node)
 import DataModel
 import Model exposing (Model)
 import LinkParameters
@@ -480,5 +482,28 @@ undo model =
 
                 [] ->
                     ( model.dataModel, [] )
+    in
+        { model | dataModel = newDataModel, undo = newUndo }
+
+
+nodesInSelection : Model.Model -> List Node
+nodesInSelection model =
+    List.filter (\x -> (DataModel.isIdPresentInList x.id model.selection)) model.dataModel.nodes
+
+
+groupNodes : Model.Model -> Model.Model
+groupNodes model =
+    let
+        list =
+            nodesInSelection model
+
+        s =
+            model.input
+
+        newDataModel =
+            DataModelActions.groupNodes list s model.dataModel
+
+        newUndo =
+            Scenario.addMsg (Scenario.GroupNodes list s) model.undo
     in
         { model | dataModel = newDataModel, undo = newUndo }
