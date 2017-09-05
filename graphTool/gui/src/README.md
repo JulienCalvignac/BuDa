@@ -69,3 +69,11 @@ Algo de suppression de parametre au lien entre les nodes n et m
 ## Recherche des liens de plus bas niveau
 * cette fonctionnalité est implémentée dans la fonction ModelActions.lowestLevelEdges: On filtre la liste des liens avec la condition ModelActions.isLowestLevel
 * L'implémenation de isLowestLevel est equivalente à celle de ModelActions.canDelete
+
+## Groupement de plusieurs noeuds
+* cette fonctionnalité est implémentée dans DataModelActions.groupNodes.
+* Description de l'Algo
+  1. si les noeuds de la liste n'ont pas le même père (p0), on ne fait rien
+  2. on crée un nouveau noeud (p1) fils du père commun p0. on met à jour les noeuds de la liste pour qu'ils soient enfants de ce nouveau père p1
+  3. soit X l'ensemble des targets définies pour les liens dont la source est dans la liste des noeuds. on ajoute tous les liens du type p1 -> x ou x est dans X.
+  4. on met à jour les paramètres des nouveaux liens: si l un  lien tel que l.source est dans liste des noeuds. on complète les paramètres du lien p1 -> l.target avec ceux de l.
