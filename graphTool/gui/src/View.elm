@@ -57,5 +57,6 @@ view model =
         , button [ onClick Messages.SaveModel, id "saveModel", value "saveModel" ] [ text "Save" ]
         , input [ onInputFile Messages.LoadModel, id model.loadModelId, type_ "file" ] []
         , button [ onClick Messages.Undo, id "undo", value "undo" ] [ text "Undo" ]
+        , button [ onClick Messages.GroupNodes, id "group", value "group" ] [ text "Group" ]
           -- , input [ id "log", value "" ] [ text "" ]
         ]
