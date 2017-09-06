@@ -16,9 +16,11 @@ module DataModel
         , bros
         , childs
         , createProperty
+        , createGroupProperty
         , dataModelToModel
         , defaultModel
         , deleteProperty
+        , deleteGroupProperty
         , edgeST
         , getEdgeFromId
         , getEdgeFromNodesId
@@ -44,6 +46,7 @@ import Identifier exposing (Identifier)
 import Link exposing (Edge)
 import Node exposing (Node)
 import LinkParameters
+import Groups
 
 
 type alias Model =
@@ -51,6 +54,7 @@ type alias Model =
     , edges : List Edge
     , parameters : LinkParameters.Model
     , curNodeId : Identifier
+    , groups : Groups.Model
     }
 
 
@@ -78,6 +82,7 @@ type alias DataModel =
     { nodes : List DataNode
     , edges : List DataEdge
     , parameters : LinkParameters.Model
+    , groups : Groups.Model
     }
 
 
@@ -87,6 +92,7 @@ defaultModel =
     , edges = []
     , parameters = LinkParameters.defaultModel
     , curNodeId = 0
+    , groups = Groups.defaultModel
     }
 
 
@@ -153,6 +159,7 @@ dataModelToModel dm model =
         , edges = le
         , parameters = dm.parameters
         , curNodeId = newId
+        , groups = dm.groups
         }
 
 
@@ -326,6 +333,39 @@ deleteProperty s model =
                             List.filter (\x -> not (x.id == p)) model.parameters
                     in
                         { model | parameters = newParameters }
+    in
+        newModel
+
+
+createGroupProperty : String -> Model -> Model
+createGroupProperty s model =
+    let
+        newGroups =
+            (Groups.property model.curNodeId s) :: model.groups
+
+        m1 =
+            { model | groups = newGroups }
+    in
+        getNodeIdentifier m1
+
+
+deleteGroupProperty : String -> Model -> Model
+deleteGroupProperty s model =
+    let
+        maybe_group =
+            Groups.getPropertyIdFromName s model.groups
+
+        newModel =
+            case maybe_group of
+                Nothing ->
+                    model
+
+                Just p ->
+                    let
+                        newGroups =
+                            List.filter (\x -> not (x.id == p)) model.groups
+                    in
+                        { model | groups = newGroups }
     in
         newModel
 
