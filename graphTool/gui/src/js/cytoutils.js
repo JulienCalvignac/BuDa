@@ -23,112 +23,15 @@ var idx = 0;
 var cur_position = { x: 0, y: 0 };
 
 
-var stylesheet = [
-      {
-        selector: 'node',
-        style: {
-          shape: 'rectangle',
-          'background-color': '#F2F5A9',
-					label: 'data(name)'
-					, 'color': '#555'
-        }
-      }
-			, {
-				selector: 'edge',
-				style: {
-           'curve-style': 'haystack'
-					 , 'width': 1
-					 , 'line-color': '#555'
-				}
-			}
-      , {
-        selector: ':selected',
-        style: {
-          'border-width': 1,
-          'border-color': '#5F4C0B',
-					'line-color': '#FE2E2E'
-        }
-      }
-      , {
-        selector: ':parent',
-        style: {
-          'background-opacity': 0.1
-          , shape: 'ellipse'
-        }
-      }
-];
+// also get style via ajax
+var styleP = $.ajax({
+	url: 'mainstyle.css',
+	type: 'GET',
+	dataType: 'text'
+});
 
-var stylesheetPBS = [
-      {
-        selector: 'node',
-        style: {
-          shape: 'rectangle',
-          'background-color': '#F2F5A9',
-					label: 'data(name)'
-					, 'color': '#555'
-        }
-      }
-			, {
-				selector: 'edge',
-				style: {
-           'curve-style': 'haystack'
-					 , 'width': 1
-					 , 'line-color': '#555'
-				}
-			}
 
-      , {
-        selector: ':selected',
-        style: {
-          'border-width': 1,
-          'border-color': '#5F4C0B',
-					'line-color': 'blue'
-        }
-      }
-      , {
-        selector: ':parent',
-        style: {
-          'background-opacity': 0.1
-          , shape: 'ellipse'
-        }
-      }
-];
-
-var stylesheetBubble = [
-			      {
-			        selector: 'node',
-			        style: {
-			          shape: 'rectangle',
-			          'background-color': '#F2F5A9',
-								label: 'data(name)'
-								, 'color': '#555'
-			        }
-			      }
-						, {
-							selector: 'edge',
-							style: {
-			           'curve-style': 'haystack'
-								 , 'width': 1
-								 , 'line-color': '#555'
-							}
-						}
-			      , {
-			        selector: ':selected',
-			        style: {
-			          'border-width': 1,
-			          'border-color': '#5F4C0B',
-								'line-color': '#FE2E2E'
-			        }
-			      }
-			      , {
-			        selector: ':parent',
-			        style: {
-			          'background-opacity': 0.1
-			          , shape: 'ellipse'
-
-			        }
-			      }
-			];
+var stylesheet = styleP;
 
 
 
@@ -251,17 +154,19 @@ function getSelectedEls() {
 
 function setPBSStyle() {
 	var cy = getCyReference();
-	cy.setStyle (stylesheetPBS);
+	// cy.setStyle (stylesheetPBS);
 }
 
 function setBullesStyle() {
 	var cy = getCyReference();
-	cy.setStyle (stylesheetBubble);
+	// cy.setStyle (stylesheetBubble);
 }
 
 
 
 function _sendDataModel_ (obj) {
+	console.log (obj);
+
 	var cy = getCyReference();
 	var nodes = cy.filter('node'); // a cached copy of nodes
 	var selector = nodes.select();
