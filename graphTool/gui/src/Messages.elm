@@ -4,6 +4,7 @@ import Model
 import Keyboard
 import Link exposing (Edge)
 import Dom exposing (focus)
+import Node exposing (Node)
 
 
 type Msg
@@ -29,5 +30,8 @@ type Msg
     | DeleteParameter
     | UpdateAttribute String
     | GroupNodes
+    | CheckNodeGroupProperty Node String
+    | CreateGroup
+    | DeleteGroup
     | Undo
     | NoOp
