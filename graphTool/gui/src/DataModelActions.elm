@@ -3,14 +3,17 @@ module DataModelActions
         ( createNode
         , createLink
         , createParameter
+        , createGroup
         , deleteEdge
         , deleteNode
         , deleteParameter
+        , deleteGroup
         , renameNode
         , updateAttribute
         , lowestLevelEdges
         , updateProperty
         , groupNodes
+        , updateNodeGroupProperty
         )
 
 import DataModel exposing (Model)
@@ -689,6 +692,43 @@ updateProperty edge s model =
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+createGroup:
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+createGroup : String -> Model -> Model
+createGroup s model =
+    DataModel.createGroupProperty s model
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+deleteGroup:
+
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+deleteGroup : String -> Model -> Model
+deleteGroup s model =
+    DataModel.deleteGroupProperty s model
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 createParameter:
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -895,3 +935,53 @@ duplicateEdgesFromList list model =
                     cloneEdge_ x model
             in
                 duplicateEdgesFromList xs m1
+
+
+updateNodeGroupProperty : Node -> String -> Model -> Model
+updateNodeGroupProperty n s model =
+    let
+        newModel =
+            case Node.inGroup s n of
+                False ->
+                    addNodeGroup_ s n model
+
+                True ->
+                    deleteNodeGroup_ s n model
+    in
+        newModel
+
+
+addNodeGroup_ : String -> Node -> Model -> Model
+addNodeGroup_ s n model =
+    let
+        newNodes =
+            List.map
+                (\x ->
+                    case x.id == n.id of
+                        True ->
+                            { x | group = Just s }
+
+                        False ->
+                            x
+                )
+                model.nodes
+    in
+        { model | nodes = newNodes }
+
+
+deleteNodeGroup_ : String -> Node -> Model -> Model
+deleteNodeGroup_ s n model =
+    let
+        newNodes =
+            List.map
+                (\x ->
+                    case x.id == n.id of
+                        True ->
+                            { x | group = Nothing }
+
+                        False ->
+                            x
+                )
+                model.nodes
+    in
+        { model | nodes = newNodes }
