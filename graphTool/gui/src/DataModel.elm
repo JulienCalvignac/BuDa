@@ -364,8 +364,20 @@ deleteGroupProperty s model =
                     let
                         newGroups =
                             List.filter (\x -> not (x.id == p)) model.groups
+
+                        newNodes =
+                            List.map
+                                (\x ->
+                                    case x.group == Just s of
+                                        True ->
+                                            { x | group = Nothing }
+
+                                        False ->
+                                            x
+                                )
+                                model.nodes
                     in
-                        { model | groups = newGroups }
+                        { model | groups = newGroups, nodes = newNodes }
     in
         newModel
 
