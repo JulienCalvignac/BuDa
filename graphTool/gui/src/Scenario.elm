@@ -19,6 +19,9 @@ type Msg
     | UpdateAttribute String (Maybe Identifier)
     | LoadModel DataModel.DataModel
     | GroupNodes (List Node) String
+    | UpdateNodeGroupProperty Node String
+    | CreateGroup String
+    | DeleteGroup String
 
 
 type alias Model =

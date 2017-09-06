@@ -43,6 +43,15 @@ playOne msg model =
                 GroupNodes list s ->
                     DataModelActions.groupNodes list s model
 
+                CreateGroup s ->
+                    DataModelActions.createGroup s model
+
+                DeleteGroup s ->
+                    DataModelActions.deleteGroup s model
+
+                UpdateNodeGroupProperty n s ->
+                    DataModelActions.updateNodeGroupProperty n s model
+
                 _ ->
                     model
     in
