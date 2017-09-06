@@ -2,9 +2,11 @@ module ModelActions
     exposing
         ( createLink
         , createNode
+        , createGroup
         , dataModelToModel
         , deleteEdge
         , deleteNode
+        , deleteGroup
         , renameNode
         , exportLink
         , updateSelectedFlux
@@ -14,6 +16,7 @@ module ModelActions
         , updateProperty
         , undo
         , groupNodes
+        , updateNodeGroupProperty
         )
 
 import Identifier exposing (Identifier)
@@ -373,6 +376,62 @@ deleteParameter model =
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+createParameter:
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+createGroup : Model.Model -> Model.Model
+createGroup model =
+    let
+        newDataModel =
+            (DataModelActions.createGroup model.input model.dataModel)
+
+        newUndo =
+            Scenario.addMsg (Scenario.CreateGroup model.input) model.undo
+    in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+deleteParameter:
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+deleteGroup : Model.Model -> Model.Model
+deleteGroup model =
+    let
+        newDataModel =
+            DataModelActions.deleteGroup model.input model.dataModel
+
+        newUndo =
+            Scenario.addMsg (Scenario.DeleteGroup model.input) model.undo
+    in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 updateAttribute:
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -507,3 +566,31 @@ groupNodes model =
             Scenario.addMsg (Scenario.GroupNodes list s) model.undo
     in
         { model | dataModel = newDataModel, undo = newUndo }
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+updateNodeGroupProperty:
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+updateNodeGroupProperty : Node -> String -> Model.Model -> Model.Model
+updateNodeGroupProperty n s model =
+    let
+        newDataModel =
+            DataModelActions.updateNodeGroupProperty n s model.dataModel
+
+        newUndo =
+            Scenario.addMsg (Scenario.UpdateNodeGroupProperty n s) model.undo
+    in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
