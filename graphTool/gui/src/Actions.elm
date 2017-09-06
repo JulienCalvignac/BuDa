@@ -204,6 +204,23 @@ update msg model =
         CheckProperty edge s ->
             ( ModelActions.updateProperty edge s model, Cmd.none )
 
+        CheckNodeGroupProperty node s ->
+            let
+                m1 =
+                    ModelActions.updateNodeGroupProperty node s model
+            in
+                showView msg m1
+
+        CreateGroup ->
+            ( ModelActions.createGroup model, Cmd.none )
+
+        DeleteGroup ->
+            let
+                m1 =
+                    ModelActions.deleteGroup model
+            in
+                showView msg m1
+
         SwitchToView s ->
             let
                 m1 =
