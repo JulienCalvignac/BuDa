@@ -121,5 +121,28 @@
 
 #attributArea {
     width: 18em;
+    height: 10em;
+}
+#groups {
+    width: 14em;
     height: 20em;
+    position: absolute;
+    top: 57em;
+    right:5em;
+}
+#createGroup
+{
+    width: 5em;
+    height: 3em;
+    position: absolute;
+    top: 80em;
+    right: 11.2em;
+}
+#deleteGroup
+{
+  width: 5em;
+  height: 3em;
+  position: absolute;
+  top: 80em;
+  right: 5.8em;
 }
