@@ -8,6 +8,7 @@ import DataModel
 import Json.Encode exposing (Value, array, bool, encode, float, int, list, null, object, string)
 import Set exposing (Set)
 import LinkParameters
+import Groups
 
 
 encodeMaybeIdentifier : Maybe Identifier -> String
@@ -42,6 +43,7 @@ encodeNode_ n =
         , ( "name", Json.Encode.string n.name )
         , ( "parent", maybe encodeIdentifier n.parent )
         , ( "attribut", maybe encodeAttribut n.attribut )
+        , ( "group", maybe Json.Encode.string n.group )
         ]
 
 
@@ -91,12 +93,26 @@ encodeParameters parameters =
     (Json.Encode.list <| List.map encodeProperty parameters)
 
 
+encodeGroupProperty : Groups.Property -> Value
+encodeGroupProperty property =
+    object
+        [ ( "id", encodeIdentifier property.id )
+        , ( "name", Json.Encode.string property.name )
+        ]
+
+
+encodeGroups : Groups.Model -> Value
+encodeGroups groups =
+    (Json.Encode.list <| List.map encodeGroupProperty groups)
+
+
 encodeModel_ : DataModel.Model -> Value
 encodeModel_ jsmodel =
     object
         [ ( "nodes", encodeNodes jsmodel.nodes )
         , ( "edges", encodeEdges jsmodel.edges )
         , ( "parameters", encodeParameters jsmodel.parameters )
+        , ( "groups", encodeGroups jsmodel.groups )
         ]
 
 

@@ -9,6 +9,7 @@ import Json.Decode exposing (field)
 import Json.Decode.Pipeline
 import Json.Decode.Extra
 import LinkParameters
+import Groups
 
 
 decodeIdentifier : Json.Decode.Decoder Identifier
@@ -28,6 +29,7 @@ decodeNode_ =
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
         |> Json.Decode.Pipeline.required "parent" (Json.Decode.maybe decodeIdentifier)
         |> Json.Decode.Pipeline.required "attribut" (Json.Decode.maybe decodeAttribut)
+        |> Json.Decode.Pipeline.required "group" (Json.Decode.maybe Json.Decode.string)
 
 
 decodeNode : Json.Decode.Decoder DataModel.DataNode
@@ -75,9 +77,21 @@ decodeProperty =
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
 
 
-decodeParameters : Json.Decode.Decoder (List LinkParameters.Property)
+decodeParameters : Json.Decode.Decoder LinkParameters.Model
 decodeParameters =
     Json.Decode.list decodeProperty
+
+
+decodeGroupProperty : Json.Decode.Decoder Groups.Property
+decodeGroupProperty =
+    Json.Decode.Pipeline.decode Groups.Property
+        |> Json.Decode.Pipeline.required "id" decodeIdentifier
+        |> Json.Decode.Pipeline.required "name" Json.Decode.string
+
+
+decodeGroups : Json.Decode.Decoder Groups.Model
+decodeGroups =
+    Json.Decode.list decodeGroupProperty
 
 
 decodeDataModel : Json.Decode.Decoder DataModel.DataModel
@@ -86,3 +100,4 @@ decodeDataModel =
         |> Json.Decode.Pipeline.required "nodes" decodeNodes
         |> Json.Decode.Pipeline.required "edges" decodeEdges
         |> Json.Decode.Pipeline.required "parameters" decodeParameters
+        |> Json.Decode.Pipeline.required "groups" decodeGroups
