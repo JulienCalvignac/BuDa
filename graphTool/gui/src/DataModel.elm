@@ -56,6 +56,8 @@ type alias Model =
     , parameters : LinkParameters.Model
     , curNodeId : Identifier
     , groups : Groups.Model
+    , lightedGroup : Maybe Identifier
+    , selectedParameters : Set Identifier
     }
 
 
@@ -84,6 +86,8 @@ type alias DataModel =
     , edges : List DataEdge
     , parameters : LinkParameters.Model
     , groups : Groups.Model
+    , lightedGroup : Maybe Identifier
+    , selectedParameters : Set Identifier
     }
 
 
@@ -94,6 +98,8 @@ defaultModel =
     , parameters = LinkParameters.defaultModel
     , curNodeId = 0
     , groups = Groups.defaultModel
+    , lightedGroup = Nothing
+    , selectedParameters = Set.empty
     }
 
 
@@ -161,6 +167,8 @@ dataModelToModel dm model =
         , parameters = dm.parameters
         , curNodeId = newId
         , groups = dm.groups
+        , lightedGroup = dm.lightedGroup
+        , selectedParameters = dm.selectedParameters
         }
 
 
