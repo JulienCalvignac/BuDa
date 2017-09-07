@@ -81,7 +81,13 @@ makeKeyValueList : Maybe Edge -> Model -> List ( String, Bool )
 makeKeyValueList m_edge model =
     case m_edge of
         Nothing ->
-            List.map (\x -> ( x.name, False )) model.dataModel.parameters
+            List.map
+                (\x ->
+                    ( x.name
+                    , Set.member x.id model.dataModel.selectedParameters
+                    )
+                )
+                model.dataModel.parameters
 
         Just edge ->
             List.map (\x -> ( x.name, Link.isActive x.id edge )) model.dataModel.parameters
