@@ -103,3 +103,5 @@ decodeDataModel =
         |> Json.Decode.Pipeline.required "edges" decodeEdges
         |> Json.Decode.Pipeline.required "parameters" decodeParameters
         |> Json.Decode.Pipeline.required "groups" decodeGroups
+        |> Json.Decode.Pipeline.optional "highLighted" (Json.Decode.maybe Json.Decode.int) Nothing
+        |> Json.Decode.Pipeline.optional "selectedParameters" (Json.Decode.Extra.set decodeIdentifier) Set.empty
