@@ -10,6 +10,7 @@ import Json.Decode.Pipeline
 import Json.Decode.Extra
 import LinkParameters
 import Groups
+import Set
 
 
 decodeIdentifier : Json.Decode.Decoder Identifier
@@ -29,7 +30,7 @@ decodeNode_ =
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
         |> Json.Decode.Pipeline.required "parent" (Json.Decode.maybe decodeIdentifier)
         |> Json.Decode.Pipeline.required "attribut" (Json.Decode.maybe decodeAttribut)
-        |> Json.Decode.Pipeline.required "group" (Json.Decode.maybe Json.Decode.string)
+        |> Json.Decode.Pipeline.required "group" (Json.Decode.Extra.set decodeIdentifier)
 
 
 decodeNode : Json.Decode.Decoder DataModel.DataNode
