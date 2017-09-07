@@ -17,6 +17,8 @@ module ModelActions
         , undo
         , groupNodes
         , updateNodeGroupProperty
+        , highLightGroup
+        , selectedParameters
         )
 
 import Identifier exposing (Identifier)
@@ -593,4 +595,30 @@ updateNodeGroupProperty n s model =
         { model
             | dataModel = newDataModel
             , undo = newUndo
+        }
+
+
+highLightGroup : String -> Model.Model -> Model.Model
+highLightGroup s model =
+    let
+        newDataModel =
+            DataModelActions.highLightGroup s model.dataModel
+    in
+        { model
+            | dataModel =
+                newDataModel
+                -- , undo = newUndo
+        }
+
+
+selectedParameters : String -> Model.Model -> Model.Model
+selectedParameters s model =
+    let
+        newDataModel =
+            DataModelActions.selectedParameters s model.dataModel
+    in
+        { model
+            | dataModel =
+                newDataModel
+                -- , undo = newUndo
         }
