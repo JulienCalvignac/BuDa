@@ -71,11 +71,30 @@ fluxLine_ n ( key, b ) =
         ]
 
 
+highLightLine_ : ( String, Bool ) -> Html Messages.Msg
+highLightLine_ ( key, b ) =
+    div []
+        [ checkbox b
+            (Messages.HighLightGroup key)
+            -- Messages.NoOp
+            key
+        ]
+
+
 exposeList_ : Maybe Node -> List ( String, Bool ) -> Html Messages.Msg
 exposeList_ m_node list =
     case m_node of
         Nothing ->
-            div [] []
+            -- div [] []
+            case list of
+                [] ->
+                    div [] []
+
+                x :: xs ->
+                    div []
+                        [ highLightLine_ x
+                        , exposeList_ m_node xs
+                        ]
 
         Just n ->
             case list of
