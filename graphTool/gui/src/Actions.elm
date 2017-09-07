@@ -157,6 +157,12 @@ update msg model =
             -- ( ModelActions.undo model, Cmd.none )
             showView msg (ModelActions.undo model)
 
+        HighLightGroup s ->
+            showView msg (ModelActions.highLightGroup s model)
+
+        SelectedParameters s ->
+            showView msg (ModelActions.selectedParameters s model)
+
         GroupNodes ->
             showView msg (ModelActions.groupNodes model)
 

@@ -33,5 +33,7 @@ type Msg
     | CheckNodeGroupProperty Node String
     | CreateGroup
     | DeleteGroup
+    | HighLightGroup String
+    | SelectedParameters String
     | Undo
     | NoOp
