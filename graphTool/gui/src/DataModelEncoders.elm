@@ -44,6 +44,16 @@ encodeNode_ n =
         , ( "parent", maybe encodeIdentifier n.parent )
         , ( "attribut", maybe encodeAttribut n.attribut )
         , ( "group", (Json.Encode.list <| List.map encodeIdentifier (Set.toList n.group)) )
+        , ( "highLighted"
+          , Json.Encode.int
+                (case n.highLighted of
+                    True ->
+                        1
+
+                    False ->
+                        0
+                )
+          )
         ]
 
 
