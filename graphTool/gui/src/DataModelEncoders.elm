@@ -43,7 +43,7 @@ encodeNode_ n =
         , ( "name", Json.Encode.string n.name )
         , ( "parent", maybe encodeIdentifier n.parent )
         , ( "attribut", maybe encodeAttribut n.attribut )
-        , ( "group", maybe Json.Encode.string n.group )
+        , ( "group", (Json.Encode.list <| List.map encodeIdentifier (Set.toList n.group)) )
         ]
 
 
