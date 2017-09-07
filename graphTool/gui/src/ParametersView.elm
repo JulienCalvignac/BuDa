@@ -7,6 +7,7 @@ import Model exposing (Model)
 import Messages
 import DataModel
 import Link exposing (Edge)
+import Set
 
 
 checkbox : Bool -> msg -> String -> Html msg
@@ -30,37 +31,50 @@ checkbox b msg name =
         ]
 
 
-fluxLine_ : Maybe Edge -> ( String, Bool ) -> Html Messages.Msg
-fluxLine_ m_edge ( key, b ) =
-    case m_edge of
-        Nothing ->
-            div []
-                [ checkbox b
-                    (Messages.CheckFlux key)
-                    -- Actions.NoOp
-                    key
-                ]
+fluxLine_ : Edge -> ( String, Bool ) -> Html Messages.Msg
+fluxLine_ x ( key, b ) =
+    -- selection globale des parametres pour un lien
+    div []
+        [ checkbox b
+            (Messages.CheckProperty x key)
+            key
+        ]
 
-        Just x ->
-            div []
-                [ checkbox b
-                    (Messages.CheckProperty x key)
-                    -- Actions.NoOp
-                    key
-                ]
+
+highLightLine_ : ( String, Bool ) -> Html Messages.Msg
+highLightLine_ ( key, b ) =
+    -- selection globale des parametres
+    div []
+        [ checkbox b
+            (Messages.SelectedParameters key)
+            key
+        ]
 
 
 exposeList_ : Maybe Edge -> List ( String, Bool ) -> Html Messages.Msg
 exposeList_ m_edge list =
-    case list of
-        [] ->
-            div [] []
+    case m_edge of
+        Nothing ->
+            case list of
+                [] ->
+                    div [] []
 
-        x :: xs ->
-            div []
-                [ fluxLine_ m_edge x
-                , exposeList_ m_edge xs
-                ]
+                x :: xs ->
+                    div []
+                        [ highLightLine_ x
+                        , exposeList_ m_edge xs
+                        ]
+
+        Just edge ->
+            case list of
+                [] ->
+                    div [] []
+
+                x :: xs ->
+                    div []
+                        [ fluxLine_ edge x
+                        , exposeList_ m_edge xs
+                        ]
 
 
 makeKeyValueList : Maybe Edge -> Model -> List ( String, Bool )
