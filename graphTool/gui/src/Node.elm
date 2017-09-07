@@ -11,6 +11,7 @@ type alias Node =
     , parent : Maybe Identifier
     , attribut : Maybe Attribut
     , group : Set Identifier
+    , highLighted : Bool
     }
 
 
@@ -21,6 +22,7 @@ node i s p =
     , parent = p
     , attribut = Nothing
     , group = Set.empty
+    , highLighted = False
     }
 
 
