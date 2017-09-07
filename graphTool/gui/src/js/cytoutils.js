@@ -165,13 +165,10 @@ function setBullesStyle() {
 
 
 function _sendDataModel_ (obj) {
-	console.log (obj);
 
 	var cy = getCyReference();
-	var nodes = cy.filter('node'); // a cached copy of nodes
-	var selector = nodes.select();
-	getCyReference().remove(selector);
-	getCyReference().add(obj);
+	cy.remove (cy.elements());
+	cy.add(obj);
 }
 
 function _layout_dagre () {
