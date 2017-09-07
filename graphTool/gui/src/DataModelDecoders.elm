@@ -31,6 +31,7 @@ decodeNode_ =
         |> Json.Decode.Pipeline.required "parent" (Json.Decode.maybe decodeIdentifier)
         |> Json.Decode.Pipeline.required "attribut" (Json.Decode.maybe decodeAttribut)
         |> Json.Decode.Pipeline.required "group" (Json.Decode.Extra.set decodeIdentifier)
+        |> Json.Decode.Pipeline.hardcoded False
 
 
 decodeNode : Json.Decode.Decoder DataModel.DataNode
