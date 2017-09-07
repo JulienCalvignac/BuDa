@@ -115,4 +115,4 @@ makeKeyValueList m_node model =
             List.map (\x -> ( x.name, False )) model.dataModel.groups
 
         Just node ->
-            List.map (\x -> ( x.name, Node.inGroup x.name node )) model.dataModel.groups
+            List.map (\x -> ( x.name, Node.inGroup x.id node )) model.dataModel.groups
