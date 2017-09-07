@@ -23,7 +23,6 @@ var idx = 0;
 var cur_position = { x: 0, y: 0 };
 
 
-// also get style via ajax
 var styleP = $.ajax({
 	url: 'mainstyle.css',
 	type: 'GET',
@@ -32,7 +31,6 @@ var styleP = $.ajax({
 
 
 var stylesheet = styleP;
-
 
 
 function getIdentifer() {
@@ -124,7 +122,6 @@ cy.on('select', function(event){
 				msg.push ( JSON.stringify ({id: parseInt(s.id())}) );
 			});
 
-			console.log(msg);
 			_sendSelectionToElm_(msg);
 
 		}
