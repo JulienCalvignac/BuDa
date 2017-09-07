@@ -47,6 +47,7 @@ import Link exposing (Edge)
 import Node exposing (Node)
 import LinkParameters
 import Groups
+import Set exposing (Set)
 
 
 type alias Model =
@@ -366,16 +367,7 @@ deleteGroupProperty s model =
                             List.filter (\x -> not (x.id == p)) model.groups
 
                         newNodes =
-                            List.map
-                                (\x ->
-                                    case x.group == Just s of
-                                        True ->
-                                            { x | group = Nothing }
-
-                                        False ->
-                                            x
-                                )
-                                model.nodes
+                            List.map (\x -> { x | group = Set.remove p x.group }) model.nodes
                     in
                         { model | groups = newGroups, nodes = newNodes }
     in
