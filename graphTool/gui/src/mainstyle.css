@@ -5,19 +5,10 @@ node {
   shape: rectangle;
 }
 
-node[group = "eau"] {
+node[highLighted = 1] {
   shape: triangle;
   background-color: #F2A5A9;
 }
-node[group = "elec"] {
-  shape: ellipse;
-  background-color: #A2F5A9;
-}
-node[group = "prop"] {
-  shape: diamond;
-  background-color: #F2F5F9;
-}
-
 
 edge {
   curve-style: haystack;
