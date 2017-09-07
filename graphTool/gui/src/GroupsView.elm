@@ -112,7 +112,18 @@ makeKeyValueList : Maybe Node -> Model -> List ( String, Bool )
 makeKeyValueList m_node model =
     case m_node of
         Nothing ->
-            List.map (\x -> ( x.name, False )) model.dataModel.groups
+            List.map
+                (\x ->
+                    ( x.name
+                    , case model.dataModel.lightedGroup of
+                        Nothing ->
+                            False
+
+                        Just id ->
+                            (x.id == id)
+                    )
+                )
+                model.dataModel.groups
 
         Just node ->
             List.map (\x -> ( x.name, Node.inGroup x.id node )) model.dataModel.groups
