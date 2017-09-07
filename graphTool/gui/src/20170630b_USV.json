@@ -1,25 +1,25 @@
 {"nodes":[
-  {"data":{"id":62,"name":"Control & Command network","parent":8,"attribut":null,"group":null}}
-  ,{"data":{"id":53,"name":"OD PWM link","parent":11,"attribut":null,"group":null}}
-  ,{"data":{"id":52,"name":"OD ethernet card","parent":11,"attribut":null,"group":null}}
-  ,{"data":{"id":49,"name":"OD Post Processing","parent":11,"attribut":null,"group":null}}
-  ,{"data":{"id":48,"name":"OD Sensors","parent":11,"attribut":null,"group":null}}
-  ,{"data":{"id":40,"name":"Calculator (Mission)","parent":9,"attribut":null,"group":null}}
-  ,{"data":{"id":39,"name":"Mission network","parent":9,"attribut":null,"group":null}}
-  ,{"data":{"id":34,"name":"Autopilot","parent":8,"attribut":null,"group":null}}
-  ,{"data":{"id":29,"name":"Safe & Secure Comms","parent":6,"attribut":null,"group":null}}
-  ,{"data":{"id":28,"name":"Mission Comms","parent":6,"attribut":null,"group":null}}
-  ,{"data":{"id":11,"name":"Obstacle Detection Devices","parent":1,"attribut":null,"group":null}}
-  ,{"data":{"id":10,"name":"Sensors","parent":1,"attribut":null,"group":null}}
-  ,{"data":{"id":9,"name":"Mission system incl network","parent":1,"attribut":null,"group":null}}
-  ,{"data":{"id":8,"name":"Autopilot & CC network","parent":1,"attribut":null,"group":null}}
-  ,{"data":{"id":7,"name":"Manual command","parent":1,"attribut":null,"group":null}}
-  ,{"data":{"id":6,"name":"Communications","parent":1,"attribut":null,"group":null}}
-  ,{"data":{"id":5,"name":"Steering & Propulsion","parent":1,"attribut":null,"group":null}}
-  ,{"data":{"id":4,"name":"Obstacle","parent":null,"attribut":null,"group":null}}
-  ,{"data":{"id":3,"name":"Ocean","parent":null,"attribut":null,"group":null}}
-  ,{"data":{"id":2,"name":"Operator","parent":null,"attribut":null,"group":null}}
-  ,{"data":{"id":1,"name":"USV","parent":null,"attribut":null,"group":null}}
+  {"data":{"id":62,"name":"Control & Command network","parent":8,"attribut":null,"group":[]}}
+  ,{"data":{"id":53,"name":"OD PWM link","parent":11,"attribut":null,"group":[]}}
+  ,{"data":{"id":52,"name":"OD ethernet card","parent":11,"attribut":null,"group":[]}}
+  ,{"data":{"id":49,"name":"OD Post Processing","parent":11,"attribut":null,"group":[]}}
+  ,{"data":{"id":48,"name":"OD Sensors","parent":11,"attribut":null,"group":[]}}
+  ,{"data":{"id":40,"name":"Calculator (Mission)","parent":9,"attribut":null,"group":[]}}
+  ,{"data":{"id":39,"name":"Mission network","parent":9,"attribut":null,"group":[]}}
+  ,{"data":{"id":34,"name":"Autopilot","parent":8,"attribut":null,"group":[]}}
+  ,{"data":{"id":29,"name":"Safe & Secure Comms","parent":6,"attribut":null,"group":[]}}
+  ,{"data":{"id":28,"name":"Mission Comms","parent":6,"attribut":null,"group":[]}}
+  ,{"data":{"id":11,"name":"Obstacle Detection Devices","parent":1,"attribut":null,"group":[]}}
+  ,{"data":{"id":10,"name":"Sensors","parent":1,"attribut":null,"group":[]}}
+  ,{"data":{"id":9,"name":"Mission system incl network","parent":1,"attribut":null,"group":[]}}
+  ,{"data":{"id":8,"name":"Autopilot & CC network","parent":1,"attribut":null,"group":[]}}
+  ,{"data":{"id":7,"name":"Manual command","parent":1,"attribut":null,"group":[]}}
+  ,{"data":{"id":6,"name":"Communications","parent":1,"attribut":null,"group":[]}}
+  ,{"data":{"id":5,"name":"Steering & Propulsion","parent":1,"attribut":null,"group":[]}}
+  ,{"data":{"id":4,"name":"Obstacle","parent":null,"attribut":null,"group":[]}}
+  ,{"data":{"id":3,"name":"Ocean","parent":null,"attribut":null,"group":[]}}
+  ,{"data":{"id":2,"name":"Operator","parent":null,"attribut":null,"group":[]}}
+  ,{"data":{"id":1,"name":"USV","parent":null,"attribut":null,"group":[]}}
   ]
   ,"edges":[
     {"data":{"id":66,"source":7,"target":34,"parameters":[],"attribut":null}}
@@ -43,7 +43,6 @@
     ,{"data":{"id":43,"source":34,"target":39,"parameters":[],"attribut":null}}
     ,{"data":{"id":42,"source":11,"target":39,"parameters":[],"attribut":null}}
     ,{"data":{"id":41,"source":39,"target":40,"parameters":[],"attribut":null}}
-    ,{"data":{"id":37,"source":5,"target":35,"parameters":[],"attribut":null}}
     ,{"data":{"id":33,"source":2,"target":28,"parameters":[],"attribut":null}}
     ,{"data":{"id":32,"source":2,"target":29,"parameters":[],"attribut":null}}
     ,{"data":{"id":31,"source":9,"target":28,"parameters":[],"attribut":null}}
