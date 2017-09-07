@@ -14,6 +14,8 @@ module DataModelActions
         , updateProperty
         , groupNodes
         , updateNodeGroupProperty
+        , highLightGroup
+        , selectedParameters
         )
 
 import DataModel exposing (Model)
@@ -999,3 +1001,75 @@ deleteNodeGroup_ id n model =
                 model.nodes
     in
         { model | nodes = newNodes }
+
+
+highLightGroup : String -> Model -> Model
+highLightGroup s model =
+    let
+        m_id =
+            Groups.getPropertyIdFromName s model.groups
+
+        newModel =
+            case m_id of
+                Nothing ->
+                    model
+
+                Just id ->
+                    let
+                        newNodes =
+                            List.map
+                                (\x ->
+                                    case Set.member id x.group of
+                                        True ->
+                                            { x | highLighted = not x.highLighted }
+
+                                        False ->
+                                            { x | highLighted = False }
+                                )
+                                model.nodes
+
+                        newLightedGroup =
+                            case model.lightedGroup == Just id of
+                                True ->
+                                    Nothing
+
+                                False ->
+                                    Just id
+                    in
+                        { model
+                            | nodes = newNodes
+                            , lightedGroup = newLightedGroup
+                        }
+    in
+        newModel
+
+
+selectedParameters : String -> Model -> Model
+selectedParameters s model =
+    let
+        m_id =
+            LinkParameters.getPropertyIdFromName s model.parameters
+
+        newModel =
+            case m_id of
+                Nothing ->
+                    model
+
+                Just id ->
+                    let
+                        newSelectedParameters =
+                            case (Set.member id model.selectedParameters) of
+                                True ->
+                                    Set.remove id model.selectedParameters
+
+                                False ->
+                                    Set.insert id model.selectedParameters
+
+                        z =
+                            Debug.log "selectedParameters" newSelectedParameters
+                    in
+                        { model
+                            | selectedParameters = newSelectedParameters
+                        }
+    in
+        newModel
