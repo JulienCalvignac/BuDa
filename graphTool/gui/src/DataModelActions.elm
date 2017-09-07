@@ -23,6 +23,8 @@ import Link exposing (Edge)
 import ModelManagement
 import LinkParametersActions
 import LinkParameters
+import Groups
+import Set
 
 
 {--
@@ -940,26 +942,38 @@ duplicateEdgesFromList list model =
 updateNodeGroupProperty : Node -> String -> Model -> Model
 updateNodeGroupProperty n s model =
     let
-        newModel =
-            case Node.inGroup s n of
-                False ->
-                    addNodeGroup_ s n model
+        m_id =
+            Groups.getPropertyIdFromName s model.groups
 
-                True ->
-                    deleteNodeGroup_ s n model
+        m1 =
+            case m_id of
+                Nothing ->
+                    model
+
+                Just id ->
+                    let
+                        newModel =
+                            case Node.inGroup id n of
+                                False ->
+                                    addNodeGroup_ id n model
+
+                                True ->
+                                    deleteNodeGroup_ id n model
+                    in
+                        newModel
     in
-        newModel
+        m1
 
 
-addNodeGroup_ : String -> Node -> Model -> Model
-addNodeGroup_ s n model =
+addNodeGroup_ : Identifier -> Node -> Model -> Model
+addNodeGroup_ id n model =
     let
         newNodes =
             List.map
                 (\x ->
                     case x.id == n.id of
                         True ->
-                            { x | group = Just s }
+                            { x | group = Set.insert id x.group }
 
                         False ->
                             x
@@ -969,15 +983,15 @@ addNodeGroup_ s n model =
         { model | nodes = newNodes }
 
 
-deleteNodeGroup_ : String -> Node -> Model -> Model
-deleteNodeGroup_ s n model =
+deleteNodeGroup_ : Identifier -> Node -> Model -> Model
+deleteNodeGroup_ id n model =
     let
         newNodes =
             List.map
                 (\x ->
                     case x.id == n.id of
                         True ->
-                            { x | group = Nothing }
+                            { x | group = Set.remove id x.group }
 
                         False ->
                             x
