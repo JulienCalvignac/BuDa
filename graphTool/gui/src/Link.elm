@@ -30,12 +30,13 @@ type alias Edge =
     , target : Identifier
     , parameters : ActivePoperties
     , attribut : Maybe Attribut
+    , highLighted : Int
     }
 
 
 makeLink : Identifier -> Identifier -> Identifier -> Edge
 makeLink i s t =
-    { id = i, source = s, target = t, parameters = Set.empty, attribut = Nothing }
+    { id = i, source = s, target = t, parameters = Set.empty, attribut = Nothing, highLighted = 0 }
 
 
 link : Identifier -> Identifier -> Edge
