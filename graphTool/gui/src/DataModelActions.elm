@@ -1069,9 +1069,42 @@ selectedParameters s model =
 
                         z =
                             Debug.log "selectedParameters" newSelectedParameters
+
+                        newEdgesFilter =
+                            List.filter
+                                (\x ->
+                                    List.any (\y -> Set.member y x.parameters) (Set.toList newSelectedParameters)
+                                )
+                                model.edges
+
+                        newEdges =
+                            List.map
+                                (\x ->
+                                    case List.any (\y -> Set.member y x.parameters) (Set.toList newSelectedParameters) of
+                                        True ->
+                                            { x | highLighted = 1 }
+
+                                        False ->
+                                            { x | highLighted = 0 }
+                                )
+                                model.edges
+
+                        newNodes =
+                            List.map
+                                (\x ->
+                                    case List.any (\y -> y.source == x.id || y.target == x.id) newEdgesFilter of
+                                        True ->
+                                            { x | highLighted = True }
+
+                                        False ->
+                                            { x | highLighted = False }
+                                )
+                                model.nodes
                     in
                         { model
                             | selectedParameters = newSelectedParameters
+                            , edges = newEdges
+                            , nodes = newNodes
                         }
     in
         newModel
