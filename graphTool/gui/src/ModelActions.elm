@@ -19,6 +19,8 @@ module ModelActions
         , updateNodeGroupProperty
         , highLightGroup
         , selectedParameters
+        , addTightness
+        , removeTightness
         )
 
 import Identifier exposing (Identifier)
@@ -622,3 +624,53 @@ selectedParameters s model =
                 newDataModel
                 -- , undo = newUndo
         }
+
+
+addTightness : Model.Model -> Model.Model
+addTightness model =
+    let
+        newModel =
+            case model.selection of
+                x :: xs ->
+                    let
+                        newDataModel =
+                            DataModelActions.addTightnessForGroup model.input x model.dataModel
+
+                        newUndo =
+                            Scenario.addMsg (Scenario.AddTightnessForGroup model.input x) model.undo
+                    in
+                        { model
+                            | dataModel =
+                                newDataModel
+                            , undo = newUndo
+                        }
+
+                [] ->
+                    model
+    in
+        newModel
+
+
+removeTightness : Model.Model -> Model.Model
+removeTightness model =
+    let
+        newModel =
+            case model.selection of
+                x :: xs ->
+                    let
+                        newDataModel =
+                            DataModelActions.removeTightnessForGroup model.input x model.dataModel
+
+                        newUndo =
+                            Scenario.addMsg (Scenario.RemoveTightnessForGroup model.input x) model.undo
+                    in
+                        { model
+                            | dataModel =
+                                newDataModel
+                            , undo = newUndo
+                        }
+
+                [] ->
+                    model
+    in
+        newModel
