@@ -28,6 +28,8 @@ import LinkParameters
 import Groups
 import Set
 import GroupsActions
+import Tightness
+import TightnessActions
 
 
 {--
@@ -1027,10 +1029,20 @@ highLightGroup s model =
                                             { x | highLighted = 1 }
 
                                         ( False, True ) ->
-                                            { x | highLighted = 2 }
+                                            case Tightness.isTightness id x.tightness of
+                                                True ->
+                                                    { x | highLighted = 2 }
+
+                                                False ->
+                                                    { x | highLighted = 3 }
 
                                         ( True, False ) ->
-                                            { x | highLighted = 2 }
+                                            case Tightness.isTightness id x.tightness of
+                                                True ->
+                                                    { x | highLighted = 2 }
+
+                                                False ->
+                                                    { x | highLighted = 3 }
 
                                         ( False, False ) ->
                                             { x | highLighted = 0 }
