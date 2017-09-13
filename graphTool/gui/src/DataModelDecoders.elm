@@ -59,6 +59,7 @@ decodeEdge_ =
         |> Json.Decode.Pipeline.required "target" decodeIdentifier
         |> Json.Decode.Pipeline.required "parameters" (Json.Decode.Extra.set decodeIdentifier)
         |> Json.Decode.Pipeline.required "attribut" (Json.Decode.maybe decodeAttribut)
+        |> Json.Decode.Pipeline.hardcoded 0
 
 
 decodeEdge : Json.Decode.Decoder DataModel.DataEdge
