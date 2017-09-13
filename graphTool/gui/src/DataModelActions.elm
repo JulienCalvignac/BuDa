@@ -18,7 +18,7 @@ module DataModelActions
         , selectedParameters
         )
 
-import DataModel exposing (Model)
+import DataModel exposing (Model, isNodeIdPresent)
 import Identifier exposing (Identifier)
 import Node exposing (Node)
 import Link exposing (Edge)
@@ -981,18 +981,7 @@ highLightGroup s model =
 
                 Just id ->
                     let
-                        newNodes =
-                            List.map
-                                (\x ->
-                                    case Set.member id x.group of
-                                        True ->
-                                            { x | highLighted = not x.highLighted }
-
-                                        False ->
-                                            { x | highLighted = False }
-                                )
-                                model.nodes
-
+                        -- update du champ model.lightedGroup
                         newLightedGroup =
                             case model.lightedGroup == Just id of
                                 True ->
@@ -1000,9 +989,57 @@ highLightGroup s model =
 
                                 False ->
                                     Just id
+
+                        filterNodes =
+                            List.filter
+                                (\x ->
+                                    case newLightedGroup of
+                                        Nothing ->
+                                            False
+
+                                        Just id ->
+                                            Set.member id x.group
+                                )
+                                model.nodes
+
+                        newNodes =
+                            List.map
+                                (\x ->
+                                    case newLightedGroup of
+                                        Nothing ->
+                                            { x | highLighted = False }
+
+                                        Just id ->
+                                            case Set.member id x.group of
+                                                True ->
+                                                    { x | highLighted = True }
+
+                                                False ->
+                                                    { x | highLighted = False }
+                                )
+                                model.nodes
+
+                        newEdges =
+                            List.map
+                                (\x ->
+                                    case ( DataModel.isNodeIdPresent x.source filterNodes, DataModel.isNodeIdPresent x.target filterNodes ) of
+                                        ( True, True ) ->
+                                            { x | highLighted = 1 }
+
+                                        ( False, True ) ->
+                                            { x | highLighted = 2 }
+
+                                        ( True, False ) ->
+                                            { x | highLighted = 2 }
+
+                                        ( False, False ) ->
+                                            { x | highLighted = 0 }
+                                )
+                                model.edges
                     in
                         { model
                             | nodes = newNodes
+                            , edges = newEdges
                             , lightedGroup = newLightedGroup
                         }
     in
