@@ -9,13 +9,39 @@ node[highLighted = 1] {
   shape: ellipse;
   background-color: #F2A5A9;
 }
+node[highLighted = 0] {
+  shape: rectangle;
+  background-color: #F2F5A9;
+}
 
 edge {
   curve-style: haystack;
   width: 1;
   line-color: #555;
+  line-style: solid;
   opacity: 0.5;
 }
+
+edge[highLighted = 0] {
+  line-color: #555;
+  line-style: solid;
+}
+
+edge[highLighted = 1] {
+  line-color: #F2A5A9;
+  line-style: solid;
+}
+
+edge[highLighted = 2] {
+  line-color: #F2A5F9;
+  line-style: dashed;
+}
+
+edge[highLighted = 3] {
+  line-color: #A2A5F9;
+  line-style: dashed;
+}
+
 
 node:selected {
   border-width: 1;
