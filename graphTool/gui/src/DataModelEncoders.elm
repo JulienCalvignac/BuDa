@@ -77,6 +77,7 @@ encodeEdge_ je =
         , ( "parameters", (Json.Encode.list <| List.map encodeIdentifier (Set.toList je.parameters)) )
         , ( "attribut", maybe encodeAttribut je.attribut )
         , ( "highLighted", Json.Encode.int je.highLighted )
+        , ( "tightness", (Json.Encode.list <| List.map encodeIdentifier (Set.toList je.tightness)) )
         ]
 
 

@@ -11,6 +11,7 @@ import Json.Decode.Extra
 import LinkParameters
 import Groups
 import Set
+import Tightness
 
 
 decodeIdentifier : Json.Decode.Decoder Identifier
@@ -60,6 +61,7 @@ decodeEdge_ =
         |> Json.Decode.Pipeline.required "parameters" (Json.Decode.Extra.set decodeIdentifier)
         |> Json.Decode.Pipeline.required "attribut" (Json.Decode.maybe decodeAttribut)
         |> Json.Decode.Pipeline.hardcoded 0
+        |> Json.Decode.Pipeline.optional "tightness" (Json.Decode.Extra.set decodeIdentifier) Set.empty
 
 
 decodeEdge : Json.Decode.Decoder DataModel.DataEdge
