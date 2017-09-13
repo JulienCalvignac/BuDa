@@ -18,6 +18,7 @@ module Link
 import Identifier exposing (Identifier)
 import Set exposing (Set)
 import Attribut exposing (Attribut)
+import Tightness
 
 
 type alias ActivePoperties =
@@ -31,12 +32,20 @@ type alias Edge =
     , parameters : ActivePoperties
     , attribut : Maybe Attribut
     , highLighted : Int
+    , tightness : Tightness.Model
     }
 
 
 makeLink : Identifier -> Identifier -> Identifier -> Edge
 makeLink i s t =
-    { id = i, source = s, target = t, parameters = Set.empty, attribut = Nothing, highLighted = 0 }
+    { id = i
+    , source = s
+    , target = t
+    , parameters = Set.empty
+    , attribut = Nothing
+    , highLighted = 0
+    , tightness = Tightness.default
+    }
 
 
 link : Identifier -> Identifier -> Edge
