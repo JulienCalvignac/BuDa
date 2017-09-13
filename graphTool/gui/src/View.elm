@@ -62,5 +62,7 @@ view model =
         , input [ onInputFile Messages.LoadModel, id model.loadModelId, type_ "file" ] []
         , button [ onClick Messages.Undo, id "undo", value "undo" ] [ text "Undo" ]
         , button [ onClick Messages.GroupNodes, id "group", value "group" ] [ text "Group" ]
+        , button [ onClick Messages.AddTightness, id "addTightness", value "addTightness" ] [ text "addT" ]
+        , button [ onClick Messages.RemoveTightness, id "removeTightness", value "removeTightness" ] [ text "remT" ]
           -- , input [ id "log", value "" ] [ text "" ]
         ]
