@@ -48,6 +48,7 @@ import Node exposing (Node)
 import LinkParameters
 import Groups
 import Set exposing (Set)
+import TightnessActions
 
 
 type alias Model =
@@ -376,8 +377,11 @@ deleteGroupProperty s model =
 
                         newNodes =
                             List.map (\x -> { x | group = Set.remove p x.group }) model.nodes
+
+                        newEdges =
+                            TightnessActions.removeAllTightness p model.edges
                     in
-                        { model | groups = newGroups, nodes = newNodes }
+                        { model | groups = newGroups, nodes = newNodes, edges = newEdges }
     in
         newModel
 
