@@ -16,6 +16,8 @@ module DataModelActions
         , updateNodeGroupProperty
         , highLightGroup
         , selectedParameters
+        , addTightnessForGroup
+        , removeTightnessForGroup
         )
 
 import DataModel exposing (Model, isNodeIdPresent)
@@ -1118,5 +1120,47 @@ selectedParameters s model =
                             , edges = newEdges
                             , nodes = newNodes
                         }
+    in
+        newModel
+
+
+addTightnessForGroup : String -> Identifier -> Model -> Model
+addTightnessForGroup s edgeId model =
+    let
+        m_group =
+            Groups.getPropertyIdFromName s model.groups
+
+        newModel =
+            case m_group of
+                Nothing ->
+                    model
+
+                Just g ->
+                    let
+                        newEdges =
+                            TightnessActions.addTightnessForEdgeId g edgeId model.edges
+                    in
+                        { model | edges = newEdges }
+    in
+        newModel
+
+
+removeTightnessForGroup : String -> Identifier -> Model -> Model
+removeTightnessForGroup s edgeId model =
+    let
+        m_group =
+            Groups.getPropertyIdFromName s model.groups
+
+        newModel =
+            case m_group of
+                Nothing ->
+                    model
+
+                Just g ->
+                    let
+                        newEdges =
+                            TightnessActions.removeTightnessForEdgeId g edgeId model.edges
+                    in
+                        { model | edges = newEdges }
     in
         newModel
