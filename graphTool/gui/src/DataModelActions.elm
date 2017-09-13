@@ -27,6 +27,7 @@ import LinkParametersActions
 import LinkParameters
 import Groups
 import Set
+import GroupsActions
 
 
 {--
@@ -957,50 +958,14 @@ updateNodeGroupProperty n s model =
                         newModel =
                             case Node.inGroup id n of
                                 False ->
-                                    addNodeGroup_ id n model
+                                    GroupsActions.addGroupToNode id n model
 
                                 True ->
-                                    deleteNodeGroup_ id n model
+                                    GroupsActions.deleteGroupFromNode id n model
                     in
                         newModel
     in
         m1
-
-
-addNodeGroup_ : Identifier -> Node -> Model -> Model
-addNodeGroup_ id n model =
-    let
-        newNodes =
-            List.map
-                (\x ->
-                    case x.id == n.id of
-                        True ->
-                            { x | group = Set.insert id x.group }
-
-                        False ->
-                            x
-                )
-                model.nodes
-    in
-        { model | nodes = newNodes }
-
-
-deleteNodeGroup_ : Identifier -> Node -> Model -> Model
-deleteNodeGroup_ id n model =
-    let
-        newNodes =
-            List.map
-                (\x ->
-                    case x.id == n.id of
-                        True ->
-                            { x | group = Set.remove id x.group }
-
-                        False ->
-                            x
-                )
-                model.nodes
-    in
-        { model | nodes = newNodes }
 
 
 highLightGroup : String -> Model -> Model
