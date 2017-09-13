@@ -171,11 +171,4 @@ function _sendDataModel_ (obj) {
 function _layout_dagre () {
 	var cy = getCyReference();
 	cy.layout(dagre_layout);
-	// cy.layout(arbor_layout);
-
 }
-
-// function _layout_cola () {
-// 	var cy = getCyReference();
-// 	cy.layout(cola_layout);
-// }
