@@ -35,5 +35,7 @@ type Msg
     | DeleteGroup
     | HighLightGroup String
     | SelectedParameters String
+    | AddTightness
+    | RemoveTightness
     | Undo
     | NoOp
