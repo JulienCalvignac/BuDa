@@ -52,6 +52,12 @@ playOne msg model =
                 UpdateNodeGroupProperty n s ->
                     DataModelActions.updateNodeGroupProperty n s model
 
+                AddTightnessForGroup s edgeId ->
+                    DataModelActions.addTightnessForGroup s edgeId model
+
+                RemoveTightnessForGroup s edgeId ->
+                    DataModelActions.removeTightnessForGroup s edgeId model
+
                 _ ->
                     model
     in
