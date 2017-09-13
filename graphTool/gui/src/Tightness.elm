@@ -1,61 +1,28 @@
-module Tightness exposing (Tightness, Model, default, isTightness, isIdPresent, addTightness, removeTightness)
+module Tightness exposing (Model, default, isTightness, addTightness, removeTightness)
 
 import Identifier exposing (Identifier)
-
-
-type alias Tightness =
-    { group : Identifier, tightness : Bool }
+import Set exposing (Set)
 
 
 type alias Model =
-    List Tightness
+    Set Identifier
 
 
 default : Model
 default =
-    []
+    Set.empty
 
 
 isTightness : Identifier -> Model -> Bool
-isTightness id model =
-    case model of
-        [] ->
-            False
-
-        x :: xs ->
-            case x.group == id of
-                True ->
-                    x.tightness
-
-                False ->
-                    isTightness id xs
-
-
-isIdPresent : Identifier -> Model -> Bool
-isIdPresent id model =
-    case model of
-        [] ->
-            False
-
-        x :: xs ->
-            case x.group == id of
-                True ->
-                    True
-
-                False ->
-                    isIdPresent id xs
+isTightness =
+    Set.member
 
 
 addTightness : Identifier -> Model -> Model
-addTightness id model =
-    case isIdPresent id model of
-        True ->
-            model
-
-        False ->
-            { group = id, tightness = False } :: model
+addTightness =
+    Set.insert
 
 
 removeTightness : Identifier -> Model -> Model
-removeTightness id model =
-    List.filter (\x -> (x.group == id)) model
+removeTightness =
+    Set.remove
