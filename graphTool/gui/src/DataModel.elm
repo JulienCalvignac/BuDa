@@ -31,11 +31,13 @@ module DataModel
         , getNodeIdentifier
         , getNodeNameFromId
         , getParentFromNodeId
+        , getLayoutFromNodeId
         , isEdgePresent
         , isNamePresent
         , isNodePresent
         , isNodeIdPresent
         , isIdPresentInList
+        , isLayoutPresent
         , nodeHasParent
         , maximumNodeId
         , anyEdgeDoublon
@@ -640,6 +642,77 @@ nodeListSameParent list =
 
         x :: xs ->
             nodeListSameParent_ xs x.parent True
+
+
+getLayoutFromNodeIdAndList_ : Identifier -> List NodeLayout -> Maybe Layout
+getLayoutFromNodeIdAndList_ id list =
+    case list of
+        [] ->
+            Nothing
+
+        x :: xs ->
+            case x.id == id of
+                True ->
+                    (Just x.layout)
+
+                False ->
+                    (getLayoutFromNodeIdAndList_ id xs)
+
+
+getLayoutFromNodeId : Identifier -> Model -> Maybe Layout
+getLayoutFromNodeId id model =
+    getLayoutFromNodeIdAndList_ id model.layouts
+
+
+setLayoutToNodes : Layout -> Model -> Model
+setLayoutToNodes layout model =
+    case layout of
+        [] ->
+            model
+
+        x :: xs ->
+            let
+                m_n =
+                    getNodeFromId x.id model.nodes
+
+                newModel =
+                    case m_n of
+                        Nothing ->
+                            model
+
+                        Just n ->
+                            let
+                                newNodes =
+                                    List.map
+                                        (\u ->
+                                            case u.id == n.id of
+                                                True ->
+                                                    { u | position = x.position }
+
+                                                False ->
+                                                    u
+                                        )
+                                        model.nodes
+                            in
+                                { model | nodes = newNodes }
+            in
+                setLayoutToNodes xs newModel
+
+
+isLayoutPresent : Identifier -> List NodeLayout -> Bool
+isLayoutPresent id list =
+    case list of
+        [] ->
+            False
+
+        x :: xs ->
+            case x.id == id of
+                True ->
+                    True
+
+                False ->
+                    isLayoutPresent id xs
+
 
 triOneNode_ : List Node -> Model -> List Node
 triOneNode_ list model =
