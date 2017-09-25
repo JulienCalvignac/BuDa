@@ -306,6 +306,18 @@ update msg model =
             in
                 showView msg m1
 
+        NodesPositionToElm s ->
+            let
+                m1 =
+                    case model.viewType of
+                        Model.ALL_LIGHT ->
+                            ModelActions.updateLightLayout s model
+
+                        _ ->
+                            ModelActions.updateLayoutFromNodeId s model
+            in
+                ( m1, Cmd.none )
+
         SaveModel ->
             let
                 saveName =
