@@ -11,7 +11,8 @@ import Json.Decode.Extra
 import LinkParameters
 import Groups
 import Set
-import Tightness
+import Position exposing (NodePosition)
+import Layout exposing (NodeLayout)
 
 
 decodeIdentifier : Json.Decode.Decoder Identifier
@@ -99,6 +100,25 @@ decodeGroups =
     Json.Decode.list decodeGroupProperty
 
 
+decodeNodePosition : Json.Decode.Decoder NodePosition
+decodeNodePosition =
+    Json.Decode.Pipeline.decode NodePosition
+        |> Json.Decode.Pipeline.required "id" decodeIdentifier
+        |> Json.Decode.Pipeline.required "position" decodePosition
+
+
+decodeLayout : Json.Decode.Decoder (List NodePosition)
+decodeLayout =
+    Json.Decode.list decodeNodePosition
+
+
+decodeNodeLayout : Json.Decode.Decoder Layout.NodeLayout
+decodeNodeLayout =
+    Json.Decode.Pipeline.decode Layout.NodeLayout
+        |> Json.Decode.Pipeline.required "id" decodeIdentifier
+        |> Json.Decode.Pipeline.required "layout" decodeLayout
+
+
 decodeDataModel : Json.Decode.Decoder DataModel.DataModel
 decodeDataModel =
     Json.Decode.Pipeline.decode DataModel.DataModel
@@ -108,3 +128,11 @@ decodeDataModel =
         |> Json.Decode.Pipeline.required "groups" decodeGroups
         |> Json.Decode.Pipeline.optional "highLighted" (Json.Decode.maybe Json.Decode.int) Nothing
         |> Json.Decode.Pipeline.optional "selectedParameters" (Json.Decode.Extra.set decodeIdentifier) Set.empty
+        |> Json.Decode.Pipeline.optional "layouts" (Json.Decode.list decodeNodeLayout) []
+        |> Json.Decode.Pipeline.optional "lightLayout" (Json.Decode.maybe decodeLayout) Nothing
+        |> Json.Decode.Pipeline.optional "rootBubbleLayout" (Json.Decode.maybe decodeLayout) Nothing
+
+
+decodeNodesPosition : Json.Decode.Decoder (List Position.NodePosition)
+decodeNodesPosition =
+    Json.Decode.list decodeNodePosition

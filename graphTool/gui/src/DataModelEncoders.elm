@@ -9,6 +9,7 @@ import Json.Encode exposing (Value, array, bool, encode, float, int, list, null,
 import Set exposing (Set)
 import LinkParameters
 import Groups
+import Layout exposing (NodeLayout)
 
 
 encodeMaybeIdentifier : Maybe Identifier -> String
@@ -118,6 +119,32 @@ encodeGroups groups =
     (Json.Encode.list <| List.map encodeGroupProperty groups)
 
 
+encodeNodePosition : Position.NodePosition -> Value
+encodeNodePosition np =
+    object
+        [ ( "id", encodeIdentifier np.id )
+        , ( "position", encodePosition_ np.position )
+        ]
+
+
+encodeNodePositionList : List Position.NodePosition -> Value
+encodeNodePositionList list =
+    Json.Encode.list <| List.map encodeNodePosition list
+
+
+encodeNodeLayout : NodeLayout -> Value
+encodeNodeLayout nl =
+    object
+        [ ( "id", encodeIdentifier nl.id )
+        , ( "layout", (Json.Encode.list <| List.map encodeNodePosition nl.layout) )
+        ]
+
+
+encodeLayouts : List NodeLayout -> Value
+encodeLayouts list =
+    (Json.Encode.list <| List.map encodeNodeLayout list)
+
+
 encodeModel_ : DataModel.Model -> Value
 encodeModel_ jsmodel =
     object
@@ -125,6 +152,10 @@ encodeModel_ jsmodel =
         , ( "edges", encodeEdges jsmodel.edges )
         , ( "parameters", encodeParameters jsmodel.parameters )
         , ( "groups", encodeGroups jsmodel.groups )
+        , ( "mustLayout", Json.Encode.bool jsmodel.mustLayout )
+        , ( "layouts", encodeLayouts jsmodel.layouts )
+        , ( "lightLayout", (maybe encodeNodePositionList jsmodel.lightLayout) )
+        , ( "rootBubbleLayout", (maybe encodeNodePositionList jsmodel.rootBubbleLayout) )
         ]
 
 
