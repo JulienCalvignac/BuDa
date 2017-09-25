@@ -1,4 +1,4 @@
-module Scenario exposing (Msg(..), Model, defaultModel, addMsg)
+module Scenario exposing (Msg(..), Model, RedoModel, defaultModel, addMsg)
 
 import Identifier exposing (Identifier)
 import Link exposing (Edge)
@@ -27,6 +27,10 @@ type Msg
 
 type alias Model =
     List Msg
+
+
+type alias RedoModel =
+    Maybe Msg
 
 
 defaultModel : Model

@@ -1,4 +1,4 @@
-module Player exposing (play)
+module Player exposing (play, redo)
 
 import DataModel
 import Scenario exposing (Msg(..))
@@ -69,4 +69,14 @@ play list model =
             play xs (playOne x model)
 
         [] ->
+            model
+
+
+redo : Scenario.RedoModel -> DataModel.Model -> DataModel.Model
+redo m_redo model =
+    case m_redo of
+        Just x ->
+            playOne x model
+
+        Nothing ->
             model

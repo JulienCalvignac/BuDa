@@ -37,4 +37,5 @@ type Msg
     | SelectedParameters String
     | UpdateTightness
     | Undo
+    | Redo
     | NoOp

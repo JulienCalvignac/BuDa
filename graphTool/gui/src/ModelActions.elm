@@ -15,6 +15,7 @@ module ModelActions
         , updateAttribute
         , updateProperty
         , undo
+        , redo
         , groupNodes
         , updateNodeGroupProperty
         , highLightGroup
@@ -537,15 +538,27 @@ dataModelToModel s model =
 undo : Model.Model -> Model.Model
 undo model =
     let
-        ( newDataModel, newUndo ) =
             case model.undo of
                 x :: xs ->
-                    ( Player.play (List.reverse xs) DataModel.defaultModel, xs )
 
                 [] ->
-                    ( model.dataModel, [] )
     in
-        { model | dataModel = newDataModel, undo = newUndo }
+
+redo : Model.Model -> Model.Model
+redo model =
+    let
+        newDataModel =
+            Player.redo model.redo model.dataModel
+
+        newUndo =
+            case model.redo of
+                Just r ->
+                    Scenario.addMsg r model.undo
+
+                Nothing ->
+                    model.undo
+    in
+        { model | dataModel = newDataModel, redo = Nothing, undo = newUndo }
 
 
 nodesInSelection : Model.Model -> List Node

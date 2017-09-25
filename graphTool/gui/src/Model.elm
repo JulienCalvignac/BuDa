@@ -40,6 +40,7 @@ type alias Model =
     , error : Maybe String
     , selectionType : SelectionType
     , undo : Scenario.Model
+    , redo : Scenario.RedoModel
     }
 
 
@@ -58,4 +59,5 @@ defaultModel =
     , error = Nothing
     , selectionType = PARENT
     , undo = Scenario.defaultModel
+    , redo = Nothing
     }

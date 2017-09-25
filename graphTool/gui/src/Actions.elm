@@ -162,6 +162,21 @@ update msg model =
 
         RemoveTightness ->
             showView msg (ModelActions.removeTightness model)
+        Redo ->
+            let
+                z =
+                    Debug.log "call redo" model.redo
+            in
+                showView msg (ModelActions.redo model)
+
+        Layout ->
+            ( model, LinkToJS.layout "" )
+
+        GetPositions ->
+            ( model, LinkToJS.requestpositions "" )
+
+        UpdateTightness ->
+            showView msg (ModelActions.updateTightness model)
 
         HighLightGroup s ->
             showView msg (ModelActions.highLightGroup s model)
