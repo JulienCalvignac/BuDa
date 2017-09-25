@@ -16,7 +16,10 @@ module DataModelActions
         , updateNodeGroupProperty
         , highLightGroup
         , selectedParameters
+        , updateNodesPosition
         , updateTightnessForGroup
+        , updateLayoutFromNodeId
+        , updateLightLayout
         , getAscendantName
         )
 
@@ -32,6 +35,7 @@ import Set
 import GroupsActions
 import Tightness
 import TightnessActions
+import Layout exposing (Layout, NodeLayout)
 
 
 {--
@@ -1124,6 +1128,32 @@ selectedParameters s model =
         newModel
 
 
+updateNodesPosition : List Position.NodePosition -> Model -> Model
+updateNodesPosition list model =
+    case list of
+        [] ->
+            model
+
+        y :: ys ->
+            let
+                newNodes =
+                    List.map
+                        (\x ->
+                            case x.id == y.id of
+                                True ->
+                                    { x | position = y.position }
+
+                                False ->
+                                    x
+                        )
+                        model.nodes
+
+                m1 =
+                    { model | nodes = newNodes, mustLayout = False }
+            in
+                updateNodesPosition ys m1
+
+
 updateTightnessForGroup : String -> Identifier -> Model -> Model
 updateTightnessForGroup s edgeId model =
     let
@@ -1143,6 +1173,59 @@ updateTightnessForGroup s edgeId model =
                         { model | edges = newEdges }
     in
         newModel
+
+
+addLayout_ : Identifier -> Layout -> Model -> Model
+addLayout_ i lay model =
+    let
+        newLayouts =
+            { id = i, layout = lay } :: model.layouts
+    in
+        { model | layouts = newLayouts }
+
+
+updateLayoutFromNodeId : Maybe Identifier -> Layout -> Model -> Model
+updateLayoutFromNodeId m_id lay model =
+    -- ajout ou update du layout pour le bloc d'indice id
+    case m_id of
+        Nothing ->
+            { model | rootBubbleLayout = Just lay }
+
+        Just id ->
+            let
+                b =
+                    DataModel.isLayoutPresent id model.layouts
+
+                m_l =
+                    DataModel.getLayoutFromNodeId id model
+
+                newModel =
+                    case m_l of
+                        Nothing ->
+                            addLayout_ id lay model
+
+                        Just l ->
+                            let
+                                newLayouts =
+                                    List.map
+                                        (\x ->
+                                            case x.id == id of
+                                                True ->
+                                                    { x | layout = lay }
+
+                                                False ->
+                                                    x
+                                        )
+                                        model.layouts
+                            in
+                                { model | layouts = newLayouts }
+            in
+                newModel
+
+
+updateLightLayout : Layout -> Model -> Model
+updateLightLayout elements model =
+    { model | lightLayout = Just elements }
 
 
 ascNameFromList_ : List Node -> String -> String
