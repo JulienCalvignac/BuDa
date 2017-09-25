@@ -36,6 +36,8 @@ type Msg
     | HighLightGroup String
     | SelectedParameters String
     | UpdateTightness
+    | Layout
+    | GetPositions
     | Undo
     | Redo
     | NoOp

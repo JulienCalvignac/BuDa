@@ -64,6 +64,8 @@ view model =
         , button [ onClick Messages.Undo, id "undo", value "undo" ] [ text "Undo" ]
         , button [ onClick Messages.GroupNodes, id "group", value "group" ] [ text "Group" ]
         , button [ onClick Messages.UpdateTightness, id "Tight", value "Tight" ] [ text "Tight" ]
+        , button [ onClick Messages.Layout, id "layout", value "layout" ] [ text "Layout" ]
+        , button [ onClick Messages.GetPositions, id "pos", value "pos" ] [ text "Pos" ]
         , button [ onClick Messages.Redo, id "redo", value "redo" ] [ text "Redo" ]
         , div [ id "label" ] [ text (ModelActions.getAscendantName model) ]
           -- , input [ id "log", value "" ] [ text "" ]
