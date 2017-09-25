@@ -21,6 +21,7 @@ module ModelActions
         , highLightGroup
         , selectedParameters
         , updateTightness
+        , triNodes
         , getAscendantName
         )
 
@@ -688,6 +689,16 @@ removeTightness model =
                     model
     in
         newModel
+
+
+triNodes : Model -> Model
+triNodes model =
+    let
+        newDataModel =
+            DataModel.triNodes model.dataModel
+    in
+        { model | dataModel = newDataModel }
+
 
 getAscendantName : Model -> String
 getAscendantName model =

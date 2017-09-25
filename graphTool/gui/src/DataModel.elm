@@ -40,6 +40,7 @@ module DataModel
         , maximumNodeId
         , anyEdgeDoublon
         , nodeListSameParent
+        , triNodes
         )
 
 import Identifier exposing (Identifier)
@@ -623,3 +624,40 @@ nodeListSameParent list =
 
         x :: xs ->
             nodeListSameParent_ xs x.parent True
+
+triOneNode_ : List Node -> Model -> List Node
+triOneNode_ list model =
+    case list of
+        [] ->
+            []
+
+        x :: xs ->
+            let
+                lx =
+                    [ x ] ++ triOneNode_ (childs x model.nodes) model
+            in
+                List.append lx (triOneNode_ xs model)
+
+
+triN : List Node -> List Node -> Model -> List Node
+triN list todo model =
+    case todo of
+        [] ->
+            list
+
+        x :: xs ->
+            case isNodePresent x list of
+                True ->
+                    triN list xs model
+
+                False ->
+                    triN (List.append list (triOneNode_ [ x ] model)) xs model
+
+
+triNodes : Model -> Model
+triNodes model =
+    let
+        newNodes =
+            triN [] model.nodes model
+    in
+        { model | nodes = newNodes }
