@@ -47,10 +47,36 @@ showView msg model =
                     showPBS msg model
 
                 Model.BULL ->
-                    showBulles msg model
+                    let
+                        dataModel =
+                            model.dataModel
+
+                        newDatamodel =
+                            { dataModel | mustLayout = True }
+
+                        m0 =
+                            { model | dataModel = newDatamodel }
+
+                        m1 =
+                            (ModelActions.updateNodesPosition m0)
+                    in
+                        showBulles msg m1
 
                 Model.ALL_LIGHT ->
-                    showAllDataLight msg model
+                    let
+                        dataModel =
+                            model.dataModel
+
+                        newDatamodel =
+                            { dataModel | mustLayout = True }
+
+                        m0 =
+                            { model | dataModel = newDatamodel }
+
+                        m1 =
+                            (ModelActions.updateNodesPosition m0)
+                    in
+                        showAllDataLight msg m1
 
         m2 =
             { m1 | selection = [], selectionType = Model.PARENT }
@@ -96,8 +122,16 @@ showAllDataLight msg model =
 
         m2 =
             { subModel | edges = lowestEdges }
+
+        m3 =
+            case subModel.mustLayout of
+                True ->
+                    m2
+
+                False ->
+                    DataModel.triNodes m2
     in
-        ( model, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel m2) )
+        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m3) )
 
 
 showPBS : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -124,8 +158,11 @@ showBulles msg model =
 
                 Just x ->
                     (ModelViews.getBullesViewFromNodeId model.dataModel x)
+
+        m2 =
+            (DataModel.triNodes subModel)
     in
-        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel subModel) )
+        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m2) )
 
 
 deleteElement : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
