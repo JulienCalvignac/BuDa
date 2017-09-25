@@ -157,11 +157,6 @@ update msg model =
             -- ( ModelActions.undo model, Cmd.none )
             showView msg (ModelActions.undo model)
 
-        AddTightness ->
-            showView msg (ModelActions.addTightness model)
-
-        RemoveTightness ->
-            showView msg (ModelActions.removeTightness model)
         Redo ->
             let
                 z =
