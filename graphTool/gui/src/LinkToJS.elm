@@ -10,6 +10,8 @@ port module LinkToJS
         , sendDataBullesModel
         , sendParentSelection
         , selection
+        , nodesPositionToElm
+        , requestpositions
         )
 
 {--
@@ -49,6 +51,9 @@ port loadModel : String -> Cmd msg
 port exportLNK : String -> Cmd msg
 
 
+port requestpositions : String -> Cmd msg
+
+
 
 {--
 //////////////////////////////////////////////////////////////////////////////
@@ -73,3 +78,10 @@ port modeltoelm : (String -> msg) -> Sub msg
 
 
 port doubleclick : (String -> msg) -> Sub msg
+
+
+
+-- recuperation des positions des blocs
+
+
+port nodesPositionToElm : (String -> msg) -> Sub msg
