@@ -25,6 +25,7 @@ module DataModelActions
 
 import DataModel exposing (Model, isNodeIdPresent)
 import Identifier exposing (Identifier)
+import Position exposing (Position, NodePosition)
 import Node exposing (Node)
 import Link exposing (Edge)
 import ModelManagement
