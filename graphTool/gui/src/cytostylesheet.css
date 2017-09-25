@@ -104,6 +104,13 @@
   left: 43em;
 }
 
+#label {
+  width: 80em;
+  height: 3em;
+  position: absolute;
+  top: 7em;
+  left: 1em;
+}
 
 
 #parameters {
