@@ -22,34 +22,42 @@ edge {
   opacity: 0.5;
 }
 
-edge[highLighted = 0] {
-  line-color: #555;
-  line-style: solid;
-}
-
-edge[highLighted = 1] {
-  line-color: #F2A5A9;
-  line-style: solid;
-}
-
-edge[highLighted = 2] {
-  line-color: #F2A5F9;
-  line-style: dashed;
-}
-
-edge[highLighted = 3] {
-  line-color: #A2A5F9;
-  line-style: dashed;
-}
-
-
 node:selected {
   border-width: 1;
   border-color: #5F4C0B;
 }
 
+
+edge[highLighted = 0] {
+  line-color: #555;
+  line-style: solid;
+  width: 1;
+}
+
+/*interface groupe*/
+edge[highLighted = 1] {
+  line-color: #F2A5A9;
+  line-style: solid;
+  width: 5;
+}
+
+/*interface etanche*/
+edge[highLighted = 2] {
+  line-color: #F2A5A9;
+  line-style: dashed;
+  width: 5;
+}
+
+/*interface non etanche*/
+edge[highLighted = 3] {
+  line-color: #A2A5F9;
+  line-style: dashed;
+  width: 5;
+}
+
 edge:selected {
   line-color: #FE2E2E;
+  width: 5;
 }
 
 node:parent
