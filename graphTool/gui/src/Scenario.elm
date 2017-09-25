@@ -4,6 +4,8 @@ import Identifier exposing (Identifier)
 import Link exposing (Edge)
 import Node exposing (Node)
 import DataModel
+import Position
+import Layout exposing (Layout)
 
 
 type Msg
@@ -23,6 +25,8 @@ type Msg
     | CreateGroup String
     | DeleteGroup String
     | UpdateTightnessForGroup String Identifier
+    | UpdateLayoutFromNodeId (Maybe Identifier) (List Position.NodePosition)
+    | UpdateLightLayout Layout
 
 
 type alias Model =

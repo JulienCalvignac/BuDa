@@ -55,6 +55,11 @@ playOne msg model =
                 UpdateTightnessForGroup s edgeId ->
                     DataModelActions.updateTightnessForGroup s edgeId model
 
+                UpdateLayoutFromNodeId m_id list ->
+                    DataModelActions.updateLayoutFromNodeId m_id list model
+
+                UpdateLightLayout layout ->
+                    DataModelActions.updateLightLayout layout model
 
                 _ ->
                     model
