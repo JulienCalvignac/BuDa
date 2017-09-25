@@ -12,7 +12,7 @@ import Node exposing (Node)
 view : Model -> Html Messages.Msg
 view model =
     div [ id "groups", style [ ( "text-align", "center" ) ] ]
-        [ text "Groups"
+        [ text "Functional Chain"
         , Html.hr [] []
         , expose model
         ]
