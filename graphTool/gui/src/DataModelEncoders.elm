@@ -1,6 +1,7 @@
 module DataModelEncoders exposing (encodeMaybeIdentifier, encodeModel, encodeMetaModel, encodeExport)
 
 import Identifier exposing (Identifier)
+import Position exposing (Position)
 import Attribut exposing (Attribut)
 import Node exposing (Node)
 import Link exposing (Edge)
@@ -37,6 +38,14 @@ maybe encoder maybeVal =
             encoder val
 
 
+encodePosition_ : Position -> Value
+encodePosition_ position =
+    object
+        [ ( "x", Json.Encode.float position.x )
+        , ( "y", Json.Encode.float position.y )
+        ]
+
+
 encodeNode_ : Node -> Value
 encodeNode_ n =
     object
@@ -55,6 +64,7 @@ encodeNode_ n =
                         0
                 )
           )
+        , ( "position", encodePosition_ n.position )
         ]
 
 
