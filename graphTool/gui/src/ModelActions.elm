@@ -21,6 +21,9 @@ module ModelActions
         , highLightGroup
         , selectedParameters
         , updateTightness
+        , updateLayoutFromNodeId
+        , updateNodesPosition
+        , updateLightLayout
         , triNodes
         , getAscendantName
         )
@@ -646,6 +649,72 @@ selectedParameters s model =
         }
 
 
+updateLightNodesPosition : Model.Model -> Model.Model
+updateLightNodesPosition model =
+    let
+        m_lay =
+            model.dataModel.lightLayout
+
+        newModel =
+            case m_lay of
+                Nothing ->
+                    model
+
+                Just lay ->
+                    let
+                        newDataModel =
+                            DataModelActions.updateNodesPosition lay model.dataModel
+                    in
+                        { model
+                            | dataModel =
+                                newDataModel
+                        }
+    in
+        newModel
+
+
+updateNodesPosition : Model.Model -> Model.Model
+updateNodesPosition model =
+    case model.viewType of
+        Model.ALL_LIGHT ->
+            updateLightNodesPosition model
+
+        Model.BULL ->
+            updateBullNodesPosition model
+
+        _ ->
+            model
+
+
+updateBullNodesPosition : Model.Model -> Model.Model
+updateBullNodesPosition model =
+    let
+        m_l =
+            case model.nodeViewId of
+                Nothing ->
+                    model.dataModel.rootBubbleLayout
+
+                Just id ->
+                    DataModel.getLayoutFromNodeId id model.dataModel
+
+        newModel =
+            case m_l of
+                Nothing ->
+                    model
+
+                Just lay ->
+                    -- model
+                    let
+                        newDataModel =
+                            DataModelActions.updateNodesPosition lay model.dataModel
+                    in
+                        { model
+                            | dataModel =
+                                newDataModel
+                        }
+    in
+        newModel
+
 
 updateTightness : Model.Model -> Model.Model
 updateTightness model =
@@ -672,18 +741,21 @@ updateTightness model =
         newModel
 
 
-removeTightness : Model.Model -> Model.Model
-removeTightness model =
+updateLayoutFromNodeId : String -> Model -> Model
+updateLayoutFromNodeId s model =
     let
+        res_elts =
+            Json.Decode.decodeString DataModelDecoders.decodeNodesPosition s
+
         newModel =
-            case model.selection of
-                x :: xs ->
+            case res_elts of
+                Ok elements ->
                     let
                         newDataModel =
-                            DataModelActions.removeTightnessForGroup model.input x model.dataModel
+                            DataModelActions.updateLayoutFromNodeId model.nodeViewId elements model.dataModel
 
                         newUndo =
-                            Scenario.addMsg (Scenario.RemoveTightnessForGroup model.input x) model.undo
+                            Scenario.addMsg (Scenario.UpdateLayoutFromNodeId model.nodeViewId elements) model.undo
                     in
                         { model
                             | dataModel =
@@ -691,6 +763,35 @@ removeTightness model =
                             , undo = newUndo
                         }
 
+                _ ->
+                    model
+    in
+        newModel
+
+
+updateLightLayout : String -> Model -> Model
+updateLightLayout s model =
+    let
+        res_elts =
+            Json.Decode.decodeString DataModelDecoders.decodeNodesPosition s
+
+        newModel =
+            case res_elts of
+                Ok elements ->
+                    let
+                        newDataModel =
+                            DataModelActions.updateLightLayout elements model.dataModel
+
+                        newUndo =
+                            Scenario.addMsg (Scenario.UpdateLightLayout elements) model.undo
+                    in
+                        { model
+                            | dataModel =
+                                newDataModel
+                            , undo = newUndo
+                        }
+
+                _ ->
                     model
     in
         newModel
