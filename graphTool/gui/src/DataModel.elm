@@ -50,6 +50,7 @@ import LinkParameters
 import Groups
 import Set exposing (Set)
 import TightnessActions
+import Layout exposing (Layout, NodeLayout)
 
 
 type alias Model =
@@ -60,6 +61,10 @@ type alias Model =
     , groups : Groups.Model
     , lightedGroup : Maybe Identifier
     , selectedParameters : Set Identifier
+    , mustLayout : Bool
+    , layouts : List NodeLayout
+    , lightLayout : Maybe Layout
+    , rootBubbleLayout : Maybe Layout
     }
 
 
@@ -90,6 +95,9 @@ type alias DataModel =
     , groups : Groups.Model
     , lightedGroup : Maybe Identifier
     , selectedParameters : Set Identifier
+    , layouts : List NodeLayout
+    , lightLayout : Maybe Layout
+    , rootBubbleLayout : Maybe Layout
     }
 
 
@@ -102,6 +110,10 @@ defaultModel =
     , groups = Groups.defaultModel
     , lightedGroup = Nothing
     , selectedParameters = Set.empty
+    , mustLayout = False
+    , layouts = []
+    , lightLayout = Nothing
+    , rootBubbleLayout = Nothing
     }
 
 
@@ -171,6 +183,10 @@ dataModelToModel dm model =
         , groups = dm.groups
         , lightedGroup = dm.lightedGroup
         , selectedParameters = dm.selectedParameters
+        , mustLayout = False
+        , layouts = dm.layouts
+        , lightLayout = dm.lightLayout
+        , rootBubbleLayout = dm.rootBubbleLayout
         }
 
 
