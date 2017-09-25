@@ -1,4 +1,4 @@
-module DataModelDecoders exposing (decodeIdentifier, decodeDataModel)
+module DataModelDecoders exposing (decodeIdentifier, decodeDataModel, decodeNodesPosition)
 
 import Identifier exposing (Identifier)
 import Attribut exposing (Attribut)
@@ -11,7 +11,7 @@ import Json.Decode.Extra
 import LinkParameters
 import Groups
 import Set
-import Position exposing (NodePosition)
+import Position exposing (Position)
 import Layout exposing (NodeLayout)
 
 
@@ -25,6 +25,13 @@ decodeAttribut =
     Json.Decode.string
 
 
+decodePosition : Json.Decode.Decoder Position
+decodePosition =
+    Json.Decode.Pipeline.decode Position
+        |> Json.Decode.Pipeline.required "x" Json.Decode.float
+        |> Json.Decode.Pipeline.required "y" Json.Decode.float
+
+
 decodeNode_ : Json.Decode.Decoder Node
 decodeNode_ =
     Json.Decode.Pipeline.decode Node
@@ -34,6 +41,7 @@ decodeNode_ =
         |> Json.Decode.Pipeline.required "attribut" (Json.Decode.maybe decodeAttribut)
         |> Json.Decode.Pipeline.required "group" (Json.Decode.Extra.set decodeIdentifier)
         |> Json.Decode.Pipeline.hardcoded False
+        |> Json.Decode.Pipeline.optional "position" decodePosition Position.defaultPosition
 
 
 decodeNode : Json.Decode.Decoder DataModel.DataNode
@@ -100,14 +108,7 @@ decodeGroups =
     Json.Decode.list decodeGroupProperty
 
 
-decodeNodePosition : Json.Decode.Decoder NodePosition
-decodeNodePosition =
-    Json.Decode.Pipeline.decode NodePosition
-        |> Json.Decode.Pipeline.required "id" decodeIdentifier
-        |> Json.Decode.Pipeline.required "position" decodePosition
-
-
-decodeLayout : Json.Decode.Decoder (List NodePosition)
+decodeLayout : Json.Decode.Decoder (List Position.NodePosition)
 decodeLayout =
     Json.Decode.list decodeNodePosition
 
@@ -131,6 +132,13 @@ decodeDataModel =
         |> Json.Decode.Pipeline.optional "layouts" (Json.Decode.list decodeNodeLayout) []
         |> Json.Decode.Pipeline.optional "lightLayout" (Json.Decode.maybe decodeLayout) Nothing
         |> Json.Decode.Pipeline.optional "rootBubbleLayout" (Json.Decode.maybe decodeLayout) Nothing
+
+
+decodeNodePosition : Json.Decode.Decoder Position.NodePosition
+decodeNodePosition =
+    Json.Decode.Pipeline.decode Position.NodePosition
+        |> Json.Decode.Pipeline.required "id" decodeIdentifier
+        |> Json.Decode.Pipeline.required "position" decodePosition
 
 
 decodeNodesPosition : Json.Decode.Decoder (List Position.NodePosition)
