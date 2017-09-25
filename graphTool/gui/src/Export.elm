@@ -4,6 +4,7 @@ import DataModel exposing (Model)
 import Node exposing (Node)
 import Link exposing (Edge, ActivePoperties)
 import Attribut exposing (Attribut)
+import DataModelActions exposing (getAscendantName)
 import ModelManagement
 import Set
 import LinkParameters
@@ -22,30 +23,6 @@ slash =
 cr : String
 cr =
     "\n"
-
-
-ascNameFromList_ : List Node -> String
-ascNameFromList_ list =
-    case list of
-        [] ->
-            ""
-
-        x :: xs ->
-            case List.length xs of
-                0 ->
-                    x.name
-
-                _ ->
-                    x.name ++ slash ++ (ascNameFromList_ xs)
-
-
-getAscendantName : Node -> Model -> String
-getAscendantName n model =
-    let
-        list =
-            ModelManagement.getAscendants model.nodes n Nothing
-    in
-        ascNameFromList_ (List.reverse list)
 
 
 attributToString : Maybe Attribut -> String
