@@ -18,6 +18,7 @@ subscriptions model =
           LinkToJS.selection Selection
         , LinkToJS.modeltoelm ModelToElm
         , LinkToJS.doubleclick DoubleClick
+        , LinkToJS.nodesPositionToElm NodesPositionToElm
         , Keyboard.ups KeyUps
         , Keyboard.downs KeyDowns
         ]

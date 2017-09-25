@@ -17,6 +17,7 @@ type Msg
     | InputFileChange String
     | Selection (List String)
     | ModelToElm String
+    | NodesPositionToElm String
     | SaveModel
     | LoadModel
     | SwitchToView Model.ViewType
