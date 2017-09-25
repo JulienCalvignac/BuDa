@@ -17,6 +17,23 @@ var dataElements = {
 		]
 };
 
+var preset_layout = {
+  name: 'preset',
+
+  positions: undefined, // map of (node id) => (position obj); or function(node){ return somPos; }
+  zoom: undefined, // the zoom level to set (prob want fit = false if set)
+  pan: undefined, // the pan level to set (prob want fit = false if set)
+  fit: true, // whether to fit to viewport
+  padding: 30, // padding on fit
+  animate: false, // whether to transition the node positions
+  animationDuration: 500, // duration of animation in ms if enabled
+  animationEasing: undefined, // easing of animation if enabled
+  animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+  ready: undefined, // callback on layoutready
+  stop: undefined, // callback on layoutstop
+  transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts
+};
+
 var idx = 0;
 
 
@@ -130,6 +147,28 @@ cy.on('select', function(event){
 
 }); // end of document.addEventListener
 
+function _setNodesPositionsToElm_() {
+	var cy = getCyReference();
+	var ns = cy.nodes();
+	var msg = [];
+
+	ns.forEach(function (s)
+	{
+		var pos = s.position();
+			msg.push (
+				{ id: parseInt(s.id())
+				, position: {x:pos.x, y:pos.y}
+				}
+			);
+	});
+
+	msg = JSON.stringify ( msg );
+
+	console.log (msg);
+
+	app_port_sendNodesPositionToElm(msg);
+}
+
 
 function _sendSelectionToElm_(msg) {
 	app_port_sendSelectionToElm(msg);
@@ -159,16 +198,50 @@ function setBullesStyle() {
 	// cy.setStyle (stylesheetBubble);
 }
 
-
-
-function _sendDataModel_ (obj) {
-
+function _sendDataSimpleModel_ (obj) {
 	var cy = getCyReference();
 	cy.remove (cy.elements());
 	cy.add(obj);
 }
 
+
+function _sendDataModel_ (obj) {
+	var cy = getCyReference();
+	cy.remove (cy.elements());
+
+	var ns = obj.nodes;
+	ns.forEach(function (s)
+	{
+		cy.add({
+		    group: "nodes",
+		    data: { id: s.data.id, parent: s.data.parent, name: s.data.name}
+				, position: {x: s.data.position.x, y: s.data.position.y }
+		});
+	});
+
+	var eds = obj.edges;
+	eds.forEach(function (s)
+	{
+		cy.add({
+		    group: "edges",
+		    data: { id: s.data.id, source: s.data.source, target: s.data.target}
+		});
+	});
+}
+
 function _layout_dagre () {
 	var cy = getCyReference();
 	cy.layout(dagre_layout);
+}
+
+function _layout_preset() {
+	var cy = getCyReference();
+	cy.layout(preset_layout);
+
+}
+
+function _updateBullesLayoutAndPos(obj) {
+	_sendDataSimpleModel_(obj);
+	_layout_dagre();
+	_setNodesPositionsToElm_();
 }

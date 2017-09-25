@@ -30,6 +30,10 @@
         _layout_dagre();
       });
 
+      app.ports.requestpositions.subscribe(function(word) {
+          _setNodesPositionsToElm_();
+      });
+
       app.ports.sendDataPBSModel.subscribe(function(word) {
         var obj = JSON.parse(word);
         _sendDataModel_(obj);
@@ -39,9 +43,16 @@
 
       app.ports.sendDataBullesModel.subscribe(function(word) {
         var obj = JSON.parse(word);
-        _sendDataModel_(obj);
-        setBullesStyle();
-        _layout_dagre();
+        if ( obj["mustLayout"] == true )
+        {
+          _sendDataSimpleModel_(obj);
+          _layout_dagre();
+        }
+        else
+        {
+          _sendDataModel_(obj);
+          _layout_preset();
+        }
       });
 
       app.ports.sendParentSelection.subscribe(function(word) {
@@ -82,6 +93,10 @@
 
       function app_port_sendDoubleClickToElm (msg) {
         app.ports.doubleclick.send(msg);
+      }
+
+      function app_port_sendNodesPositionToElm (msg) {
+        app.ports.nodesPositionToElm.send(msg);
       }
 
     </script>
