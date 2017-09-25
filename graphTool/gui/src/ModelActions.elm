@@ -123,13 +123,13 @@ createNode model =
                         [] ->
                             useParent
 
-        newDataModel1 =
+        newDataModel =
             DataModelActions.createNode newName newParent model.dataModel
 
         newUndo =
             Scenario.addMsg (Scenario.CreateNode newName newParent) model.undo
     in
-        { model | dataModel = newDataModel1, undo = newUndo }
+        { model | dataModel = newDataModel, undo = newUndo }
 
 
 
@@ -541,11 +541,16 @@ dataModelToModel s model =
 undo : Model.Model -> Model.Model
 undo model =
     let
+        ( newDataModel, newUndo, r ) =
             case model.undo of
                 x :: xs ->
+                    ( Player.play (List.reverse xs) DataModel.defaultModel, xs, Just x )
 
                 [] ->
+                    ( model.dataModel, [], Nothing )
     in
+        { model | dataModel = newDataModel, undo = newUndo, redo = r }
+
 
 redo : Model.Model -> Model.Model
 redo model =
