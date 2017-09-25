@@ -1145,10 +1145,6 @@ updateTightnessForGroup s edgeId model =
         newModel
 
 
-    let
-
-
-
 ascNameFromList_ : List Node -> String -> String
 ascNameFromList_ list slash =
     case list of
