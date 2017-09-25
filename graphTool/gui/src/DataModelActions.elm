@@ -17,6 +17,7 @@ module DataModelActions
         , highLightGroup
         , selectedParameters
         , updateTightnessForGroup
+        , getAscendantName
         )
 
 import DataModel exposing (Model, isNodeIdPresent)
@@ -1147,4 +1148,26 @@ updateTightnessForGroup s edgeId model =
     let
 
 
+
+ascNameFromList_ : List Node -> String -> String
+ascNameFromList_ list slash =
+    case list of
+        [] ->
+            ""
+
+        x :: xs ->
+            case List.length xs of
+                0 ->
+                    x.name
+
+                _ ->
+                    x.name ++ slash ++ (ascNameFromList_ xs slash)
+
+
+getAscendantName : Node -> Model -> String
+getAscendantName n model =
+    let
+        list =
+            ModelManagement.getAscendants model.nodes n Nothing
     in
+        ascNameFromList_ (List.reverse list) "/"

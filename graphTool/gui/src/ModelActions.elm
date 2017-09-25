@@ -21,6 +21,7 @@ module ModelActions
         , highLightGroup
         , selectedParameters
         , updateTightness
+        , getAscendantName
         )
 
 import Identifier exposing (Identifier)
@@ -36,6 +37,7 @@ import Scenario
 import Player
 import DataModelDecoders
 import Json.Decode
+import ModelManagement
 
 
 {--
@@ -683,7 +685,31 @@ removeTightness model =
                             , undo = newUndo
                         }
 
-                [] ->
                     model
     in
         newModel
+
+getAscendantName : Model -> String
+getAscendantName model =
+    let
+        s =
+            case model.nodeViewId of
+                Nothing ->
+                    "Nothing"
+
+                Just id ->
+                    let
+                        m_n =
+                            DataModel.getNodeFromId id model.dataModel.nodes
+
+                        s2 =
+                            case m_n of
+                                Nothing ->
+                                    "Nothing"
+
+                                Just n ->
+                                    DataModelActions.getAscendantName n model.dataModel
+                    in
+                        s2
+    in
+        s

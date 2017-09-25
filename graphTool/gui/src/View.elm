@@ -9,6 +9,7 @@ import Model exposing (ViewType(..))
 import ParametersView
 import AttributView
 import GroupsView
+import ModelActions
 
 
 init : ( Model.Model, Cmd Messages.Msg )
@@ -64,5 +65,6 @@ view model =
         , button [ onClick Messages.GroupNodes, id "group", value "group" ] [ text "Group" ]
         , button [ onClick Messages.UpdateTightness, id "Tight", value "Tight" ] [ text "Tight" ]
         , button [ onClick Messages.Redo, id "redo", value "redo" ] [ text "Redo" ]
+        , div [ id "label" ] [ text (ModelActions.getAscendantName model) ]
           -- , input [ id "log", value "" ] [ text "" ]
         ]
