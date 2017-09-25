@@ -1,6 +1,7 @@
 module Node exposing (Node, node, inGroup)
 
 import Identifier exposing (Identifier)
+import Position exposing (Position)
 import Attribut exposing (Attribut)
 import Set exposing (Set)
 
@@ -12,6 +13,7 @@ type alias Node =
     , attribut : Maybe Attribut
     , group : Set Identifier
     , highLighted : Bool
+    , position : Position
     }
 
 
@@ -23,6 +25,7 @@ node i s p =
     , attribut = Nothing
     , group = Set.empty
     , highLighted = False
+    , position = Position.defaultPosition
     }
 
 
