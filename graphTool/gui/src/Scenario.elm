@@ -22,8 +22,7 @@ type Msg
     | UpdateNodeGroupProperty Node String
     | CreateGroup String
     | DeleteGroup String
-    | AddTightnessForGroup String Identifier
-    | RemoveTightnessForGroup String Identifier
+    | UpdateTightnessForGroup String Identifier
 
 
 type alias Model =

@@ -1,4 +1,4 @@
-module Tightness exposing (Model, default, isTightness, addTightness, removeTightness)
+module Tightness exposing (Model, default, updateTightness, removeTightness, isTightness)
 
 import Identifier exposing (Identifier)
 import Set exposing (Set)
@@ -26,3 +26,13 @@ addTightness =
 removeTightness : Identifier -> Model -> Model
 removeTightness =
     Set.remove
+
+
+updateTightness : Identifier -> Model -> Model
+updateTightness id model =
+    case isTightness id model of
+        True ->
+            removeTightness id model
+
+        False ->
+            addTightness id model
