@@ -1,9 +1,10 @@
 #cy {
-    width: 80%;
-    height: 90%;
     position: absolute;
-    top: 7em;
-    left: 0px;
+    top: 9em;
+    left: 0.4em;
+    bottom: 0.4em;
+    right: 20em;
+    border : 0.1em solid #555;
 }
 
 /*                  gestion des fichiers                 */
