@@ -36,7 +36,7 @@
 
       app.ports.sendDataPBSModel.subscribe(function(word) {
         var obj = JSON.parse(word);
-        _sendDataModel_(obj);
+        _sendDataSimpleModel_(obj);
         setPBSStyle();
         _layout_dagre();
       });
