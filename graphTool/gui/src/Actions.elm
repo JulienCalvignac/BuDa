@@ -41,7 +41,20 @@ showView msg model =
         ( m1, cmd ) =
             case model.viewType of
                 Model.ALL ->
-                    showAllData msg model
+                    let
+                        dataModel =
+                            model.dataModel
+
+                        newDatamodel =
+                            { dataModel | mustLayout = True }
+
+                        m0 =
+                            { model | dataModel = newDatamodel }
+
+                        m1 =
+                            (ModelActions.updateNodesPosition m0)
+                    in
+                        showAllData msg m1
 
                 Model.PBS ->
                     showPBS msg model
@@ -106,8 +119,16 @@ showAllData msg model =
     let
         subModel =
             model.dataModel
+
+        m2 =
+            case subModel.mustLayout of
+                True ->
+                    subModel
+
+                False ->
+                    DataModel.triNodes subModel
     in
-        ( model, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
+        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m2) )
 
 
 showAllDataLight : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
