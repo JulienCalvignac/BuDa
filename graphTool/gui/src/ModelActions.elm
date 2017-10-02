@@ -812,7 +812,7 @@ getAscendantName model =
         s =
             case model.nodeViewId of
                 Nothing ->
-                    "Nothing"
+                    "Root"
 
                 Just id ->
                     let
