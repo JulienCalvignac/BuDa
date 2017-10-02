@@ -126,11 +126,13 @@
 
 
 #parameters {
-    width: 14em;
-    height: 20em;
+    width: 16em;
+    height: 30em;
     position: absolute;
     top: 5em;
-    right:5em;
+    right:2em;
+}
+
 }
 #createParameter
 {
@@ -149,23 +151,23 @@
   right: 5.8em;
 }
 #attribut {
-    width: 14em;
+    width: 16em;
     height: 18em;
     position: absolute;
     top: 42em;
-    right: 5em;
+    right: 2em;
 }
 
 #attributArea {
-    width: 18em;
+    width: 16em;
     height: 10em;
 }
 #groups {
-    width: 14em;
+    width: 16em;
     height: 20em;
     position: absolute;
     top: 57em;
-    right:5em;
+    right:2em;
 }
 #createGroup
 {
