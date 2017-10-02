@@ -120,7 +120,7 @@ view model =
     div [ id "parameters", style [ ( "text-align", "center" ) ] ]
         [ text "Parameters"
         , Html.hr [] []
-        , expose model
+        , div [ id "paramView" ] [ expose model ]
         ]
 
 

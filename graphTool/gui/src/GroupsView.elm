@@ -14,7 +14,7 @@ view model =
     div [ id "groups", style [ ( "text-align", "center" ) ] ]
         [ text "Functional Chain"
         , Html.hr [] []
-        , expose model
+        , div [ id "functionalChainView" ] [ expose model ]
         ]
 
 

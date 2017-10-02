@@ -133,6 +133,13 @@
     right:2em;
 }
 
+#paramView {
+  width: 16em;
+  height: 29em;
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: visible;
+
 }
 #createParameter
 {
@@ -169,6 +176,15 @@
     top: 57em;
     right:2em;
 }
+
+#functionalChainView {
+  width: 16em;
+  height: 19em;
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
 #createGroup
 {
     width: 5em;
