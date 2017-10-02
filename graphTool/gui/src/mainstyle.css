@@ -43,14 +43,14 @@ edge[highLighted = 1] {
 
 /*interface etanche*/
 edge[highLighted = 2] {
-  line-color: #F2A5A9;
+  line-color: #A2A5F9;
   line-style: dashed;
   width: 5;
 }
 
 /*interface non etanche*/
 edge[highLighted = 3] {
-  line-color: #A2A5F9;
+  line-color: #F2A5A9;
   line-style: dashed;
   width: 5;
 }
