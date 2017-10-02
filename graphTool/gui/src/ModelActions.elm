@@ -676,6 +676,9 @@ updateLightNodesPosition model =
 updateNodesPosition : Model.Model -> Model.Model
 updateNodesPosition model =
     case model.viewType of
+        Model.ALL ->
+            updateLightNodesPosition model
+
         Model.ALL_LIGHT ->
             updateLightNodesPosition model
 
