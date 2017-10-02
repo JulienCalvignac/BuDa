@@ -214,7 +214,7 @@ function _sendDataModel_ (obj) {
 	{
 		cy.add({
 		    group: "nodes",
-		    data: { id: s.data.id, parent: s.data.parent, name: s.data.name}
+		    data: { id: s.data.id, parent: s.data.parent, name: s.data.name, highLighted: s.data.highLighted }
 				, position: {x: s.data.position.x, y: s.data.position.y }
 		});
 	});
@@ -224,7 +224,7 @@ function _sendDataModel_ (obj) {
 	{
 		cy.add({
 		    group: "edges",
-		    data: { id: s.data.id, source: s.data.source, target: s.data.target}
+		    data: { id: s.data.id, source: s.data.source, target: s.data.target, highLighted: s.data.highLighted}
 		});
 	});
 }
