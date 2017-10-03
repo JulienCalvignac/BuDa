@@ -51,10 +51,6 @@ view model =
         , ParametersView.view model
         , AttributView.view model
         , GroupsView.view model
-        , button [ onClick Messages.CreateParameter, id "createParameter", value "createParameter" ] [ text "+" ]
-        , button [ onClick Messages.DeleteParameter, id "deleteParameter", value "deleteParameter" ] [ text "-" ]
-        , button [ onClick Messages.CreateGroup, id "createGroup", value "createGroup" ] [ text "+" ]
-        , button [ onClick Messages.DeleteGroup, id "deleteGroup", value "deleteGroup" ] [ text "-" ]
           -- , button [ onClick Actions.ParametersDialog, id "dialog", value "dialog" ] [ text "dialog" ]
         , button [ onClick Messages.ExportLink, id "export", value "export" ] [ text "Export" ]
         , input [ onInput Messages.InputChange, id "input", placeholder "undefined" ] []

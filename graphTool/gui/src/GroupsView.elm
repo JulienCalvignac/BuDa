@@ -15,6 +15,8 @@ view model =
         [ text "Functional Chain"
         , Html.hr [] []
         , div [ id "functionalChainView" ] [ expose model ]
+        , button [ onClick Messages.CreateGroup, id "createGroup", value "createGroup" ] [ text "+" ]
+        , button [ onClick Messages.DeleteGroup, id "deleteGroup", value "deleteGroup" ] [ text "-" ]
         ]
 
 

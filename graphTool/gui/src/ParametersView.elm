@@ -121,6 +121,8 @@ view model =
         [ text "Parameters"
         , Html.hr [] []
         , div [ id "paramView" ] [ expose model ]
+        , button [ onClick Messages.CreateParameter, id "createParameter", value "createParameter" ] [ text "+" ]
+        , button [ onClick Messages.DeleteParameter, id "deleteParameter", value "deleteParameter" ] [ text "-" ]
         ]
 
 

@@ -146,16 +146,16 @@
     width: 5em;
     height: 3em;
     position: absolute;
-    top: 38em;
-    right: 11.2em;
+    top: 33em;
+    right: 9em;
 }
 #deleteParameter
 {
   width: 5em;
   height: 3em;
   position: absolute;
-  top: 38em;
-  right: 5.8em;
+  top: 33em;
+  right: 3em;
 }
 #attribut {
     width: 16em;
@@ -190,14 +190,14 @@
     width: 5em;
     height: 3em;
     position: absolute;
-    top: 80em;
-    right: 11.2em;
+    top: 22em;
+    right: 9em;
 }
 #deleteGroup
 {
   width: 5em;
   height: 3em;
   position: absolute;
-  top: 80em;
-  right: 5.8em;
+  top: 22em;
+  right: 3em;
 }
