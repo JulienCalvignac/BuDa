@@ -12,6 +12,7 @@ port module LinkToJS
         , selection
         , nodesPositionToElm
         , requestpositions
+        , nodesPositionRequest
         )
 
 {--
@@ -85,3 +86,10 @@ port doubleclick : (String -> msg) -> Sub msg
 
 
 port nodesPositionToElm : (String -> msg) -> Sub msg
+
+
+
+-- demande de sauvegarde des positions
+
+
+port nodesPositionRequest : (String -> msg) -> Sub msg

@@ -41,4 +41,5 @@ type Msg
     | GetPositions
     | Undo
     | Redo
+    | NodesPositionRequest String
     | NoOp

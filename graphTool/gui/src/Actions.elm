@@ -228,6 +228,19 @@ update msg model =
         GetPositions ->
             ( model, LinkToJS.requestpositions "" )
 
+        NodesPositionRequest s ->
+            ( model
+            , case model.viewType of
+                Model.ALL_LIGHT ->
+                    LinkToJS.requestpositions ""
+
+                Model.BULL ->
+                    LinkToJS.requestpositions ""
+
+                _ ->
+                    Cmd.none
+            )
+
         UpdateTightness ->
             showView msg (ModelActions.updateTightness model)
 
