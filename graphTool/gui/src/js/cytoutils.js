@@ -85,6 +85,9 @@ var cy = getCyReference();
 
 var tappedBefore;
 var tappedTimeout;
+var mustUpdatepositionstoElm=false;
+var hasNodeClicked = false;
+var hasNodeMoving = false;
 
 cy.on("click", function(e){
 	try {
@@ -99,6 +102,38 @@ cy.on("click", function(e){
 	}
 	catch(err){
 	// cur_position =
+	}
+});
+
+
+cy.on('mousedown', 'node', function(e){
+	console.log('mousedown node event');
+	hasNodeClicked=true;
+});
+
+cy.on('mouseup', 'node', function(e){
+	console.log('mouseup node event');
+
+	if(hasNodeMoving == true){
+		mustUpdatepositionstoElm=true;
+	}
+
+	if(mustUpdatepositionstoElm == true){
+		console.log("mustUpdatepositionstoElm to send");
+		_setNodesPositionsToElm_();
+	}
+
+	hasNodeClicked=false;
+	hasNodeMoving=false;
+	mustUpdatepositionstoElm=false;
+
+});
+
+cy.on('mousemove', function(e){
+	console.log('mousemove event');
+
+	if(hasNodeClicked==true){
+		hasNodeMoving = true;
 	}
 });
 
