@@ -67,7 +67,7 @@
         var obj = JSON.parse(word);
         var filename = obj.filename;
         var model = obj.model;
-        download( JSON.stringify ( model ), filename, "text/plain");
+        download( JSON.stringify ( model , null, '\t'), filename, "text/plain");
       });
 
       app.ports.exportLNK.subscribe(function(word) {
