@@ -26,6 +26,7 @@ module ModelActions
         , updateLightLayout
         , triNodes
         , getAscendantName
+        , searchElement
         , insertMask
         , removeMask
         )
@@ -834,6 +835,27 @@ getAscendantName model =
                         s2
     in
         s
+
+
+searchElement : Model -> Model
+searchElement model =
+    let
+        z =
+            Debug.log "searchElement" model.input
+
+        m_node =
+            DataModel.getNodeFromName model.input model.dataModel.nodes
+
+        m1 =
+            case m_node of
+                Nothing ->
+                    model
+
+                Just n ->
+                    { model | nodeViewId = Just n.id, selection = [ n.id ] }
+    in
+        m1
+
 
 insertMask : Model -> Model
 insertMask model =

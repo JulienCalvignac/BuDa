@@ -420,6 +420,10 @@ update msg model =
                 46 ->
                     deleteElement msg model
 
+                112 ->
+                    -- F1
+                    showView msg (ModelActions.searchElement model)
+
                 _ ->
                     ( model, Cmd.none )
 
