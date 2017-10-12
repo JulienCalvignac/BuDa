@@ -13,12 +13,14 @@ module ModelManagement
         , getDescendantsFromN
         , findCommonParent
         , orderingNodesToPBS
+        , filterWithMask
         )
 
 import DataModel
 import Identifier exposing (Identifier)
 import Node exposing (Node)
 import Link exposing (Edge)
+import Set exposing (Set)
 
 
 {--filterSameParent list n renvoir la list des noeuds dont le parent == n.parent --}
@@ -707,3 +709,77 @@ orderingNodesToPBS model =
             (List.filter (\x -> x.parent == Nothing) model.nodes)
     in
         orderingNodesToPBS_ list model
+
+
+maskToNodeList : List Identifier -> List Node -> List Node
+maskToNodeList list nodes =
+    case list of
+        [] ->
+            []
+
+        x :: xn ->
+            let
+                m_n =
+                    DataModel.getNodeFromId x nodes
+
+                ln =
+                    case m_n of
+                        Nothing ->
+                            maskToNodeList xn nodes
+
+                        Just n ->
+                            n :: (maskToNodeList xn nodes)
+            in
+                ln
+
+
+filterNodesWithMask : List Node -> List Node -> List Node
+filterNodesWithMask nodesToMask nodes =
+    List.filter
+        (\x ->
+            not (List.member x nodesToMask)
+        )
+        nodes
+
+
+filterEdgesWithMask : List Identifier -> List Edge -> List Edge
+filterEdgesWithMask idToMask edges =
+    List.filter
+        (\x ->
+            not (List.member x.source idToMask)
+                && not (List.member x.target idToMask)
+        )
+        edges
+
+
+filterWithMask : DataModel.Model -> DataModel.Model
+filterWithMask model =
+    let
+        lmask =
+            Set.toList model.mask
+
+        ln =
+            maskToNodeList lmask model.nodes
+
+        -- nodesToMask est la liste des descendants des elements de mask
+        nodesToMask =
+            List.concat
+                (List.map
+                    (\x -> getDescendantsFromN model.nodes x)
+                    ln
+                )
+
+        idToMask =
+            List.map (\x -> x.id) nodesToMask
+
+        newNodes =
+            filterNodesWithMask nodesToMask model.nodes
+
+        newEdges =
+            filterEdgesWithMask idToMask model.edges
+    in
+        { model
+            | nodes =
+                newNodes
+            , edges = newEdges
+        }
