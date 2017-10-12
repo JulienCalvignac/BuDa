@@ -26,6 +26,8 @@ module ModelActions
         , updateLightLayout
         , triNodes
         , getAscendantName
+        , insertMask
+        , removeMask
         )
 
 import Identifier exposing (Identifier)
@@ -41,7 +43,6 @@ import Scenario
 import Player
 import DataModelDecoders
 import Json.Decode
-import ModelManagement
 
 
 {--
@@ -833,3 +834,44 @@ getAscendantName model =
                         s2
     in
         s
+
+insertMask : Model -> Model
+insertMask model =
+    let
+        m_s =
+            Selection.getFirstSelectionIdentifier model.selection
+
+        m1 =
+            case m_s of
+                Nothing ->
+                    model
+
+                Just id ->
+                    let
+                        newDataModel =
+                            DataModelActions.insertMask id model.dataModel
+                    in
+                        { model | dataModel = newDataModel }
+    in
+        m1
+
+
+removeMask : Model -> Model
+removeMask model =
+    let
+        m_s =
+            Selection.getFirstSelectionIdentifier model.selection
+
+        m1 =
+            case m_s of
+                Nothing ->
+                    model
+
+                Just id ->
+                    let
+                        newDataModel =
+                            DataModelActions.removeMask id model.dataModel
+                    in
+                        { model | dataModel = newDataModel }
+    in
+        m1
