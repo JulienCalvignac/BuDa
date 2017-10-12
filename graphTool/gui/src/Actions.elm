@@ -405,12 +405,17 @@ update msg model =
             ( model, LinkToJS.loadModel model.loadModelId )
 
         KeyDowns k ->
-            ( model, Cmd.none )
 
         KeyUps k ->
             case k of
+                37 ->
+                    showView msg (ModelActions.insertMask model)
+
                 38 ->
                     upView msg model
+
+                39 ->
+                    showView msg (ModelActions.removeMask model)
 
                 46 ->
                     deleteElement msg model
