@@ -21,6 +21,8 @@ module DataModelActions
         , updateLayoutFromNodeId
         , updateLightLayout
         , getAscendantName
+        , insertMask
+        , removeMask
         )
 
 import DataModel exposing (Model, isNodeIdPresent)
@@ -37,6 +39,7 @@ import GroupsActions
 import Tightness
 import TightnessActions
 import Layout exposing (Layout, NodeLayout)
+import Mask
 
 
 {--
@@ -1251,3 +1254,45 @@ getAscendantName n model =
             ModelManagement.getAscendants model.nodes n Nothing
     in
         ascNameFromList_ (List.reverse list) "/"
+
+
+insertMask : Identifier -> Model -> Model
+insertMask id model =
+    let
+        m1 =
+            case DataModel.getNodeFromId id model.nodes of
+                Just n ->
+                    let
+                        newMask =
+                            Mask.insert n.id model.mask
+
+                        z =
+                            Debug.log "mask" newMask
+                    in
+                        { model | mask = newMask }
+
+                Nothing ->
+                    model
+    in
+        m1
+
+
+removeMask : Identifier -> Model -> Model
+removeMask id model =
+    let
+        m1 =
+            case DataModel.getNodeFromId id model.nodes of
+                Just n ->
+                    let
+                        newMask =
+                            Mask.remove n.id model.mask
+
+                        z =
+                            Debug.log "mask" newMask
+                    in
+                        { model | mask = newMask }
+
+                Nothing ->
+                    model
+    in
+        m1
