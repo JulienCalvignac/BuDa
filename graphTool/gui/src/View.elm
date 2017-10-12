@@ -57,6 +57,7 @@ view model =
         , input [ onInput Messages.InputFileChange, id "inputFile", placeholder "undefined" ] []
         , button [ onClick Messages.SaveModel, id "saveModel", value "saveModel" ] [ text "Save" ]
         , input [ onInputFile Messages.LoadModel, id model.loadModelId, type_ "file", accept ".json" ] []
+        , button [ onClick Messages.OnOpen, id "open", value "open" ] [ text "Open" ]
         , button [ onClick Messages.Undo, id "undo", value "undo" ] [ text "Undo" ]
         , button [ onClick Messages.GroupNodes, id "group", value "group" ] [ text "Group" ]
         , button [ onClick Messages.UpdateTightness, id "Tight", value "Tight" ] [ text "Tight" ]

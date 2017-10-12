@@ -83,6 +83,13 @@
         // console.log('loadmodel:' + msg);
       });
 
+      app.ports.onOpen.subscribe(function(word) {
+        var fileinput = document.getElementById("loadModel");
+        fileinput.click();
+
+      } );
+
+
       function app_port_sendSelectionToElm (msg) {
         app.ports.selection.send(msg);
       }
@@ -98,6 +105,7 @@
       function app_port_sendNodesPositionToElm (msg) {
         app.ports.nodesPositionToElm.send(msg);
       }
+
 
     </script>
   </body>

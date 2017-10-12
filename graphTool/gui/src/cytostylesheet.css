@@ -30,7 +30,15 @@
   left: 15.5em;
 }
 #loadModel {
-    width: 6em;
+    /*width: 6em;
+    height: 3em;
+    position: absolute;
+    top: 0em;
+    left: 21em;*/
+    display: none
+}
+#open  {
+    width: 5em;
     height: 3em;
     position: absolute;
     top: 0em;
