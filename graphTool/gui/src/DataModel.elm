@@ -53,6 +53,7 @@ import Groups
 import Set exposing (Set)
 import TightnessActions
 import Layout exposing (Layout, NodeLayout)
+import Mask
 
 
 type alias Model =
@@ -67,6 +68,7 @@ type alias Model =
     , layouts : List NodeLayout
     , lightLayout : Maybe Layout
     , rootBubbleLayout : Maybe Layout
+    , mask : Mask.Model
     }
 
 
@@ -100,6 +102,7 @@ type alias DataModel =
     , layouts : List NodeLayout
     , lightLayout : Maybe Layout
     , rootBubbleLayout : Maybe Layout
+    , mask : Mask.Model
     }
 
 
@@ -116,6 +119,7 @@ defaultModel =
     , layouts = []
     , lightLayout = Nothing
     , rootBubbleLayout = Nothing
+    , mask = Mask.defaultModel
     }
 
 
@@ -189,6 +193,7 @@ dataModelToModel dm model =
         , layouts = dm.layouts
         , lightLayout = dm.lightLayout
         , rootBubbleLayout = dm.rootBubbleLayout
+        , mask = dm.mask
         }
 
 
