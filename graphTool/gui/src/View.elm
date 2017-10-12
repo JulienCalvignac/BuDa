@@ -2,7 +2,7 @@ module View exposing (init, view)
 
 import Messages
 import Html exposing (Html, Attribute, button, div, fieldset, input, label, span, text, section)
-import Html.Attributes exposing (id, name, style, type_, checked, value, placeholder, class)
+import Html.Attributes exposing (id, name, style, type_, checked, value, placeholder, class, accept)
 import Html.Events exposing (onClick, on, onInput)
 import Json.Decode
 import Model exposing (ViewType(..))
@@ -56,7 +56,7 @@ view model =
         , input [ onInput Messages.InputChange, id "input", placeholder "undefined" ] []
         , input [ onInput Messages.InputFileChange, id "inputFile", placeholder "undefined" ] []
         , button [ onClick Messages.SaveModel, id "saveModel", value "saveModel" ] [ text "Save" ]
-        , input [ onInputFile Messages.LoadModel, id model.loadModelId, type_ "file" ] []
+        , input [ onInputFile Messages.LoadModel, id model.loadModelId, type_ "file", accept ".json" ] []
         , button [ onClick Messages.Undo, id "undo", value "undo" ] [ text "Undo" ]
         , button [ onClick Messages.GroupNodes, id "group", value "group" ] [ text "Group" ]
         , button [ onClick Messages.UpdateTightness, id "Tight", value "Tight" ] [ text "Tight" ]
