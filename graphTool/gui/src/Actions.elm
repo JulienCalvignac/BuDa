@@ -435,3 +435,6 @@ update msg model =
                     { model | nodeViewId = newNodeViewId }
             in
                 showView msg m1
+
+        OnOpen ->
+            ( model, LinkToJS.onOpen "" )

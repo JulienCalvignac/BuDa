@@ -42,4 +42,5 @@ type Msg
     | Undo
     | Redo
     | NodesPositionRequest String
+    | OnOpen
     | NoOp

@@ -13,6 +13,7 @@ port module LinkToJS
         , nodesPositionToElm
         , requestpositions
         , nodesPositionRequest
+        , onOpen
         )
 
 {--
@@ -53,6 +54,9 @@ port exportLNK : String -> Cmd msg
 
 
 port requestpositions : String -> Cmd msg
+
+
+port onOpen : String -> Cmd msg
 
 
 
