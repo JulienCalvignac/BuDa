@@ -22,6 +22,7 @@ import Task
 import Messages exposing (Msg(..))
 import Export
 import SpecialKey
+import ModelManagement
 
 
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -183,8 +184,11 @@ showBulles msg model =
 
         m2 =
             (DataModel.triNodes subModel)
+
+        m3 =
+            ModelManagement.filterWithMask m2
     in
-        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m2) )
+        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m3) )
 
 
 deleteElement : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
