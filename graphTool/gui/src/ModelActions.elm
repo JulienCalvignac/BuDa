@@ -27,6 +27,8 @@ module ModelActions
         , triNodes
         , getAscendantName
         , searchElement
+        , insertKey
+        , removeKey
         , insertMask
         , removeMask
         )
@@ -44,6 +46,9 @@ import Scenario
 import Player
 import DataModelDecoders
 import Json.Decode
+import SpecialKey
+import Keyboard exposing (KeyCode)
+import Selection
 
 
 {--
@@ -855,6 +860,24 @@ searchElement model =
                     { model | nodeViewId = Just n.id, selection = [ n.id ] }
     in
         m1
+
+
+insertKey : KeyCode -> Model -> Model
+insertKey k model =
+    let
+        newSpecialKey =
+            SpecialKey.insert k model.specialKey
+    in
+        { model | specialKey = newSpecialKey }
+
+
+removeKey : KeyCode -> Model -> Model
+removeKey k model =
+    let
+        newSpecialKey =
+            SpecialKey.remove k model.specialKey
+    in
+        { model | specialKey = newSpecialKey }
 
 
 insertMask : Model -> Model
