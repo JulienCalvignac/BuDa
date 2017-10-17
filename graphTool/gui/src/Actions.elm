@@ -21,6 +21,7 @@ import Dom exposing (focus)
 import Task
 import Messages exposing (Msg(..))
 import Export
+import SpecialKey
 
 
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -405,9 +406,18 @@ update msg model =
             ( model, LinkToJS.loadModel model.loadModelId )
 
         KeyDowns k ->
+            case k of
+                16 ->
+                    ( ModelActions.insertKey k model, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
 
         KeyUps k ->
             case k of
+                16 ->
+                    ( ModelActions.removeKey k model, Cmd.none )
+
                 37 ->
                     showView msg (ModelActions.insertMask model)
 
