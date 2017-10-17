@@ -12,6 +12,7 @@ import Selection
 import LinkParameters
 import Set exposing (Set)
 import Scenario
+import SpecialKey
 
 
 type ViewType
@@ -41,6 +42,7 @@ type alias Model =
     , selectionType : SelectionType
     , undo : Scenario.Model
     , redo : Scenario.RedoModel
+    , specialKey : SpecialKey.Model
     }
 
 
@@ -60,4 +62,5 @@ defaultModel =
     , selectionType = PARENT
     , undo = Scenario.defaultModel
     , redo = Nothing
+    , specialKey = SpecialKey.defaultModel
     }
