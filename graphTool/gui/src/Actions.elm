@@ -190,9 +190,12 @@ showBulles msg model =
 deleteElement : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 deleteElement msg model =
     let
+        b =
+            SpecialKey.member 16 model.specialKey
+
         m1 =
-            case model.selection of
-                x :: xs ->
+            case ( model.selection, b ) of
+                ( x :: xs, True ) ->
                     case DataModel.isNodeIdPresent x model.dataModel.nodes of
                         True ->
                             ModelActions.deleteNode x model
