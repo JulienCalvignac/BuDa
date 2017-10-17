@@ -217,11 +217,7 @@ update msg model =
             showView msg (ModelActions.undo model)
 
         Redo ->
-            let
-                z =
-                    Debug.log "call redo" model.redo
-            in
-                showView msg (ModelActions.redo model)
+            showView msg (ModelActions.redo model)
 
         Layout ->
             ( model, LinkToJS.layout "" )
