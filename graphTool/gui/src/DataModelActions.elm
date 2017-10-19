@@ -23,6 +23,7 @@ module DataModelActions
         , getAscendantName
         , insertMask
         , removeMask
+        , isMasked
         )
 
 import DataModel exposing (Model, isNodeIdPresent)
@@ -1251,6 +1252,11 @@ getAscendantName n model =
             ModelManagement.getAscendants model.nodes n Nothing
     in
         ascNameFromList_ (List.reverse list) "/"
+
+
+isMasked : Identifier -> Model -> Bool
+isMasked id model =
+    Mask.member id model.mask
 
 
 insertMask : Identifier -> Model -> Model
