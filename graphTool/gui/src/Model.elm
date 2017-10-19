@@ -1,9 +1,11 @@
 module Model
     exposing
         ( Model
+        , TmpDataModel
         , ViewType(..)
         , SelectionType(..)
         , defaultModel
+        , defaultTmpDataModel
         )
 
 import Identifier exposing (Identifier)
@@ -27,9 +29,19 @@ type SelectionType
     | LINK (Maybe Identifier)
 
 
+type alias TmpDataModel =
+    { m_id : Maybe Identifier, data : DataModel.Model }
+
+
+defaultTmpDataModel : TmpDataModel
+defaultTmpDataModel =
+    { m_id = Nothing, data = DataModel.defaultModel }
+
+
 type alias Model =
     { dataModel : DataModel.Model
     , subModel : DataModel.Model
+    , tmpDataModel : TmpDataModel
     , input : String
     , inputFile : String
     , selection : Selection.Model
@@ -50,6 +62,7 @@ defaultModel : Model
 defaultModel =
     { dataModel = DataModel.defaultModel
     , subModel = DataModel.defaultModel
+    , tmpDataModel = defaultTmpDataModel
     , input = "undefined"
     , inputFile = "undefined"
     , selection = []
