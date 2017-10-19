@@ -299,7 +299,7 @@ deleteEdge id model =
                                         m3
 
                                 ( _, _ ) ->
-                                    m20
+                                    delJustEdge edge1 m20
                     in
                         m2
     in
@@ -560,7 +560,7 @@ deleteEdgeFromList_ : List Edge -> Model -> Model
 deleteEdgeFromList_ list model =
     case list of
         x :: xs ->
-            deleteEdge x.id model
+            deleteEdgeFromList_ xs (deleteEdge x.id model)
 
         [] ->
             model
