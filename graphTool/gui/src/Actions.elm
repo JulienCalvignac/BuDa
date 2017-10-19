@@ -174,21 +174,21 @@ showPBS msg model =
 showBulles : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showBulles msg model =
     let
+        m1 =
+            ModelManagement.filterWithMask model.dataModel
+
         subModel =
             case model.nodeViewId of
                 Nothing ->
-                    (ModelViews.getBullesView model.dataModel)
+                    (ModelViews.getBullesView m1)
 
                 Just x ->
-                    (ModelViews.getBullesViewFromNodeId model.dataModel x)
+                    (ModelViews.getBullesViewFromNodeId m1 x)
 
         m2 =
             (DataModel.triNodes subModel)
-
-        m3 =
-            ModelManagement.filterWithMask m2
     in
-        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m3) )
+        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m2) )
 
 
 deleteElement : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
