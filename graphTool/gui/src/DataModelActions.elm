@@ -1089,9 +1089,6 @@ selectedParameters s model =
                                 False ->
                                     Set.insert id model.selectedParameters
 
-                        z =
-                            Debug.log "selectedParameters" newSelectedParameters
-
                         newEdgesFilter =
                             List.filter
                                 (\x ->
@@ -1265,9 +1262,6 @@ insertMask id model =
                     let
                         newMask =
                             Mask.insert n.id model.mask
-
-                        z =
-                            Debug.log "mask" newMask
                     in
                         { model | mask = newMask }
 
@@ -1286,9 +1280,6 @@ removeMask id model =
                     let
                         newMask =
                             Mask.remove n.id model.mask
-
-                        z =
-                            Debug.log "mask" newMask
                     in
                         { model | mask = newMask }
 
