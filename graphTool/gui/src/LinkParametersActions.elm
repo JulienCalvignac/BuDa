@@ -1,11 +1,11 @@
-module LinkParametersActions exposing (activateParameter, unActivateParameter, unActivateAllParameters)
+module LinkParametersActions exposing (activateParameter, unActivateParameter, unActivateAllParameters, activateParameters)
 
 import Identifier exposing (Identifier)
 import Node exposing (Node)
 import Link exposing (Edge)
 import DataModel exposing (Model)
 import ModelManagement
-import Set
+import Set exposing (Set)
 
 
 {--
@@ -216,6 +216,39 @@ unActivateParameterDownForEdge_ idx mId nId model =
             updatePropertyInEdgeList_ edge idx model.edges Link.unActivate
     in
         { model | edges = newEdges }
+
+
+
+{--
+////////////////////////////////////////////////////////////////////////////////
+activateParameters:
+activateParameter dans tous les edges de la liste présents dans le modèle
+cette fonction est utile pour le CtrlV de ModelActions, ou on doit repositionner les
+paramètres
+////////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+activateParameters : List Edge -> Model -> Model
+activateParameters edges model =
+    case edges of
+        [] ->
+            model
+
+        x :: xs ->
+            activateParameters xs (activateParametersForOneEdge_ (Set.toList x.parameters) x model)
+
+
+activateParametersForOneEdge_ : List Identifier -> Edge -> Model -> Model
+activateParametersForOneEdge_ list edge model =
+    --List.map (\p -> activateParameter p edge model) (Set.toList parameters)
+    case list of
+        [] ->
+            model
+
+        x :: xs ->
+            activateParametersForOneEdge_ xs edge (activateParameter x edge model)
 
 
 
