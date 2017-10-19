@@ -413,6 +413,9 @@ update msg model =
                 16 ->
                     ( ModelActions.insertKey k model, Cmd.none )
 
+                17 ->
+                    ( ModelActions.insertKey k model, Cmd.none )
+
                 _ ->
                     ( model, Cmd.none )
 
