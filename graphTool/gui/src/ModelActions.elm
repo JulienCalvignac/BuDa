@@ -29,8 +29,7 @@ module ModelActions
         , searchElement
         , insertKey
         , removeKey
-        , insertMask
-        , removeMask
+        , mask
         )
 
 import Identifier exposing (Identifier)
@@ -878,6 +877,28 @@ removeKey k model =
             SpecialKey.remove k model.specialKey
     in
         { model | specialKey = newSpecialKey }
+
+
+mask : Model -> Model
+mask model =
+    let
+        m_s =
+            Selection.getFirstSelectionIdentifier model.selection
+
+        m1 =
+            case m_s of
+                Nothing ->
+                    model
+
+                Just id ->
+                    case DataModelActions.isMasked id model.dataModel of
+                        True ->
+                            removeMask model
+
+                        False ->
+                            insertMask model
+    in
+        m1
 
 
 insertMask : Model -> Model
