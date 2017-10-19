@@ -1,4 +1,4 @@
-module GroupsActions exposing (addGroupToNode, deleteGroupFromNode)
+module GroupsActions exposing (addGroupToNode, deleteGroupFromNode, addGroupsToNodes)
 
 import Identifier exposing (Identifier)
 import Node exposing (Node)
@@ -7,9 +7,31 @@ import ModelManagement
 import Set
 
 
+addGroupsToNodes : List Node -> Model -> Model
+addGroupsToNodes list model =
+    case list of
+        [] ->
+            model
+
+        x :: xs ->
+            addGroupsToNodes xs (addGroupsToOneNode_ (Set.toList x.group) x model)
+
+
+addGroupsToOneNode_ : List Identifier -> Node -> Model -> Model
+addGroupsToOneNode_ list n model =
+    case list of
+        [] ->
+            model
+
+        x :: xs ->
+            addGroupsToOneNode_ xs n (addGroupToNode x n model)
+
+
+
 {--
 ////////////////////////////////////////////////////////////////////////////////
 addNodeToGroup
+méthode ascendante
 ////////////////////////////////////////////////////////////////////////////////
 --}
 
