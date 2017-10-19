@@ -847,9 +847,6 @@ getAscendantName model =
 searchElement : Model -> Model
 searchElement model =
     let
-        z =
-            Debug.log "searchElement" model.input
-
         m_node =
             DataModel.getNodeFromName model.input model.dataModel.nodes
 
