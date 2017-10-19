@@ -24,6 +24,7 @@ module DataModelActions
         , insertMask
         , removeMask
         , isMasked
+        , insertFromTmp
         )
 
 import DataModel exposing (Model, isNodeIdPresent)
@@ -1293,3 +1294,98 @@ removeMask id model =
                     model
     in
         m1
+
+
+filterEdge_ : Edge -> Identifier -> List Node -> Bool
+filterEdge_ edge id list =
+    let
+        m_n =
+            DataModel.getNodeFromId id list
+
+        b =
+            case m_n of
+                Nothing ->
+                    True
+
+                Just n ->
+                    let
+                        l1 =
+                            ModelManagement.getAscendants list n Nothing
+
+                        b1 =
+                            ((DataModel.isNodeIdPresent edge.source l1) && (edge.target == id))
+                                || ((DataModel.isNodeIdPresent edge.target l1) && (edge.source == id))
+                    in
+                        not b1
+    in
+        b
+
+
+createLinksRecursive_ : List Edge -> Model -> Model
+createLinksRecursive_ list model =
+    case list of
+        [] ->
+            model
+
+        x :: xs ->
+            createLinksRecursive_ xs (createLink x.source x.target model)
+
+
+createLinks_ : List Edge -> Model -> Model
+createLinks_ list model =
+    let
+        m1 =
+            createLinksRecursive_ list model
+
+        m2 =
+            LinkParametersActions.activateParameters list m1
+    in
+        m2
+
+
+insertFromTmp : Maybe Identifier -> Maybe Identifier -> Model -> Model -> Model
+insertFromTmp m_s m_id tmpDataModel model =
+    -- m_s : maybe identifier du bloc selectionné pour insert
+    -- m_id : maybe identifier du bloc à transfèrer
+    let
+        m0 =
+            case m_id of
+                Nothing ->
+                    model
+
+                Just n_id ->
+                    let
+                        n0Nodes =
+                            List.map
+                                (\x ->
+                                    case x.id == n_id of
+                                        True ->
+                                            { x | parent = m_s }
+
+                                        False ->
+                                            x
+                                )
+                                tmpDataModel.nodes
+
+                        n1Nodes =
+                            List.concat [ model.nodes, n0Nodes ]
+
+                        m1 =
+                            { model | nodes = n1Nodes }
+
+                        m2 =
+                            GroupsActions.addGroupsToNodes n0Nodes m1
+
+                        newEdges =
+                            List.filter
+                                (\x ->
+                                    (filterEdge_ x n_id m2.nodes)
+                                )
+                                tmpDataModel.edges
+
+                        m3 =
+                            createLinks_ newEdges m2
+                    in
+                        m3
+    in
+        m0
