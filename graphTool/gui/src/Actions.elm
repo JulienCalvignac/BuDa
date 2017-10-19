@@ -436,6 +436,14 @@ update msg model =
                 46 ->
                     deleteElement msg model
 
+                86 ->
+                    -- key v
+                    showView msg (ModelActions.ctrlV model)
+
+                88 ->
+                    -- key x
+                    showView msg (ModelActions.ctrlX model)
+
                 112 ->
                     -- F1
                     showView msg (ModelActions.searchElement model)
