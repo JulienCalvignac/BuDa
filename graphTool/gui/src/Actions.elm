@@ -424,14 +424,14 @@ update msg model =
                 16 ->
                     ( ModelActions.removeKey k model, Cmd.none )
 
-                37 ->
-                    showView msg (ModelActions.insertMask model)
+                17 ->
+                    ( ModelActions.removeKey k model, Cmd.none )
 
                 38 ->
                     upView msg model
 
-                39 ->
-                    showView msg (ModelActions.removeMask model)
+                45 ->
+                    showView msg (ModelActions.mask model)
 
                 46 ->
                     deleteElement msg model
