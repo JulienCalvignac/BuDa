@@ -436,6 +436,10 @@ update msg model =
                 46 ->
                     deleteElement msg model
 
+                67 ->
+                    -- key c
+                    ( ModelActions.ctrlC model, Cmd.none )
+
                 86 ->
                     -- key v
                     showView msg (ModelActions.ctrlV model)
