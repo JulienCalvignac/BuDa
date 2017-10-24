@@ -968,13 +968,15 @@ ctrlX model =
             case ( m_s, b ) of
                 ( Just id, True ) ->
                     let
-                        m1 =
-                            saveNodeToTmp_ id model
+                        newModel =
+                            Player.doCtrlX id model
 
-                        newDataModel =
-                            DataModelActions.deleteNode id m1.dataModel
+                        newUndo =
+                            Scenario.addMsg (Scenario.CtrlX id) model.undo
                     in
-                        { m1 | dataModel = newDataModel }
+                        { newModel
+                            | undo = newUndo
+                        }
 
                 _ ->
                     model
@@ -994,9 +996,18 @@ ctrlV model =
         m1 =
             case b of
                 True ->
-                    insertFromTmp_ m_s model
+                    let
+                        newModel =
+                            Player.doCtrlV m_s model
+
+                        newUndo =
+                            Scenario.addMsg (Scenario.CtrlV m_s) model.undo
+                    in
+                        { newModel
+                            | undo = newUndo
+                        }
 
                 _ ->
                     model
     in
-        { m1 | tmpDataModel = Model.defaultTmpDataModel }
+        m1
