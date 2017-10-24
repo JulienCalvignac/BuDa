@@ -43,6 +43,7 @@ module DataModel
         , anyEdgeDoublon
         , nodeListSameParent
         , triNodes
+        , getCurIdFromModel
         )
 
 import Identifier exposing (Identifier)
@@ -755,3 +756,45 @@ triNodes model =
             triN [] model.nodes model
     in
         { model | nodes = newNodes }
+
+
+getCurIdFromModel : Model -> Identifier
+getCurIdFromModel model =
+    let
+        nMax =
+            List.foldr max 0 (List.map (\x -> x.id) model.nodes)
+
+        eMax =
+            List.foldr max 0 (List.map (\x -> x.id) model.edges)
+
+        pMax =
+            List.foldr max 0 (List.map (\x -> x.id) model.parameters)
+
+        gMax =
+            List.foldr max 0 (List.map (\x -> x.id) model.groups)
+
+        iMax =
+            List.foldr max 0 [ gMax, pMax, eMax, nMax ]
+    in
+        iMax
+
+
+getCurIdFromDataModel : DataModel -> Identifier
+getCurIdFromDataModel dm =
+    let
+        nMax =
+            List.foldr max 0 (List.map (\x -> x.data.id) dm.nodes)
+
+        eMax =
+            List.foldr max 0 (List.map (\x -> x.data.id) dm.edges)
+
+        pMax =
+            List.foldr max 0 (List.map (\x -> x.id) dm.parameters)
+
+        gMax =
+            List.foldr max 0 (List.map (\x -> x.id) dm.groups)
+
+        iMax =
+            List.foldr max 0 [ gMax, pMax, eMax, nMax ]
+    in
+        iMax
