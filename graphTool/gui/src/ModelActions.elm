@@ -50,7 +50,7 @@ import Json.Decode
 import SpecialKey
 import Keyboard exposing (KeyCode)
 import Selection
-import ModelManagement
+import Player
 
 
 {--
@@ -553,22 +553,25 @@ dataModelToModel s model =
 undo : Model.Model -> Model.Model
 undo model =
     let
-        ( newDataModel, newUndo, r ) =
+        ( newModel, newUndo, r ) =
             case model.undo of
                 x :: xs ->
-                    ( Player.play (List.reverse xs) DataModel.defaultModel, xs, Just x )
+                    ( Player.play (List.reverse xs) Model.defaultModel, xs, Just x )
 
                 [] ->
-                    ( model.dataModel, [], Nothing )
+                    ( model, [], Nothing )
+
+        m1 =
+            { newModel | undo = newUndo, redo = r }
     in
-        { model | dataModel = newDataModel, undo = newUndo, redo = r }
+        m1
 
 
 redo : Model.Model -> Model.Model
 redo model =
     let
-        newDataModel =
-            Player.redo model.redo model.dataModel
+        newModel =
+            Player.redo model.redo model
 
         newUndo =
             case model.redo of
@@ -578,7 +581,7 @@ redo model =
                 Nothing ->
                     model.undo
     in
-        { model | dataModel = newDataModel, redo = Nothing, undo = newUndo }
+        { newModel | redo = Nothing, undo = newUndo }
 
 
 nodesInSelection : Model.Model -> List Node
