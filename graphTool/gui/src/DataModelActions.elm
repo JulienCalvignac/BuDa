@@ -42,6 +42,7 @@ import Tightness
 import TightnessActions
 import Layout exposing (Layout, NodeLayout)
 import Mask
+import TranslateTmpDataModel
 
 
 {--
@@ -1344,10 +1345,16 @@ createLinks_ list model =
 
 
 insertFromTmp : Maybe Identifier -> Maybe Identifier -> Model -> Model -> Model
-insertFromTmp m_s m_id tmpDataModel model =
+insertFromTmp m_s m_id tmp model =
     -- m_s : maybe identifier du bloc selectionné pour insert
     -- m_id : maybe identifier du bloc à transfèrer
     let
+        maxId =
+            (DataModel.getCurIdFromModel model) + 1
+
+        tmpDataModel =
+            TranslateTmpDataModel.translateDataModel maxId tmp
+
         m0 =
             case m_id of
                 Nothing ->
@@ -1355,10 +1362,14 @@ insertFromTmp m_s m_id tmpDataModel model =
 
                 Just n_id ->
                     let
+                        -- on translate n_id de maxId suite a appel de translateDataModel
+                        newId =
+                            (n_id + maxId)
+
                         n0Nodes =
                             List.map
                                 (\x ->
-                                    case x.id == n_id of
+                                    case x.id == newId of
                                         True ->
                                             { x | parent = m_s }
 
@@ -1385,7 +1396,10 @@ insertFromTmp m_s m_id tmpDataModel model =
 
                         m3 =
                             createLinks_ newEdges m2
+
+                        newCurId =
+                            DataModel.getCurIdFromModel m3
                     in
-                        m3
+                        { m3 | curNodeId = newCurId }
     in
         m0
