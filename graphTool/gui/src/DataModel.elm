@@ -341,13 +341,13 @@ nodeHasParent n =
 createProperty : String -> Model -> Model
 createProperty s model =
     let
-        new_parameters =
-            (LinkParameters.property model.curNodeId s) :: model.parameters
-
         m1 =
-            { model | parameters = new_parameters }
+            getNodeIdentifier model
+
+        new_parameters =
+            (LinkParameters.property m1.curNodeId s) :: m1.parameters
     in
-        getNodeIdentifier m1
+        { m1 | parameters = new_parameters }
 
 
 deleteProperty : String -> Model -> Model
@@ -374,13 +374,13 @@ deleteProperty s model =
 createGroupProperty : String -> Model -> Model
 createGroupProperty s model =
     let
-        newGroups =
-            (Groups.property model.curNodeId s) :: model.groups
-
         m1 =
-            { model | groups = newGroups }
+            getNodeIdentifier model
+
+        newGroups =
+            (Groups.property m1.curNodeId s) :: m1.groups
     in
-        getNodeIdentifier m1
+        { m1 | groups = newGroups }
 
 
 deleteGroupProperty : String -> Model -> Model
