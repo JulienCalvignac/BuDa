@@ -74,6 +74,6 @@ defaultModel =
     , error = Nothing
     , selectionType = PARENT
     , undo = Scenario.defaultModel
-    , redo = Nothing
+    , redo = Scenario.defaultRedoModel
     , specialKey = SpecialKey.defaultModel
     }
