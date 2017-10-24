@@ -30,6 +30,7 @@ module ModelActions
         , insertKey
         , removeKey
         , mask
+        , ctrlC
         , ctrlX
         , ctrlV
         )
@@ -946,13 +947,33 @@ removeMask model =
         m1
 
 
+ctrlC : Model -> Model
+ctrlC model =
     let
+        m_s =
+            Selection.getFirstSelectionIdentifier model.selection
 
+        b =
+            SpecialKey.member 17 model.specialKey
 
+        m1 =
+            case ( m_s, b ) of
+                ( Just id, True ) ->
                     let
+                        newModel =
+                            Player.doCtrlC id model
 
+                        newUndo =
+                            Scenario.addMsg (Scenario.CtrlC id) model.undo
+                    in
+                        { newModel
+                            | undo = newUndo
+                        }
 
+                _ ->
+                    model
     in
+        m1
 
 
 ctrlX : Model -> Model
