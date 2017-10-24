@@ -174,14 +174,7 @@ dataModelToModel dm model =
             List.map dataEdgeToEdge dm.edges
 
         newId =
-            case
-                List.maximum [ maximumNodeId ln, maximumEdgeId le, maximumParameterId dm.parameters ]
-            of
-                Just m ->
-                    m
-
-                Nothing ->
-                    0
+            getCurIdFromDataModel dm
     in
         { nodes = ln
         , edges = le
