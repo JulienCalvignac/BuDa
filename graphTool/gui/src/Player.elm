@@ -72,3 +72,72 @@ redo m_redo model =
 
         Nothing ->
             model
+
+
+saveNodeToTmp_ : Identifier -> Model.Model -> Model.Model
+saveNodeToTmp_ id model =
+    let
+        m_n =
+            DataModel.getNodeFromId id model.dataModel.nodes
+
+        m1 =
+            case m_n of
+                Nothing ->
+                    model
+
+                Just n ->
+                    let
+                        newNodes =
+                            ModelManagement.getDescendantsFromN model.dataModel.nodes n
+
+                        newEdges =
+                            List.filter
+                                (\x ->
+                                    DataModel.isNodeIdPresent x.source newNodes
+                                        || DataModel.isNodeIdPresent x.target newNodes
+                                )
+                                model.dataModel.edges
+
+                        defModel =
+                            DataModel.defaultModel
+
+                        newData =
+                            { defModel | nodes = newNodes, edges = newEdges }
+
+                        newTmpModel =
+                            { m_id = Just id
+                            , data = newData
+                            }
+                    in
+                        { model | tmpDataModel = newTmpModel }
+    in
+        m1
+
+
+doCtrlX : Identifier -> Model.Model -> Model.Model
+doCtrlX id model =
+    let
+        m1 =
+            saveNodeToTmp_ id model
+
+        newDataModel =
+            DataModelActions.deleteNode id m1.dataModel
+    in
+        { m1 | dataModel = newDataModel }
+
+
+doCtrlV : Maybe Identifier -> Model.Model -> Model.Model
+doCtrlV m_s model =
+    let
+        m_id =
+            model.tmpDataModel.m_id
+
+        newDataModel =
+            DataModelActions.insertFromTmp m_s m_id model.tmpDataModel.data model.dataModel
+    in
+        { model | dataModel = newDataModel }
+
+
+doCtrlC : Identifier -> Model.Model -> Model.Model
+doCtrlC id model =
+    saveNodeToTmp_ id model
