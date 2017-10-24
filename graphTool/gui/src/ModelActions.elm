@@ -943,63 +943,13 @@ removeMask model =
         m1
 
 
-saveNodeToTmp_ : Identifier -> Model -> Model
-saveNodeToTmp_ id model =
     let
-        m_n =
-            DataModel.getNodeFromId id model.dataModel.nodes
 
-        m1 =
-            case m_n of
-                Nothing ->
-                    model
 
-                Just n ->
                     let
-                        newNodes =
-                            ModelManagement.getDescendantsFromN model.dataModel.nodes n
 
-                        newEdges =
-                            List.filter
-                                (\x ->
-                                    DataModel.isNodeIdPresent x.source newNodes
-                                        || DataModel.isNodeIdPresent x.target newNodes
-                                )
-                                model.dataModel.edges
 
-                        defModel =
-                            DataModel.defaultModel
-
-                        newData =
-                            { defModel | nodes = newNodes, edges = newEdges }
-
-                        newTmpModel =
-                            { m_id = Just id
-                            , data = newData
-                            }
-                    in
-                        { model | tmpDataModel = newTmpModel }
     in
-        m1
-
-
-insertFromTmp_ : Maybe Identifier -> Model -> Model
-insertFromTmp_ m_s model =
-    let
-        m_id =
-            model.tmpDataModel.m_id
-
-        newDataModel =
-            DataModelActions.insertFromTmp m_s m_id model.tmpDataModel.data model.dataModel
-
-        -- newUndo =
-        --     Scenario.addMsg (Scenario.InsertFromTmp m_s m_id model.tmpDataModel.data) model.undo
-    in
-        { model
-            | dataModel =
-                newDataModel
-                -- , undo = newUndo
-        }
 
 
 ctrlX : Model -> Model
