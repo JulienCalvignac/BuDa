@@ -27,6 +27,9 @@ type Msg
     | UpdateTightnessForGroup String Identifier
     | UpdateLayoutFromNodeId (Maybe Identifier) (List Position.NodePosition)
     | UpdateLightLayout Layout
+    | CtrlC Identifier
+    | CtrlX Identifier
+    | CtrlV (Maybe Identifier)
 
 
 type alias Model =
