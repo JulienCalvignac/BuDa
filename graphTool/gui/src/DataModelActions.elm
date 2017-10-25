@@ -1390,7 +1390,7 @@ insertFromTmp m_s m_id tmp model =
                         newEdges =
                             List.filter
                                 (\x ->
-                                    (filterEdge_ x n_id m2.nodes)
+                                    (filterEdge_ x newId m2.nodes)
                                 )
                                 tmpDataModel.edges
 
