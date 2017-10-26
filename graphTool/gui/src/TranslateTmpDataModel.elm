@@ -92,7 +92,7 @@ makeSetIdentifierfromDataModel model =
             Set.fromList (List.map (\x -> x.id) model.nodes)
 
         s2 =
-            Set.fromList (List.map (\x -> x.id) model.nodes)
+            Set.fromList (List.map (\x -> x.id) model.edges)
     in
         Set.union s1 s2
 
