@@ -1394,12 +1394,15 @@ insertFromTmp m_s m_id tmp model =
                                 )
                                 tmpDataModel.edges
 
-                        m3 =
-                            createLinks_ newEdges m2
-
                         newCurId =
-                            DataModel.getCurIdFromModel m3
+                            DataModel.getCurIdFromModel m2
+
+                        m3 =
+                            { m2 | curNodeId = newCurId }
+
+                        m4 =
+                            createLinks_ newEdges m3
                     in
-                        { m3 | curNodeId = newCurId }
+                        m4
     in
         m0
