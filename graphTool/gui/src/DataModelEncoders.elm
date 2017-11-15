@@ -217,6 +217,7 @@ encodeModel_ jsmodel =
         , ( "geometryLayouts", encodeGeometryLayouts jsmodel.geometryLayouts )
         , ( "lightLayout", (maybe encodeNodePositionList jsmodel.lightLayout) )
         , ( "rootBubbleLayout", (maybe encodeNodePositionList jsmodel.rootBubbleLayout) )
+        , ( "geometryImage", (maybe Json.Encode.string jsmodel.geometryImage) )
         ]
 
 

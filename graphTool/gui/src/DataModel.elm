@@ -79,6 +79,7 @@ type alias Model =
     , rootBubbleLayout : Maybe Layout
     , mask : Mask.Model
     , notifications : List Notifications.NotificationData
+    , geometryImage : Maybe String
     }
 
 
@@ -116,6 +117,7 @@ type alias DataModel =
     , lightLayout : Maybe Layout
     , rootBubbleLayout : Maybe Layout
     , mask : Mask.Model
+    , geometryImage : Maybe String
     }
 
 
@@ -137,6 +139,7 @@ defaultModel =
     , rootBubbleLayout = Nothing
     , mask = Mask.defaultModel
     , notifications = []
+    , geometryImage = Nothing
     }
 
 
@@ -208,6 +211,7 @@ dataModelToModel dm model =
         , rootBubbleLayout = dm.rootBubbleLayout
         , mask = dm.mask
         , notifications = []
+        , geometryImage = Nothing
         }
 
 

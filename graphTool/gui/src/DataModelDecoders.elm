@@ -167,6 +167,7 @@ decodeDataModel =
         |> Json.Decode.Pipeline.optional "lightLayout" (Json.Decode.maybe decodeLayout) Nothing
         |> Json.Decode.Pipeline.optional "rootBubbleLayout" (Json.Decode.maybe decodeLayout) Nothing
         |> Json.Decode.Pipeline.optional "mask" (Json.Decode.Extra.set decodeIdentifier) Set.empty
+        |> Json.Decode.Pipeline.optional "geometryImage" (Json.Decode.maybe Json.Decode.string) Nothing
 
 
 decodeNodePosition : Json.Decode.Decoder Position.NodePosition

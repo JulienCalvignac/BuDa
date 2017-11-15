@@ -1,6 +1,9 @@
 'use strict';
 
-var options = { cyreference : null };
+var options = { cyreference : null
+								, drawImage : true
+								, background : null
+							};
 
 var dagre_layout = { name: 'dagre' };
 
@@ -55,6 +58,7 @@ function getCyReference() {
 
 	return options.cyreference;
 }
+
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -157,7 +161,41 @@ cy.on('select', function(event){
 });
 
 
+var layer = cy.cyCanvas({
+zIndex: -1
+});
+var canvas = layer.getCanvas();
+var ctx = canvas.getContext('2d');
+
+cy.on("render cyCanvas.resize", function(evt) {
+	_drawImage_ (layer,ctx);
+});
+
+
 }); // end of document.addEventListener
+
+
+function _drawImage_(layer,ctx) {
+
+
+		layer.resetTransform(ctx);
+		layer.clear(ctx);
+		layer.setTransform(ctx);
+
+		if(options.drawImage == true)
+		{
+			if(options.background != null)
+			{
+				ctx.save();
+				ctx.drawImage(options.background, 0, 0);
+				ctx.restore();
+			}
+
+			// var cy = getCyReference();
+			// console.log ( "zoom: " + cy.zoom() )
+			// cy.zoom(1.50);
+		}
+}
 
 function _setNodesPositionsToElm_() {
 	var cy = getCyReference();
@@ -280,3 +318,21 @@ function saveToImage (imgName) {
 	_saveAsPng_ (imgName);
 }
 
+function _unLoadImage () {
+	if(options.background != null)
+	{
+			delete options.background;
+			options.background = null;
+	}
+}
+
+function _loadImage ( img ) {
+	_unLoadImage ();
+
+	var background = new Image();
+	background.onload = () => {
+		console.log ("load new image...");
+	}
+	background.src = img;
+	options.background = background;
+}
