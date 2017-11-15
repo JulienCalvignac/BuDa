@@ -43,6 +43,7 @@ import TightnessActions
 import Layout exposing (Layout, NodeLayout)
 import Mask
 import TranslateTmpDataModel
+import Notifications
 
 
 {--
@@ -64,8 +65,11 @@ createNode s m_parent model =
 
         newNodes =
             n :: newDataModel.nodes
+
+        newNotifications =
+            (Notifications.BLOC n) :: newDataModel.notifications
     in
-        { newDataModel | nodes = newNodes }
+        { newDataModel | nodes = newNodes, notifications = newNotifications }
 
 
 
@@ -93,7 +97,17 @@ createLink s t model =
         newModel =
             case ( ns, nt ) of
                 ( Just ns1, Just nt1 ) ->
-                    createLink_ ns1 nt1 model
+                    let
+                        m1 =
+                            createLink_ ns1 nt1 model
+
+                        edge =
+                            (Link.link s t)
+
+                        newNotifications =
+                            (Notifications.LIEN edge) :: m1.notifications
+                    in
+                        { m1 | notifications = newNotifications }
 
                 ( _, _ ) ->
                     model
