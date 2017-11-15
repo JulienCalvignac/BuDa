@@ -46,5 +46,7 @@ type Msg
     | OnOpen
     | OnImport
     | ImportModel
+    | AskForMessages
+    | NewMessage String
     | SaveToImage
     | NoOp
