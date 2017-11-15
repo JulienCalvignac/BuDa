@@ -1,4 +1,13 @@
-module DataModelEncoders exposing (encodeMaybeIdentifier, encodeModel, encodeMetaModel, encodeExport)
+module DataModelEncoders
+    exposing
+        ( encodeNode
+        , encodeEdge
+        , encodeMaybeIdentifier
+        , encodeModel
+        , encodeMetaModel
+        , encodeExport
+        , encodeNotification
+        )
 
 import Identifier exposing (Identifier)
 import Position exposing (Position)
@@ -10,7 +19,8 @@ import Json.Encode exposing (Value, array, bool, encode, float, int, list, null,
 import Set exposing (Set)
 import LinkParameters
 import Groups
-import Layout exposing (NodeLayout)
+import Layout exposing (NodeLayout, GeometryLayout)
+import Notifications
 
 
 encodeMaybeIdentifier : Maybe Identifier -> String
@@ -198,3 +208,25 @@ encodeExport_ meta =
 encodeExport : DataModel.ExportLink -> String
 encodeExport =
     encode 0 << encodeExport_
+
+
+encodeNotification_ : Notifications.Model -> Json.Encode.Value
+encodeNotification_ notify =
+    let
+        s =
+            case notify.data of
+                Notifications.BLOC n ->
+                    encodeNode n
+
+                Notifications.LIEN e ->
+                    encodeEdge e
+    in
+        Json.Encode.object
+            [ ( "header", string (notify.header) )
+            , ( "data", string s )
+            ]
+
+
+encodeNotification : Notifications.Model -> String
+encodeNotification =
+    encode 0 << encodeNotification_

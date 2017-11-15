@@ -1,4 +1,12 @@
-module DataModelDecoders exposing (decodeIdentifier, decodeDataModel, decodeNodesPosition)
+module DataModelDecoders
+    exposing
+        ( decodeNode
+        , decodeEdge
+        , decodeIdentifier
+        , decodeDataModel
+        , decodeNodesPosition
+        , decodeNotification
+        )
 
 import Identifier exposing (Identifier)
 import Attribut exposing (Attribut)
@@ -13,6 +21,7 @@ import Groups
 import Set
 import Position exposing (Position)
 import Layout exposing (NodeLayout)
+import Notifications
 
 
 decodeIdentifier : Json.Decode.Decoder Identifier
@@ -145,3 +154,18 @@ decodeNodePosition =
 decodeNodesPosition : Json.Decode.Decoder (List Position.NodePosition)
 decodeNodesPosition =
     Json.Decode.list decodeNodePosition
+
+
+decodeNotificationData_ : Json.Decode.Decoder Notifications.NotificationData
+decodeNotificationData_ =
+    Json.Decode.oneOf
+        [ Json.Decode.map Notifications.BLOC decodeNode
+        , Json.Decode.map Notifications.LIEN decodeEdge
+        ]
+
+
+decodeNotification : Json.Decode.Decoder Notifications.Model
+decodeNotification =
+    Json.Decode.Pipeline.decode Notifications.Model
+        |> Json.Decode.Pipeline.required "header" Json.Decode.string
+        |> Json.Decode.Pipeline.required "data" decodeNotificationData_
