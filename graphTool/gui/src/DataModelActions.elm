@@ -22,6 +22,7 @@ module DataModelActions
         , updateNodesPosition
         , updateTightnessForGroup
         , updateLayoutFromNodeId
+        , updateGeometryLayoutFromId
         , updateLightLayout
         , getAscendantName
         , insertMask
@@ -1305,6 +1306,53 @@ updateLayoutFromNodeId m_id lay model =
                                         model.layouts
                             in
                                 { model | layouts = newLayouts }
+            in
+                newModel
+
+
+addGeometryLayout_ : Identifier -> Layout -> Model -> Model
+addGeometryLayout_ i lay model =
+    let
+        newGeometryLayouts =
+            { id = i, layout = lay } :: model.geometryLayouts
+    in
+        { model | geometryLayouts = newGeometryLayouts }
+
+
+updateGeometryLayoutFromId : Maybe Identifier -> Layout -> Model -> Model
+updateGeometryLayoutFromId m_id lay model =
+    case m_id of
+        Nothing ->
+            model
+
+        Just id ->
+            let
+                b =
+                    DataModel.isLayoutPresent id model.geometryLayouts
+
+                m_l =
+                    DataModel.getGeometryLayoutFromId id model
+
+                newModel =
+                    case m_l of
+                        Nothing ->
+                            addGeometryLayout_ id lay model
+
+                        Just l ->
+                            let
+                                newLayouts =
+                                    List.map
+                                        (\x ->
+                                            case x.id == id of
+                                                True ->
+                                                    { x | layout = lay }
+
+                                                False ->
+                                                    x
+                                        )
+                                        model.geometryLayouts
+                            in
+                                { model | geometryLayouts = newLayouts }
             in
                 newModel
 

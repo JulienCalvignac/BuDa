@@ -27,6 +27,7 @@ module ModelActions
         , updateLayoutFromNodeId
         , updateNodesPosition
         , updateLightLayout
+        , updateGeometryLayout
         , triNodes
         , getAscendantName
         , searchElement
@@ -761,6 +762,36 @@ updateLightNodesPosition model =
         newModel
 
 
+updateGeometryNodesPosition : Model.Model -> Model.Model
+updateGeometryNodesPosition model =
+    let
+        m_l =
+            case model.geometryId of
+                Nothing ->
+                    Nothing
+
+                Just id ->
+                    DataModel.getGeometryLayoutFromId id model.dataModel
+
+        newModel =
+            case m_l of
+                Nothing ->
+                    model
+
+                Just lay ->
+                    -- model
+                    let
+                        newDataModel =
+                            DataModelActions.updateNodesPosition lay model.dataModel
+                    in
+                        { model
+                            | dataModel =
+                                newDataModel
+                        }
+    in
+        newModel
+
+
 updateNodesPosition : Model.Model -> Model.Model
 updateNodesPosition model =
     case model.viewType of
@@ -772,6 +803,9 @@ updateNodesPosition model =
 
         Model.BULL ->
             updateBullNodesPosition model
+
+        Model.GEOMETRY ->
+            updateGeometryNodesPosition model
 
         _ ->
             model
@@ -852,6 +886,34 @@ updateLayoutFromNodeId s model =
                             | dataModel =
                                 newDataModel
                             , undo = newUndo
+                        }
+
+                _ ->
+                    model
+    in
+        newModel
+
+
+updateGeometryLayout : String -> Model -> Model
+updateGeometryLayout s model =
+    let
+        res_elts =
+            Json.Decode.decodeString DataModelDecoders.decodeNodesPosition s
+
+        newModel =
+            case res_elts of
+                Ok elements ->
+                    let
+                        newDataModel =
+                            DataModelActions.updateGeometryLayoutFromId model.geometryId elements model.dataModel
+
+                        -- newUndo =
+                        --     Scenario.addMsg (Scenario.UpdateLayoutFromNodeId model.nodeViewId elements) model.undo
+                    in
+                        { model
+                            | dataModel =
+                                newDataModel
+                                -- , undo = newUndo
                         }
 
                 _ ->

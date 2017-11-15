@@ -191,6 +191,19 @@ encodeLayouts list =
     (Json.Encode.list <| List.map encodeNodeLayout list)
 
 
+encodeGeometryLayout : GeometryLayout -> Value
+encodeGeometryLayout nl =
+    object
+        [ ( "id", encodeIdentifier nl.id )
+        , ( "layout", (Json.Encode.list <| List.map encodeNodePosition nl.layout) )
+        ]
+
+
+encodeGeometryLayouts : List GeometryLayout -> Value
+encodeGeometryLayouts list =
+    (Json.Encode.list <| List.map encodeGeometryLayout list)
+
+
 encodeModel_ : DataModel.Model -> Value
 encodeModel_ jsmodel =
     object
@@ -201,6 +214,7 @@ encodeModel_ jsmodel =
         , ( "geometries", encodeGeometries jsmodel.geometries )
         , ( "mustLayout", Json.Encode.bool jsmodel.mustLayout )
         , ( "layouts", encodeLayouts jsmodel.layouts )
+        , ( "geometryLayouts", encodeGeometryLayouts jsmodel.geometryLayouts )
         , ( "lightLayout", (maybe encodeNodePositionList jsmodel.lightLayout) )
         , ( "rootBubbleLayout", (maybe encodeNodePositionList jsmodel.rootBubbleLayout) )
         ]

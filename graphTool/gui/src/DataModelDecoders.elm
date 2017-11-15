@@ -144,6 +144,13 @@ decodeNodeLayout =
         |> Json.Decode.Pipeline.required "layout" decodeLayout
 
 
+decodeGeometryLayout : Json.Decode.Decoder Layout.GeometryLayout
+decodeGeometryLayout =
+    Json.Decode.Pipeline.decode Layout.GeometryLayout
+        |> Json.Decode.Pipeline.required "id" decodeIdentifier
+        |> Json.Decode.Pipeline.required "layout" decodeLayout
+
+
 decodeDataModel : Json.Decode.Decoder DataModel.DataModel
 decodeDataModel =
     Json.Decode.Pipeline.decode DataModel.DataModel
@@ -155,6 +162,7 @@ decodeDataModel =
         |> Json.Decode.Pipeline.optional "lightedGroup" (Json.Decode.maybe Json.Decode.int) Nothing
         |> Json.Decode.Pipeline.optional "selectedParameters" (Json.Decode.Extra.set decodeIdentifier) Set.empty
         |> Json.Decode.Pipeline.optional "layouts" (Json.Decode.list decodeNodeLayout) []
+        |> Json.Decode.Pipeline.optional "geometryLayouts" (Json.Decode.list decodeGeometryLayout) []
         |> Json.Decode.Pipeline.optional "lightLayout" (Json.Decode.maybe decodeLayout) Nothing
         |> Json.Decode.Pipeline.optional "rootBubbleLayout" (Json.Decode.maybe decodeLayout) Nothing
         |> Json.Decode.Pipeline.optional "mask" (Json.Decode.Extra.set decodeIdentifier) Set.empty

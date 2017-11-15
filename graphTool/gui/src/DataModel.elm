@@ -34,6 +34,7 @@ module DataModel
         , getNodeNameFromId
         , getParentFromNodeId
         , getLayoutFromNodeId
+        , getGeometryLayoutFromId
         , isEdgePresent
         , isNamePresent
         , isNodePresent
@@ -72,6 +73,7 @@ type alias Model =
     , selectedParameters : Set Identifier
     , mustLayout : Bool
     , layouts : List NodeLayout
+    , geometryLayouts : List GeometryLayout
     , lightLayout : Maybe Layout
     , rootBubbleLayout : Maybe Layout
     , mask : Mask.Model
@@ -108,6 +110,7 @@ type alias DataModel =
     , lightedGroup : Maybe Identifier
     , selectedParameters : Set Identifier
     , layouts : List NodeLayout
+    , geometryLayouts : List GeometryLayout
     , lightLayout : Maybe Layout
     , rootBubbleLayout : Maybe Layout
     , mask : Mask.Model
@@ -126,6 +129,7 @@ defaultModel =
     , selectedParameters = Set.empty
     , mustLayout = False
     , layouts = []
+    , geometryLayouts = []
     , lightLayout = Nothing
     , rootBubbleLayout = Nothing
     , mask = Mask.defaultModel
@@ -195,6 +199,7 @@ dataModelToModel dm model =
         , selectedParameters = dm.selectedParameters
         , mustLayout = False
         , layouts = dm.layouts
+        , geometryLayouts = dm.geometryLayouts
         , lightLayout = dm.lightLayout
         , rootBubbleLayout = dm.rootBubbleLayout
         , mask = dm.mask
@@ -672,6 +677,11 @@ getLayoutFromNodeIdAndList_ id list =
 getLayoutFromNodeId : Identifier -> Model -> Maybe Layout
 getLayoutFromNodeId id model =
     getLayoutFromNodeIdAndList_ id model.layouts
+
+
+getGeometryLayoutFromId : Identifier -> Model -> Maybe Layout
+getGeometryLayoutFromId id model =
+    getLayoutFromNodeIdAndList_ id model.geometryLayouts
 
 
 setLayoutToNodes : Layout -> Model -> Model
