@@ -55,6 +55,7 @@ import Set exposing (Set)
 import TightnessActions
 import Layout exposing (Layout, NodeLayout)
 import Mask
+import Notifications
 
 
 type alias Model =
@@ -70,6 +71,7 @@ type alias Model =
     , lightLayout : Maybe Layout
     , rootBubbleLayout : Maybe Layout
     , mask : Mask.Model
+    , notifications : List Notifications.NotificationData
     }
 
 
@@ -121,6 +123,7 @@ defaultModel =
     , lightLayout = Nothing
     , rootBubbleLayout = Nothing
     , mask = Mask.defaultModel
+    , notifications = []
     }
 
 
@@ -188,6 +191,7 @@ dataModelToModel dm model =
         , lightLayout = dm.lightLayout
         , rootBubbleLayout = dm.rootBubbleLayout
         , mask = dm.mask
+        , notifications = []
         }
 
 
