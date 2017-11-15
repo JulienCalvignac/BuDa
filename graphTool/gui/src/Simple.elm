@@ -19,6 +19,7 @@ subscriptions model =
         [ -- WebSocket.listen (model.modelURL) (NewSimuState << Json.Decode.decodeString Decoders.timerResponseDecode)
           LinkToJS.selection Selection
         , LinkToJS.modeltoelm ModelToElm
+        , LinkToJS.importModeltoelm ImportModelToElm
         , LinkToJS.doubleclick DoubleClick
         , LinkToJS.nodesPositionToElm NodesPositionToElm
         , LinkToJS.nodesPositionRequest NodesPositionRequest

@@ -445,6 +445,13 @@ update msg model =
             in
                 showView msg m1
 
+        ImportModelToElm s ->
+            let
+                m1 =
+                    ModelActions.dataImportModelToModel s model
+            in
+                ( m1, Cmd.none )
+
         NodesPositionToElm s ->
             let
                 m1 =
@@ -539,6 +546,10 @@ update msg model =
 
         OnOpen ->
             ( model, LinkToJS.onOpen "" )
+
+        OnImport ->
+            ( model, LinkToJS.onImport "" )
+
         AskForMessages ->
             askForMessages model
 
@@ -548,3 +559,6 @@ update msg model =
                     Debug.log "NewMessage: " str
             in
                 ( model, Cmd.none )
+
+        ImportModel ->
+            ( model, LinkToJS.importModel "importModel" )

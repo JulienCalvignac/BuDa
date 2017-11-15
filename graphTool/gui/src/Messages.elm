@@ -17,6 +17,7 @@ type Msg
     | InputFileChange String
     | Selection (List String)
     | ModelToElm String
+    | ImportModelToElm String
     | NodesPositionToElm String
     | SaveModel
     | LoadModel
@@ -43,4 +44,6 @@ type Msg
     | Redo
     | NodesPositionRequest String
     | OnOpen
+    | OnImport
+    | ImportModel
     | NoOp

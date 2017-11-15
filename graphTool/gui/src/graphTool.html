@@ -83,6 +83,11 @@
         // console.log('loadmodel:' + msg);
       });
 
+      app.ports.importModel.subscribe(function(word) {
+        var msg = importModelFromFile(word);
+        // console.log('importModel:' + msg);
+      });
+
       app.ports.onOpen.subscribe(function(word) {
         var fileinput = document.getElementById("loadModel");
         fileinput.click();
@@ -90,12 +95,21 @@
       } );
 
 
+      app.ports.onImport.subscribe(function(word) {
+        var fileinput = document.getElementById("importModel");
+        fileinput.click();
+
+      } );
+
       function app_port_sendSelectionToElm (msg) {
         app.ports.selection.send(msg);
       }
 
       function app_port_sendModelToElm (msg) {
         app.ports.modeltoelm.send(msg);
+      }
+      function app_port_sendImportModelToElm (msg) {
+        app.ports.importModeltoelm.send(msg);
       }
 
       function app_port_sendDoubleClickToElm (msg) {

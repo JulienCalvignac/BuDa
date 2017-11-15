@@ -30,11 +30,6 @@
   left: 15.5em;
 }
 #loadModel {
-    /*width: 6em;
-    height: 3em;
-    position: absolute;
-    top: 0em;
-    left: 21em;*/
     display: none
 }
 #open  {
@@ -44,13 +39,26 @@
     top: 0em;
     left: 21em;
 }
+#importModel {
+    display: none
+}
+#import {
+    width: 5em;
+    height: 3em;
+    position: absolute;
+    top: 0em;
+    left: 26.5em;
+}
+}
+
 #fieldset {
-    width: 30em;
+    width: 35em;
     height: 1em;
     position: absolute;
     top: 0.2em;
     left: 40em;
 }
+
 
 /*                     gestion du modele                        */
 #input {

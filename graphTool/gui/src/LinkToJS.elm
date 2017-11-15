@@ -3,7 +3,9 @@ port module LinkToJS
         ( exportLNK
         , layout
         , loadModel
+        , importModel
         , modeltoelm
+        , importModeltoelm
         , doubleclick
         , saveModel
         , sendDataPBSModel
@@ -14,6 +16,7 @@ port module LinkToJS
         , requestpositions
         , nodesPositionRequest
         , onOpen
+        , onImport
         )
 
 {--
@@ -59,6 +62,12 @@ port requestpositions : String -> Cmd msg
 port onOpen : String -> Cmd msg
 
 
+port importModel : String -> Cmd msg
+
+
+port onImport : String -> Cmd msg
+
+
 
 {--
 //////////////////////////////////////////////////////////////////////////////
@@ -76,6 +85,9 @@ port selection : (List String -> msg) -> Sub msg
 
 
 port modeltoelm : (String -> msg) -> Sub msg
+
+
+port importModeltoelm : (String -> msg) -> Sub msg
 
 
 
