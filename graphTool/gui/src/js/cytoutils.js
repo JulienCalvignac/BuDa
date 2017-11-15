@@ -2,19 +2,11 @@
 
 var options = { cyreference : null };
 
-// var cy_reference = null;
-// var cola_layout = { name: 'cola', fit: true, maxSimulationTime: 1000, };
 var dagre_layout = { name: 'dagre' };
-// var arbor_layout = { name: 'arbor' };
 
 var dataElements = {
-		nodes: [
-			// { data: { id: 99, name: 'a' } }
-			// , { data: { id: 100, name: 'b' } }
-	]
-		, edges: [
-			// { data: { id: 101, source: 99, target: 100 } }
-		]
+		nodes: []
+		, edges: []
 };
 
 var preset_layout = {
@@ -34,27 +26,12 @@ var preset_layout = {
   transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts
 };
 
-var idx = 0;
-
-
-var cur_position = { x: 0, y: 0 };
-
-
 var styleP = $.ajax({
 	url: 'mainstyle.css',
 	type: 'GET',
 	dataType: 'text'
 });
-
-
 var stylesheet = styleP;
-
-
-function getIdentifer() {
-	var res = idx;
-	idx = idx + 1;
-	return res;
-}
 
 
 function getCyReference() {
@@ -89,12 +66,13 @@ var mustUpdatepositionstoElm=false;
 var hasNodeClicked = false;
 var hasNodeMoving = false;
 
+
 cy.on("click", function(e){
 	try {
 		var selected = getSelectedEls();
 		if(selected.length == 0)
 		{
-			console.log('no selection');
+			// console.log('no selection');
 			var msg = [];
 			_sendSelectionToElm_(msg);
 
@@ -105,21 +83,20 @@ cy.on("click", function(e){
 	}
 });
 
-
 cy.on('mousedown', 'node', function(e){
-	console.log('mousedown node event');
+	// console.log('mousedown node event');
 	hasNodeClicked=true;
 });
 
 cy.on('mouseup', 'node', function(e){
-	console.log('mouseup node event');
+	// console.log('mouseup node event');
 
 	if(hasNodeMoving == true){
 		mustUpdatepositionstoElm=true;
 	}
 
 	if(mustUpdatepositionstoElm == true){
-		console.log("mustUpdatepositionstoElm to send");
+		// console.log("mustUpdatepositionstoElm to send");
 		_setNodesPositionsToElm_();
 	}
 
@@ -130,7 +107,7 @@ cy.on('mouseup', 'node', function(e){
 });
 
 cy.on('mousemove', function(e){
-	console.log('mousemove event');
+	// console.log('mousemove event');
 
 	if(hasNodeClicked==true){
 		hasNodeMoving = true;
@@ -199,7 +176,7 @@ function _setNodesPositionsToElm_() {
 
 	msg = JSON.stringify ( msg );
 
-	console.log (msg);
+	// console.log (msg);
 
 	app_port_sendNodesPositionToElm(msg);
 }
