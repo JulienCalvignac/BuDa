@@ -33,6 +33,7 @@ module ModelActions
         , ctrlC
         , ctrlX
         , ctrlV
+        , getNodeViewLabel
         )
 
 import Identifier exposing (Identifier)
@@ -820,6 +821,23 @@ triNodes model =
             DataModel.triNodes model.dataModel
     in
         { model | dataModel = newDataModel }
+
+
+getNodeViewLabel : Model -> String
+getNodeViewLabel model =
+    let
+        s =
+            getAscendantName model
+
+        sId =
+            case model.nodeViewId of
+                Nothing ->
+                    " ( )"
+
+                Just i ->
+                    " ( id = " ++ toString (i) ++ " )"
+    in
+        s ++ sId
 
 
 getAscendantName : Model -> String

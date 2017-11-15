@@ -68,6 +68,5 @@ view model =
         , button [ onClick Messages.Layout, id "layout", value "layout" ] [ text "Layout" ]
         , button [ onClick Messages.GetPositions, id "pos", value "pos" ] [ text "Pos" ]
         , button [ onClick Messages.Redo, id "redo", value "redo" ] [ text "Redo" ]
-        , div [ id "label" ] [ text (ModelActions.getAscendantName model) ]
-          -- , input [ id "log", value "" ] [ text "" ]
+        , div [ id "label" ] [ text (ModelActions.getNodeViewLabel model) ]
         ]
