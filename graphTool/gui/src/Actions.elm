@@ -23,6 +23,10 @@ import Messages exposing (Msg(..))
 import Export
 import SpecialKey
 import ModelManagement
+import WebSocket
+import Addresses
+import Notifications
+import NotificationActions
 
 
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -213,6 +217,20 @@ deleteElement msg model =
         showView msg m1
 
 
+sendNotification : String -> Notifications.NotificationData -> Cmd Msg
+sendNotification s notifyData =
+    WebSocket.send Addresses.wsUrl (NotificationActions.notificationData s notifyData)
+
+
+askForMessages : Model.Model -> ( Model.Model, Cmd Msg )
+askForMessages model =
+    let
+        z =
+            "Call askForMessages"
+    in
+        ( model, WebSocket.send Addresses.wsUrl "AskForMessages" )
+
+
 update : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 update msg model =
     case msg of
@@ -329,8 +347,31 @@ update msg model =
             let
                 m1 =
                     ModelActions.createNode model
+
+                ( m2, cmd ) =
+                    showView msg m1
+
+                notify =
+                    List.head m2.dataModel.notifications
+
+                cmds =
+                    case notify of
+                        Nothing ->
+                            [ cmd ]
+
+                        Just c ->
+                            [ cmd, sendNotification "create.node" c ]
+
+                dataModel =
+                    m2.dataModel
+
+                newDataModel =
+                    { dataModel | notifications = [] }
+
+                m3 =
+                    { m2 | dataModel = newDataModel }
             in
-                showView msg m1
+                ( m3, Cmd.batch cmds )
 
         RenameNode ->
             let
@@ -340,16 +381,39 @@ update msg model =
                 showView msg m1
 
         CreateLink ->
-            let
-                m1 =
-                    case model.selection of
-                        x1 :: x2 :: [] ->
+            case model.selection of
+                x1 :: x2 :: [] ->
+                    let
+                        m1 =
                             ModelActions.createLink x1 x2 model
 
-                        _ ->
-                            model
-            in
-                showView msg m1
+                        ( m2, cmd ) =
+                            showView msg m1
+
+                        notify =
+                            List.head m2.dataModel.notifications
+
+                        cmds =
+                            case notify of
+                                Nothing ->
+                                    [ cmd ]
+
+                                Just c ->
+                                    [ cmd, sendNotification "create.edge" c ]
+
+                        dataModel =
+                            m2.dataModel
+
+                        newDataModel =
+                            { dataModel | notifications = [] }
+
+                        m3 =
+                            { m2 | dataModel = newDataModel }
+                    in
+                        ( m3, Cmd.batch cmds )
+
+                _ ->
+                    ( model, Cmd.none )
 
         InputChange s ->
             ( { model | input = s }, Cmd.none )
@@ -475,3 +539,12 @@ update msg model =
 
         OnOpen ->
             ( model, LinkToJS.onOpen "" )
+        AskForMessages ->
+            askForMessages model
+
+        NewMessage str ->
+            let
+                z =
+                    Debug.log "NewMessage: " str
+            in
+                ( model, Cmd.none )
