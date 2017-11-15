@@ -98,6 +98,22 @@ showView msg model =
                     in
                         showAllDataLight msg m1
 
+                Model.GEOMETRY ->
+                    let
+                        dataModel =
+                            model.dataModel
+
+                        newDatamodel =
+                            { dataModel | mustLayout = True }
+
+                        m0 =
+                            { model | dataModel = newDatamodel }
+
+                        m1 =
+                            (ModelActions.updateNodesPosition m0)
+                    in
+                        showGeometry msg m1
+
         m2 =
             { m1 | selection = [], selectionType = Model.PARENT }
 
@@ -194,6 +210,33 @@ showBulles msg model =
             (DataModel.triNodes subModel)
     in
         ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m2) )
+
+
+showGeometry : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
+showGeometry msg model =
+    let
+        z =
+            Debug.log "showGeometry geometryId: " model.geometryId
+
+        dm =
+            model.dataModel
+
+        m1 =
+            case model.geometryId of
+                Nothing ->
+                    { dm | geometryImage = Nothing }
+
+                Just x ->
+                    let
+                        dm1 =
+                            { dm | geometryImage = (Geometries.getImageFromId x dm.geometries) }
+                    in
+                        (ModelViews.getGeometryViewFromId dm1 x)
+
+        m2 =
+            (DataModel.triNodes m1)
+    in
+        ( model, LinkToJS.sendDataGeometryModel (DataModelEncoders.encodeModel m2) )
 
 
 deleteElement : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -362,6 +405,9 @@ update msg model =
             in
                 showView msg m1
 
+        HighLightGeometry s ->
+            showView msg (ModelActions.highLightGeometry s model)
+
         SwitchToView s ->
             let
                 m1 =
@@ -484,6 +530,9 @@ update msg model =
                     case model.viewType of
                         Model.ALL_LIGHT ->
                             ModelActions.updateLightLayout s model
+
+                        Model.GEOMETRY ->
+                            ModelActions.updateGeometryLayout s model
 
                         _ ->
                             ModelActions.updateLayoutFromNodeId s model

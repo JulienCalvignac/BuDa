@@ -44,6 +44,7 @@ view model =
                 , radio (Messages.SwitchToView Model.PBS) "PBS" (model.viewType == Model.PBS)
                 , radio (Messages.SwitchToView Model.ALL) "All" (model.viewType == Model.ALL)
                 , radio (Messages.SwitchToView Model.ALL_LIGHT) "Light" (model.viewType == Model.ALL_LIGHT)
+                , radio (Messages.SwitchToView Model.GEOMETRY) "Geometry" (model.viewType == Model.GEOMETRY)
                 ]
             ]
         , button [ onClick Messages.CreateNode, id "new", value "new element" ] [ text "Node" ]

@@ -52,4 +52,5 @@ type Msg
     | CreateGeometry
     | DeleteGeometry
     | CheckNodeGeometryProperty Node String
+    | HighLightGeometry String
     | NoOp

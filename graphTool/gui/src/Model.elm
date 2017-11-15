@@ -22,6 +22,7 @@ type ViewType
     | PBS
     | ALL
     | ALL_LIGHT
+    | GEOMETRY
 
 
 type SelectionType
@@ -55,6 +56,7 @@ type alias Model =
     , undo : Scenario.Model
     , redo : Scenario.RedoModel
     , specialKey : SpecialKey.Model
+    , geometryId : Maybe Identifier
     }
 
 
@@ -76,4 +78,5 @@ defaultModel =
     , undo = Scenario.defaultModel
     , redo = Scenario.defaultRedoModel
     , specialKey = SpecialKey.defaultModel
+    , geometryId = Nothing
     }

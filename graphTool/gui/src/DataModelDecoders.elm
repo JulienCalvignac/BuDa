@@ -160,6 +160,7 @@ decodeDataModel =
         |> Json.Decode.Pipeline.required "groups" decodeGroups
         |> Json.Decode.Pipeline.required "geometries" decodeGeometries
         |> Json.Decode.Pipeline.optional "lightedGroup" (Json.Decode.maybe Json.Decode.int) Nothing
+        |> Json.Decode.Pipeline.optional "lightedGeometry" (Json.Decode.maybe Json.Decode.int) Nothing
         |> Json.Decode.Pipeline.optional "selectedParameters" (Json.Decode.Extra.set decodeIdentifier) Set.empty
         |> Json.Decode.Pipeline.optional "layouts" (Json.Decode.list decodeNodeLayout) []
         |> Json.Decode.Pipeline.optional "geometryLayouts" (Json.Decode.list decodeGeometryLayout) []

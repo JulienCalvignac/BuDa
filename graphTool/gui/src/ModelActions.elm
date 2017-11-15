@@ -22,6 +22,7 @@ module ModelActions
         , updateNodeGroupProperty
         , updateNodeGeometryProperty
         , highLightGroup
+        , highLightGeometry
         , selectedParameters
         , updateTightness
         , updateLayoutFromNodeId
@@ -719,6 +720,38 @@ highLightGroup s model =
             DataModelActions.highLightGroup s model.dataModel
     in
         { model
+            | dataModel =
+                newDataModel
+                -- , undo = newUndo
+        }
+
+
+highLightGeometry : String -> Model.Model -> Model.Model
+highLightGeometry s model =
+    let
+        m_id =
+            Geometries.getPropertyIdFromName s model.dataModel.geometries
+
+        m1 =
+            { model
+                | geometryId =
+                    case m_id of
+                        Nothing ->
+                            Nothing
+
+                        Just x ->
+                            case model.geometryId == m_id of
+                                True ->
+                                    Nothing
+
+                                False ->
+                                    m_id
+            }
+
+        newDataModel =
+            DataModelActions.highLightGeometry s m1.dataModel
+    in
+        { m1
             | dataModel =
                 newDataModel
                 -- , undo = newUndo

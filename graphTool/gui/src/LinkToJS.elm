@@ -10,6 +10,7 @@ port module LinkToJS
         , saveModel
         , sendDataPBSModel
         , sendDataBullesModel
+        , sendDataGeometryModel
         , sendParentSelection
         , selection
         , nodesPositionToElm
@@ -36,6 +37,9 @@ port sendDataPBSModel : String -> Cmd msg
 
 
 port sendDataBullesModel : String -> Cmd msg
+
+
+port sendDataGeometryModel : String -> Cmd msg
 
 
 

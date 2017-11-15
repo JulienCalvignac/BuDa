@@ -70,6 +70,7 @@ type alias Model =
     , groups : Groups.Model
     , geometries : Geometries.Model
     , lightedGroup : Maybe Identifier
+    , lightedGeometry : Maybe Identifier
     , selectedParameters : Set Identifier
     , mustLayout : Bool
     , layouts : List NodeLayout
@@ -108,6 +109,7 @@ type alias DataModel =
     , groups : Groups.Model
     , geometries : Geometries.Model
     , lightedGroup : Maybe Identifier
+    , lightedGeometry : Maybe Identifier
     , selectedParameters : Set Identifier
     , layouts : List NodeLayout
     , geometryLayouts : List GeometryLayout
@@ -126,6 +128,7 @@ defaultModel =
     , groups = Groups.defaultModel
     , geometries = Geometries.defaultModel
     , lightedGroup = Nothing
+    , lightedGeometry = Nothing
     , selectedParameters = Set.empty
     , mustLayout = False
     , layouts = []
@@ -196,6 +199,7 @@ dataModelToModel dm model =
         , groups = dm.groups
         , geometries = dm.geometries
         , lightedGroup = dm.lightedGroup
+        , lightedGeometry = dm.lightedGeometry
         , selectedParameters = dm.selectedParameters
         , mustLayout = False
         , layouts = dm.layouts

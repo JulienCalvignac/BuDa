@@ -5,11 +5,13 @@ module ModelViews
         , getBullesView
         , getPBSViewFromNodeId
         , getPBSViewFromNodeName
+        , getGeometryViewFromId
         )
 
 import Identifier exposing (Identifier)
 import DataModel
 import ModelManagement
+import Node
 
 
 getPBSView : DataModel.Model -> DataModel.Model
@@ -40,3 +42,31 @@ getPBSViewFromNodeId model id =
 getPBSViewFromNodeName : DataModel.Model -> String -> DataModel.Model
 getPBSViewFromNodeName model s =
     ModelManagement.listNodeToPBSFromNodeName model.nodes s
+
+
+getGeometryViewFromId : DataModel.Model -> Identifier -> DataModel.Model
+getGeometryViewFromId model id =
+    let
+        newNodes =
+            List.filter (\x -> Node.hasGeometry id x) model.nodes
+
+        newEdges =
+            List.filter
+                (\x ->
+                    let
+                        ( m_s, m_t ) =
+                            ( DataModel.getNodeFromId x.source model.nodes, DataModel.getNodeFromId x.target model.nodes )
+
+                        res =
+                            case ( m_s, m_t ) of
+                                ( Just ns, Just nt ) ->
+                                    (Node.hasGeometry id ns) && (Node.hasGeometry id nt)
+
+                                _ ->
+                                    False
+                    in
+                        res
+                )
+                model.edges
+    in
+        { model | nodes = newNodes, edges = newEdges }
