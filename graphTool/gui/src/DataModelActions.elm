@@ -154,7 +154,6 @@ createAtomicEdge_ : Identifier -> Identifier -> Model -> Model
 createAtomicEdge_ src dest model =
     let
         edge =
-            --{ id = 0, source = src, target = dest }
             (Link.link src dest)
 
         dataModelNewId =
