@@ -101,6 +101,10 @@
 
       } );
 
+      app.ports.saveToImage.subscribe(function(imgName) {
+        saveToImage(imgName);
+      });
+
       function app_port_sendSelectionToElm (msg) {
         app.ports.selection.send(msg);
       }

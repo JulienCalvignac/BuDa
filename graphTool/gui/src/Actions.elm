@@ -295,6 +295,18 @@ update msg model =
         DeleteParameter ->
             ( ModelActions.deleteParameter model, Cmd.none )
 
+        SaveToImage ->
+            let
+                imgName =
+                    case (String.isEmpty model.inputFile) of
+                        True ->
+                            "graph"
+
+                        False ->
+                            model.inputFile
+            in
+                ( model, Cmd.batch [ LinkToJS.saveToImage imgName ] )
+
         ExportLink ->
             let
                 saveName =

@@ -49,6 +49,12 @@
     top: 0em;
     left: 26.5em;
 }
+#png {
+    width: 5em;
+    height: 3em;
+    position: absolute;
+    top: 0em;
+    left: 32em;
 }
 
 #fieldset {

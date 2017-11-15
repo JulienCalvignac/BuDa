@@ -257,3 +257,26 @@ function _updateBullesLayoutAndPos(obj) {
 	_layout_dagre();
 	_setNodesPositionsToElm_();
 }
+
+function _saveAsSvg_ (svgName) {
+  // demo your core ext
+	var cy = getCyReference();
+  var svgContent = cy.svgConvertor( {scale : 3, full : true} );
+  var svgBlob = new Blob([ svgContent ]
+  , { type: 'application/javascript;charset=utf-8' });
+  saveAs(svgBlob, svgName + '.svg');
+}
+
+function _saveAsPng_ (pngName) {
+	var cy = getCyReference();
+  var pngContent = cy.png({scale : 3, full : true});
+  var b64data = pngContent.substr(pngContent.indexOf(",") + 1);
+  var imgBlob = base64ToBlob( b64data, 'image/png' );
+  saveAs( imgBlob, pngName + '.png' );
+}
+
+function saveToImage (imgName) {
+	_saveAsSvg_ (imgName);
+	_saveAsPng_ (imgName);
+}
+

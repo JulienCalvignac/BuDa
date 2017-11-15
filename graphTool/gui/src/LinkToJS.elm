@@ -17,6 +17,7 @@ port module LinkToJS
         , nodesPositionRequest
         , onOpen
         , onImport
+        , saveToImage
         )
 
 {--
@@ -66,6 +67,9 @@ port importModel : String -> Cmd msg
 
 
 port onImport : String -> Cmd msg
+
+
+port saveToImage : String -> Cmd msg
 
 
 
