@@ -5,6 +5,7 @@ module ModelActions
         , createGroup
         , createGeometry
         , dataModelToModel
+        , dataImportModelToModel
         , deleteEdge
         , deleteNode
         , deleteGroup
@@ -1216,6 +1217,40 @@ ctrlV model =
                         }
 
                 _ ->
+                    model
+    in
+        m1
+
+
+dataImportModelToModel : String -> Model.Model -> Model.Model
+dataImportModelToModel s model =
+    let
+        res_elts =
+            Json.Decode.decodeString DataModelDecoders.decodeDataModel s
+
+        m1 =
+            case res_elts of
+                Ok elements ->
+                    let
+                        newDataModel0 =
+                            DataModel.dataModelToModel elements model.dataModel
+
+                        newDataModel =
+                            DataModel.getNodeIdentifier newDataModel0
+
+                        newId =
+                            newDataModel.curNodeId
+
+                        -- newUndo =
+                        --     Scenario.addMsg (Scenario.ImportModel elements) model.undo
+                    in
+                        { model
+                            | tmpDataModel =
+                                { m_id = Just newId, data = newDataModel }
+                                -- , undo = newUndo
+                        }
+
+                Err _ ->
                     model
     in
         m1
