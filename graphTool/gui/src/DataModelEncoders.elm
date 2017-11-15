@@ -78,15 +78,20 @@ encodeNode_ n =
         ]
 
 
-encodeNode : Node -> Value
-encodeNode n =
+encodeNode : Node -> String
+encodeNode =
+    encode 0 << encodeNode_
+
+
+encodeNodeData : Node -> Value
+encodeNodeData n =
     object
         [ ( "data", encodeNode_ n ) ]
 
 
 encodeNodes : List Node -> Value
 encodeNodes l =
-    Json.Encode.list <| List.map encodeNode l
+    Json.Encode.list <| List.map encodeNodeData l
 
 
 encodeEdge_ : Edge -> Value
@@ -102,15 +107,20 @@ encodeEdge_ je =
         ]
 
 
-encodeEdge : Edge -> Value
-encodeEdge je =
+encodeEdge : Edge -> String
+encodeEdge =
+    encode 0 << encodeEdge_
+
+
+encodeEdgeData : Edge -> Value
+encodeEdgeData je =
     object
         [ ( "data", encodeEdge_ je ) ]
 
 
 encodeEdges : List Edge -> Value
 encodeEdges l =
-    Json.Encode.list <| List.map encodeEdge l
+    Json.Encode.list <| List.map encodeEdgeData l
 
 
 encodeProperty : LinkParameters.Property -> Value

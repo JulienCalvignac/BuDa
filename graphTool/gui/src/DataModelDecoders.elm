@@ -41,8 +41,8 @@ decodePosition =
         |> Json.Decode.Pipeline.required "y" Json.Decode.float
 
 
-decodeNode_ : Json.Decode.Decoder Node
-decodeNode_ =
+decodeNode : Json.Decode.Decoder Node
+decodeNode =
     Json.Decode.Pipeline.decode Node
         |> Json.Decode.Pipeline.required "id" decodeIdentifier
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
@@ -53,15 +53,15 @@ decodeNode_ =
         |> Json.Decode.Pipeline.optional "position" decodePosition Position.defaultPosition
 
 
-decodeNode : Json.Decode.Decoder DataModel.DataNode
-decodeNode =
+decodeDataNode : Json.Decode.Decoder DataModel.DataNode
+decodeDataNode =
     Json.Decode.Pipeline.decode DataModel.DataNode
-        |> Json.Decode.Pipeline.required "data" decodeNode_
+        |> Json.Decode.Pipeline.required "data" decodeNode
 
 
 decodeNodes : Json.Decode.Decoder (List DataModel.DataNode)
 decodeNodes =
-    Json.Decode.list decodeNode
+    Json.Decode.list decodeDataNode
 
 
 decodeActiveProperties : Json.Decode.Decoder Link.ActivePoperties
@@ -70,8 +70,8 @@ decodeActiveProperties =
     (Json.Decode.Extra.set decodeIdentifier)
 
 
-decodeEdge_ : Json.Decode.Decoder Edge
-decodeEdge_ =
+decodeEdge : Json.Decode.Decoder Edge
+decodeEdge =
     Json.Decode.Pipeline.decode Edge
         |> Json.Decode.Pipeline.required "id" decodeIdentifier
         |> Json.Decode.Pipeline.required "source" decodeIdentifier
@@ -82,15 +82,15 @@ decodeEdge_ =
         |> Json.Decode.Pipeline.optional "tightness" (Json.Decode.Extra.set decodeIdentifier) Set.empty
 
 
-decodeEdge : Json.Decode.Decoder DataModel.DataEdge
-decodeEdge =
+decodeDataEdge : Json.Decode.Decoder DataModel.DataEdge
+decodeDataEdge =
     Json.Decode.Pipeline.decode DataModel.DataEdge
-        |> Json.Decode.Pipeline.required "data" decodeEdge_
+        |> Json.Decode.Pipeline.required "data" decodeEdge
 
 
 decodeEdges : Json.Decode.Decoder (List DataModel.DataEdge)
 decodeEdges =
-    Json.Decode.list decodeEdge
+    Json.Decode.list decodeDataEdge
 
 
 decodeProperty : Json.Decode.Decoder LinkParameters.Property
