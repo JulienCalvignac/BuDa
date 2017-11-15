@@ -231,3 +231,28 @@
   top: 22em;
   right: 3em;
 }
+
+#geometries {
+    width: 16em;
+    height: 20em;
+    position: absolute;
+    top: 83em;
+    right:2em;
+}
+
+#createGeometry
+{
+    width: 5em;
+    height: 3em;
+    position: absolute;
+    top: 22em;
+    right: 9em;
+}
+#deleteGeometry
+{
+  width: 5em;
+  height: 3em;
+  position: absolute;
+  top: 22em;
+  right: 3em;
+}

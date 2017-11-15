@@ -10,6 +10,7 @@ import ParametersView
 import AttributView
 import GroupsView
 import ModelActions
+import GeometriesView
 
 
 init : ( Model.Model, Cmd Messages.Msg )
@@ -51,6 +52,7 @@ view model =
         , ParametersView.view model
         , AttributView.view model
         , GroupsView.view model
+        , GeometriesView.view model
           -- , button [ onClick Actions.ParametersDialog, id "dialog", value "dialog" ] [ text "dialog" ]
         , button [ onClick Messages.ExportLink, id "export", value "export" ] [ text "Export" ]
         , input [ onInput Messages.InputChange, id "input", placeholder "undefined" ] []

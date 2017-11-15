@@ -1,4 +1,4 @@
-module Node exposing (Node, node, inGroup)
+module Node exposing (Node, node, inGroup, hasGeometry, removeGeometry)
 
 import Identifier exposing (Identifier)
 import Position exposing (Position)
@@ -11,6 +11,7 @@ type alias Node =
     , name : String
     , parent : Maybe Identifier
     , attribut : Maybe Attribut
+    , geometry : Maybe Identifier
     , group : Set Identifier
     , highLighted : Bool
     , position : Position
@@ -23,6 +24,7 @@ node i s p =
     , name = s
     , parent = p
     , attribut = Nothing
+    , geometry = Nothing
     , group = Set.empty
     , highLighted = False
     , position = Position.defaultPosition
@@ -32,3 +34,18 @@ node i s p =
 inGroup : Identifier -> Node -> Bool
 inGroup s n =
     Set.member s n.group
+
+
+hasGeometry : Identifier -> Node -> Bool
+hasGeometry s n =
+    case n.geometry of
+        Nothing ->
+            False
+
+        Just i ->
+            (i == s)
+
+
+removeGeometry : Identifier -> Node -> Node
+removeGeometry s n =
+    { n | geometry = Nothing }

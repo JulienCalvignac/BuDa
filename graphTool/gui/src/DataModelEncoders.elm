@@ -21,6 +21,7 @@ import LinkParameters
 import Groups
 import Layout exposing (NodeLayout, GeometryLayout)
 import Notifications
+import Geometries
 
 
 encodeMaybeIdentifier : Maybe Identifier -> String
@@ -63,6 +64,7 @@ encodeNode_ n =
         , ( "name", Json.Encode.string n.name )
         , ( "parent", maybe encodeIdentifier n.parent )
         , ( "attribut", maybe encodeAttribut n.attribut )
+        , ( "geometry", maybe encodeIdentifier n.geometry )
         , ( "group", (Json.Encode.list <| List.map encodeIdentifier (Set.toList n.group)) )
         , ( "highLighted"
           , Json.Encode.int
@@ -149,6 +151,20 @@ encodeGroups groups =
     (Json.Encode.list <| List.map encodeGroupProperty groups)
 
 
+encodeGeometryProperty : Geometries.Property -> Value
+encodeGeometryProperty property =
+    object
+        [ ( "id", encodeIdentifier property.id )
+        , ( "name", Json.Encode.string property.name )
+        , ( "svg", maybe Json.Encode.string property.svg )
+        ]
+
+
+encodeGeometries : Geometries.Model -> Value
+encodeGeometries geometries =
+    (Json.Encode.list <| List.map encodeGeometryProperty geometries)
+
+
 encodeNodePosition : Position.NodePosition -> Value
 encodeNodePosition np =
     object
@@ -182,6 +198,7 @@ encodeModel_ jsmodel =
         , ( "edges", encodeEdges jsmodel.edges )
         , ( "parameters", encodeParameters jsmodel.parameters )
         , ( "groups", encodeGroups jsmodel.groups )
+        , ( "geometries", encodeGeometries jsmodel.geometries )
         , ( "mustLayout", Json.Encode.bool jsmodel.mustLayout )
         , ( "layouts", encodeLayouts jsmodel.layouts )
         , ( "lightLayout", (maybe encodeNodePositionList jsmodel.lightLayout) )

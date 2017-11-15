@@ -49,4 +49,7 @@ type Msg
     | AskForMessages
     | NewMessage String
     | SaveToImage
+    | CreateGeometry
+    | DeleteGeometry
+    | CheckNodeGeometryProperty Node String
     | NoOp

@@ -24,6 +24,9 @@ type Msg
     | UpdateNodeGroupProperty Node String
     | CreateGroup String
     | DeleteGroup String
+    | CreateGeometry String
+    | DeleteGeometry String
+    | UpdateNodeGeometryProperty Node String
     | UpdateTightnessForGroup String Identifier
     | UpdateLayoutFromNodeId (Maybe Identifier) (List Position.NodePosition)
     | UpdateLightLayout Layout

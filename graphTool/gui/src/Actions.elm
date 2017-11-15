@@ -27,6 +27,7 @@ import WebSocket
 import Addresses
 import Notifications
 import NotificationActions
+import Geometries
 
 
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -345,6 +346,19 @@ update msg model =
             let
                 m1 =
                     ModelActions.deleteGroup model
+            in
+                showView msg m1
+
+        CreateGeometry ->
+            ( ModelActions.createGeometry model, Cmd.none )
+
+        DeleteGeometry ->
+            ( ModelActions.deleteGeometry model, Cmd.none )
+
+        CheckNodeGeometryProperty node s ->
+            let
+                m1 =
+                    ModelActions.updateNodeGeometryProperty node s model
             in
                 showView msg m1
 

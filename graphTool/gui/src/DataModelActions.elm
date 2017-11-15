@@ -4,16 +4,19 @@ module DataModelActions
         , createLink
         , createParameter
         , createGroup
+        , createGeometry
         , deleteEdge
         , deleteNode
         , deleteParameter
         , deleteGroup
+        , deleteGeometry
         , renameNode
         , updateAttribute
         , lowestLevelEdges
         , updateProperty
         , groupNodes
         , updateNodeGroupProperty
+        , updateNodeGeometryProperty
         , highLightGroup
         , selectedParameters
         , updateNodesPosition
@@ -44,6 +47,8 @@ import Layout exposing (Layout, NodeLayout)
 import Mask
 import TranslateTmpDataModel
 import Notifications
+import Geometries
+import GeometryActions
 
 
 {--
@@ -756,6 +761,69 @@ deleteGroup:
 deleteGroup : String -> Model -> Model
 deleteGroup s model =
     DataModel.deleteGroupProperty s model
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+createGeometry:
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+createGeometry : String -> Model -> Model
+createGeometry s model =
+    DataModel.createGeometry s model
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+deleteGeometry:
+
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+deleteGeometry : String -> Model -> Model
+deleteGeometry s model =
+    DataModel.deleteGeometry s model
+
+
+updateNodeGeometryProperty : Node -> String -> Model -> Model
+updateNodeGeometryProperty n s model =
+    let
+        m_id =
+            Geometries.getPropertyIdFromName s model.geometries
+
+        m1 =
+            case m_id of
+                Nothing ->
+                    model
+
+                Just id ->
+                    let
+                        newModel =
+                            case Node.hasGeometry id n of
+                                False ->
+                                    GeometryActions.addGeometryToNode id n model
+
+                                True ->
+                                    GeometryActions.deleteGeometryFromNode id n model
+                    in
+                        newModel
+    in
+        m1
 
 
 

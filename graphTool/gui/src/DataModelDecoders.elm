@@ -22,6 +22,7 @@ import Set
 import Position exposing (Position)
 import Layout exposing (NodeLayout)
 import Notifications
+import Geometries
 
 
 decodeIdentifier : Json.Decode.Decoder Identifier
@@ -48,6 +49,7 @@ decodeNode =
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
         |> Json.Decode.Pipeline.required "parent" (Json.Decode.maybe decodeIdentifier)
         |> Json.Decode.Pipeline.required "attribut" (Json.Decode.maybe decodeAttribut)
+        |> Json.Decode.Pipeline.required "geometry" (Json.Decode.maybe decodeIdentifier)
         |> Json.Decode.Pipeline.required "group" (Json.Decode.Extra.set decodeIdentifier)
         |> Json.Decode.Pipeline.hardcoded False
         |> Json.Decode.Pipeline.optional "position" decodePosition Position.defaultPosition
@@ -117,6 +119,19 @@ decodeGroups =
     Json.Decode.list decodeGroupProperty
 
 
+decodeGeometryProperty : Json.Decode.Decoder Geometries.Property
+decodeGeometryProperty =
+    Json.Decode.Pipeline.decode Geometries.Property
+        |> Json.Decode.Pipeline.required "id" decodeIdentifier
+        |> Json.Decode.Pipeline.required "name" Json.Decode.string
+        |> Json.Decode.Pipeline.optional "svg" (Json.Decode.maybe Json.Decode.string) Nothing
+
+
+decodeGeometries : Json.Decode.Decoder Geometries.Model
+decodeGeometries =
+    Json.Decode.list decodeGeometryProperty
+
+
 decodeLayout : Json.Decode.Decoder (List Position.NodePosition)
 decodeLayout =
     Json.Decode.list decodeNodePosition
@@ -136,7 +151,8 @@ decodeDataModel =
         |> Json.Decode.Pipeline.required "edges" decodeEdges
         |> Json.Decode.Pipeline.required "parameters" decodeParameters
         |> Json.Decode.Pipeline.required "groups" decodeGroups
-        |> Json.Decode.Pipeline.optional "highLighted" (Json.Decode.maybe Json.Decode.int) Nothing
+        |> Json.Decode.Pipeline.required "geometries" decodeGeometries
+        |> Json.Decode.Pipeline.optional "lightedGroup" (Json.Decode.maybe Json.Decode.int) Nothing
         |> Json.Decode.Pipeline.optional "selectedParameters" (Json.Decode.Extra.set decodeIdentifier) Set.empty
         |> Json.Decode.Pipeline.optional "layouts" (Json.Decode.list decodeNodeLayout) []
         |> Json.Decode.Pipeline.optional "lightLayout" (Json.Decode.maybe decodeLayout) Nothing

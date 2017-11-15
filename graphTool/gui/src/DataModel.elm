@@ -17,10 +17,12 @@ module DataModel
         , childs
         , createProperty
         , createGroupProperty
+        , createGeometry
         , dataModelToModel
         , defaultModel
         , deleteProperty
         , deleteGroupProperty
+        , deleteGeometry
         , edgeST
         , getEdgeFromId
         , getEdgeFromNodesId
@@ -53,9 +55,10 @@ import LinkParameters
 import Groups
 import Set exposing (Set)
 import TightnessActions
-import Layout exposing (Layout, NodeLayout)
+import Layout exposing (Layout, NodeLayout, GeometryLayout)
 import Mask
 import Notifications
+import Geometries
 
 
 type alias Model =
@@ -64,6 +67,7 @@ type alias Model =
     , parameters : LinkParameters.Model
     , curNodeId : Identifier
     , groups : Groups.Model
+    , geometries : Geometries.Model
     , lightedGroup : Maybe Identifier
     , selectedParameters : Set Identifier
     , mustLayout : Bool
@@ -100,6 +104,7 @@ type alias DataModel =
     , edges : List DataEdge
     , parameters : LinkParameters.Model
     , groups : Groups.Model
+    , geometries : Geometries.Model
     , lightedGroup : Maybe Identifier
     , selectedParameters : Set Identifier
     , layouts : List NodeLayout
@@ -116,6 +121,7 @@ defaultModel =
     , parameters = LinkParameters.defaultModel
     , curNodeId = 0
     , groups = Groups.defaultModel
+    , geometries = Geometries.defaultModel
     , lightedGroup = Nothing
     , selectedParameters = Set.empty
     , mustLayout = False
@@ -184,6 +190,7 @@ dataModelToModel dm model =
         , parameters = dm.parameters
         , curNodeId = newId
         , groups = dm.groups
+        , geometries = dm.geometries
         , lightedGroup = dm.lightedGroup
         , selectedParameters = dm.selectedParameters
         , mustLayout = False
@@ -795,3 +802,62 @@ getCurIdFromDataModel dm =
             List.foldr max 0 [ gMax, pMax, eMax, nMax ]
     in
         iMax
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+geometries:
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+createGeometry : String -> Model -> Model
+createGeometry s model =
+    let
+        m1 =
+            getNodeIdentifier model
+
+        new_geometries =
+            (Geometries.property m1.curNodeId s) :: m1.geometries
+    in
+        { m1 | geometries = new_geometries }
+
+
+deleteGeometry : String -> Model -> Model
+deleteGeometry s model =
+    let
+        maybe_geometry =
+            Geometries.getPropertyIdFromName s model.geometries
+
+        newModel =
+            case maybe_geometry of
+                Nothing ->
+                    model
+
+                Just p ->
+                    let
+                        newGeometries =
+                            List.filter (\x -> not (x.id == p)) model.geometries
+
+                        newNodes =
+                            List.map (\x -> Node.removeGeometry p x) model.nodes
+
+                        --
+                        -- newEdges =
+                        --     TightnessActions.removeAllTightness p model.edges
+                    in
+                        { model
+                            | geometries =
+                                newGeometries
+                            , nodes =
+                                newNodes
+                                -- , edges = newEdges
+                        }
+    in
+        newModel

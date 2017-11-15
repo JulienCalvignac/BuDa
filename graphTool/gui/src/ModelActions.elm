@@ -3,10 +3,12 @@ module ModelActions
         ( createLink
         , createNode
         , createGroup
+        , createGeometry
         , dataModelToModel
         , deleteEdge
         , deleteNode
         , deleteGroup
+        , deleteGeometry
         , renameNode
         , exportLink
         , updateSelectedFlux
@@ -18,6 +20,7 @@ module ModelActions
         , redo
         , groupNodes
         , updateNodeGroupProperty
+        , updateNodeGeometryProperty
         , highLightGroup
         , selectedParameters
         , updateTightness
@@ -52,7 +55,7 @@ import Json.Decode
 import SpecialKey
 import Keyboard exposing (KeyCode)
 import Selection
-import Player
+import Geometries
 
 
 {--
@@ -441,6 +444,77 @@ deleteGroup model =
 
         newUndo =
             Scenario.addMsg (Scenario.DeleteGroup model.input) model.undo
+    in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+createGeometry:
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+createGeometry : Model.Model -> Model.Model
+createGeometry model =
+    let
+        newDataModel =
+            (DataModelActions.createGeometry model.input model.dataModel)
+
+        newUndo =
+            Scenario.addMsg (Scenario.CreateGeometry model.input) model.undo
+    in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
+
+
+
+{--
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+deleteGeometry:
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+--}
+
+
+deleteGeometry : Model.Model -> Model.Model
+deleteGeometry model =
+    let
+        newDataModel =
+            DataModelActions.deleteGeometry model.input model.dataModel
+
+        newUndo =
+            Scenario.addMsg (Scenario.DeleteGeometry model.input) model.undo
+    in
+        { model
+            | dataModel = newDataModel
+            , undo = newUndo
+        }
+
+
+updateNodeGeometryProperty : Node -> String -> Model.Model -> Model.Model
+updateNodeGeometryProperty n s model =
+    let
+        newDataModel =
+            DataModelActions.updateNodeGeometryProperty n s model.dataModel
+
+        newUndo =
+            Scenario.addMsg (Scenario.UpdateNodeGeometryProperty n s) model.undo
     in
         { model
             | dataModel = newDataModel

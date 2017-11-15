@@ -49,6 +49,15 @@ playOne msg model =
                 DeleteGroup s ->
                     DataModelActions.deleteGroup s model
 
+                CreateGeometry s ->
+                    DataModelActions.createGeometry s model
+
+                DeleteGeometry s ->
+                    DataModelActions.deleteGeometry s model
+
+                UpdateNodeGeometryProperty n s ->
+                    DataModelActions.updateNodeGeometryProperty n s model
+
                 UpdateNodeGroupProperty n s ->
                     DataModelActions.updateNodeGroupProperty n s model
 
