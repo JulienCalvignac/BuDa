@@ -61,7 +61,7 @@ view model =
         , button [ onClick Messages.SaveModel, id "saveModel", value "saveModel" ] [ text "Save" ]
         , input [ onInputFile Messages.LoadModel, id model.loadModelId, type_ "file", accept ".json" ] []
         , input [ onInputFile Messages.ImportModel, id "importModel", type_ "file", accept ".json" ] []
-        , button [ onClick Messages.SaveToImage, id "png", value "png" ] [ text "Png" ]
+        , button [ onClick Messages.SaveToImage, id "png", value "png" ] [ text "Print" ]
         , button [ onClick Messages.OnOpen, id "open", value "open" ] [ text "Open" ]
         , button [ onClick Messages.OnImport, id "import", value "import" ] [ text "Import" ]
         , button [ onClick Messages.AskForMessages, id "ask", value "ask" ] [ text "GetMsg" ]
