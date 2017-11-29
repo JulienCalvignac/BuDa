@@ -40,6 +40,7 @@ module ModelActions
         , ctrlX
         , ctrlV
         , getNodeViewLabel
+        , sendGeometryName
         )
 
 import Identifier exposing (Identifier)
@@ -1244,6 +1245,34 @@ dataImportModelToModel s model =
                         }
 
                 Err _ ->
+                    model
+    in
+        m1
+
+
+sendGeometryName : String -> Model.Model -> Model.Model
+sendGeometryName s model =
+    let
+        res_elts =
+            Json.Decode.decodeString DataModelDecoders.decodeGeometryProperty s
+
+        m1 =
+            case res_elts of
+                Ok element ->
+                    let
+                        newDataModel =
+                            DataModelActions.sendGeometryName element model.dataModel
+
+                        newUndo =
+                            Scenario.addMsg (Scenario.SendGeometryName element) model.undo
+                    in
+                        { model
+                            | dataModel =
+                                newDataModel
+                            , undo = newUndo
+                        }
+
+                _ ->
                     model
     in
         m1
