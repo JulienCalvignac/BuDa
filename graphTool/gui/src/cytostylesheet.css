@@ -157,7 +157,7 @@
 
 #parameters {
     width: 16em;
-    height: 30em;
+    height: 25em;
     position: absolute;
     top: 5em;
     right:2em;
@@ -165,7 +165,7 @@
 
 #paramView {
   width: 16em;
-  height: 29em;
+  height: 24em;
   position: absolute;
   overflow-x: hidden;
   overflow-y: visible;
@@ -176,7 +176,7 @@
     width: 5em;
     height: 3em;
     position: absolute;
-    top: 33em;
+    top: 28em;
     right: 9em;
 }
 #deleteParameter
@@ -184,14 +184,14 @@
   width: 5em;
   height: 3em;
   position: absolute;
-  top: 33em;
+  top: 28em;
   right: 3em;
 }
 #attribut {
     width: 16em;
     height: 18em;
     position: absolute;
-    top: 42em;
+    top: 37em;
     right: 2em;
 }
 
@@ -203,7 +203,7 @@
     width: 16em;
     height: 20em;
     position: absolute;
-    top: 57em;
+    top: 52em;
     right:2em;
 }
 
