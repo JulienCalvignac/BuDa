@@ -19,6 +19,7 @@ port module LinkToJS
         , onOpen
         , onImport
         , saveToImage
+        , loadGeometryRequest
         )
 
 {--
@@ -74,6 +75,9 @@ port onImport : String -> Cmd msg
 
 
 port saveToImage : String -> Cmd msg
+
+
+port loadGeometryRequest : List Identifier -> Cmd msg
 
 
 
