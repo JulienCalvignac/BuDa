@@ -240,6 +240,14 @@
     right:2em;
 }
 
+#geometryView {
+  width: 16em;
+  height: 19em;
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
 #createGeometry
 {
     width: 5em;
