@@ -29,6 +29,7 @@ module DataModelActions
         , removeMask
         , isMasked
         , insertFromTmp
+        , sendGeometryName
         )
 
 import DataModel exposing (Model, isNodeIdPresent)
@@ -1535,3 +1536,21 @@ insertFromTmp m_s m_id tmp model =
                         m4
     in
         m0
+
+
+sendGeometryName : Geometries.Property -> Model -> Model
+sendGeometryName element model =
+    let
+        newGeometries =
+            List.map
+                (\x ->
+                    case x.id == element.id of
+                        True ->
+                            { x | svg = element.svg }
+
+                        False ->
+                            x
+                )
+                model.geometries
+    in
+        { model | geometries = newGeometries }
