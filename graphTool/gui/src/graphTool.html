@@ -127,6 +127,14 @@
         // console.log('importModel:' + msg);
       });
 
+      app.ports.loadGeometryRequest.subscribe(function(word){
+        //console.log ("loadGeometryRequest: " + word);
+        if (word.length == 0)
+          return;
+        var id = word[0];
+        loadGeometry("loadGeometry", id);
+      });
+
       app.ports.onOpen.subscribe(function(word) {
         var fileinput = document.getElementById("loadModel");
         fileinput.click();
