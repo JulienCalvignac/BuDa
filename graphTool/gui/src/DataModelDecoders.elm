@@ -49,7 +49,7 @@ decodeNode =
         |> Json.Decode.Pipeline.required "name" Json.Decode.string
         |> Json.Decode.Pipeline.required "parent" (Json.Decode.maybe decodeIdentifier)
         |> Json.Decode.Pipeline.required "attribut" (Json.Decode.maybe decodeAttribut)
-        |> Json.Decode.Pipeline.required "geometry" (Json.Decode.maybe decodeIdentifier)
+        |> Json.Decode.Pipeline.optional "geometry" (Json.Decode.maybe decodeIdentifier) Nothing
         |> Json.Decode.Pipeline.required "group" (Json.Decode.Extra.set decodeIdentifier)
         |> Json.Decode.Pipeline.hardcoded False
         |> Json.Decode.Pipeline.optional "position" decodePosition Position.defaultPosition
@@ -158,7 +158,7 @@ decodeDataModel =
         |> Json.Decode.Pipeline.required "edges" decodeEdges
         |> Json.Decode.Pipeline.required "parameters" decodeParameters
         |> Json.Decode.Pipeline.required "groups" decodeGroups
-        |> Json.Decode.Pipeline.required "geometries" decodeGeometries
+        |> Json.Decode.Pipeline.optional "geometries" decodeGeometries []
         |> Json.Decode.Pipeline.optional "lightedGroup" (Json.Decode.maybe Json.Decode.int) Nothing
         |> Json.Decode.Pipeline.optional "lightedGeometry" (Json.Decode.maybe Json.Decode.int) Nothing
         |> Json.Decode.Pipeline.optional "selectedParameters" (Json.Decode.Extra.set decodeIdentifier) Set.empty
