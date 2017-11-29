@@ -103,11 +103,30 @@ fluxLine_ n ( key, b ) =
 highLightLine_ : ( String, Bool ) -> Html Messages.Msg
 highLightLine_ ( key, b ) =
     div []
-        [ checkbox b
-            (Messages.HighLightGeometry key)
-            -- Messages.NoOp
-            key
-          -- , svgBox Messages.NoOp key
+        [ (chb ( key, b ) (Messages.HighLightGeometry key) (Messages.LoadGeometryButton key) key) ]
+
+
+chb : ( String, Bool ) -> msg -> msg -> String -> Html msg
+chb ( key, b ) msg1 msg2 name =
+    div
+        [ style
+            [ ( "padding", "10px" )
+            , ( "text-align", "left" )
+            ]
+        ]
+        [ input
+            [ type_ "checkbox"
+            , onClick msg1
+            , checked b
+            , style [ ( "padding", "10px 0" ) ]
+            ]
+            []
+        , label [ style [ ( "padding-right", "10px" ) ] ] [ text name ]
+        , button
+            [ onClick msg2
+            , id "loadGeometryButton"
+            ]
+            [ text "svg" ]
         ]
 
 
