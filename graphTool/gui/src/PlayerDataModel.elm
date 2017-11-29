@@ -70,6 +70,9 @@ playOne msg model =
                 UpdateLightLayout layout ->
                     DataModelActions.updateLightLayout layout model
 
+                SendGeometryName element ->
+                    DataModelActions.sendGeometryName element model
+
                 _ ->
                     model
     in
