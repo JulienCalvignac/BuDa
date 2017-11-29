@@ -264,3 +264,15 @@
   top: 22em;
   right: 3em;
 }
+#loadGeometryButton
+{
+  position: absolute;
+  right: 0.2em;
+  padding: 0px;
+  width: 2em;
+  height: 2em;
+  font-size: 1em;
+}
+#loadGeometry {
+    display: none
+}
