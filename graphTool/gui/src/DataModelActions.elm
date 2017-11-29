@@ -18,7 +18,6 @@ module DataModelActions
         , updateNodeGroupProperty
         , updateNodeGeometryProperty
         , highLightGroup
-        , highLightGeometry
         , selectedParameters
         , updateNodesPosition
         , updateTightnessForGroup
@@ -1064,19 +1063,6 @@ updateNodeGroupProperty n s model =
                         newModel
     in
         m1
-
-
-highLightGeometry : String -> Model -> Model
-highLightGeometry s model =
-    -- let
-    --     m_id =
-    --         Geometries.getPropertyIdFromName s model.geometries
-    --
-    --     newModel =
-    --         { model | geometryId = m_id }
-    -- in
-    --     newModel
-    model
 
 
 highLightGroup : String -> Model -> Model
