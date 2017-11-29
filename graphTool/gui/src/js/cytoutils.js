@@ -3,6 +3,8 @@
 var options = { cyreference : null
 								, drawImage : true
 								, background : null
+								, image_width : 0
+								, image_height : 0
 							};
 
 var dagre_layout = { name: 'dagre' };
@@ -29,6 +31,26 @@ var preset_layout = {
   transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts
 };
 
+var preset_layout_with_bbox = {
+  name: 'preset',
+
+  positions: undefined, // map of (node id) => (position obj); or function(node){ return somPos; }
+  zoom: undefined, // the zoom level to set (prob want fit = false if set)
+  pan: undefined, // the pan level to set (prob want fit = false if set)
+  fit: true, // whether to fit to viewport
+  padding: 30, // padding on fit
+  animate: false, // whether to transition the node positions
+  animationDuration: 500, // duration of animation in ms if enabled
+  animationEasing: undefined, // easing of animation if enabled
+  animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+	ready: function () {
+		_AdjustZoomWithImage ();
+  },
+  stop: undefined, // callback on layoutstop
+  transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts
+
+};
+
 var styleP = $.ajax({
 	url: 'mainstyle.css',
 	type: 'GET',
@@ -47,11 +69,7 @@ function getCyReference() {
 		  , autounselectify: false
 			, elements : dataElements
 			, style: stylesheet
-			// , layout: concentricOptions
-			// , layout: cola_layout
 			, layout: dagre
-			// , layout : arbor
-
 		});
 		options.cyreference = cy;
 	}
@@ -163,9 +181,11 @@ cy.on('select', function(event){
 
 var layer = cy.cyCanvas({
 zIndex: -1
+//, pixelRatio: 1
 });
 var canvas = layer.getCanvas();
 var ctx = canvas.getContext('2d');
+options.canvas = canvas;
 
 cy.on("render cyCanvas.resize", function(evt) {
 	_drawImage_ (layer,ctx);
@@ -186,16 +206,62 @@ function _drawImage_(layer,ctx) {
 		{
 			if(options.background != null)
 			{
+				var canvas = layer.getCanvas();
+				var img = options.background;
 				ctx.save();
 				ctx.drawImage(options.background, 0, 0);
+        //ctx.drawImage(img,0,0,img.width,img.height,0,0,cy.width(),cy.height());
 				ctx.restore();
 			}
-
-			// var cy = getCyReference();
-			// console.log ( "zoom: " + cy.zoom() )
-			// cy.zoom(1.50);
 		}
 }
+
+function _unLoadImage () {
+	if(options.background != null)
+	{
+			delete options.background;
+			options.background = null;
+	}
+}
+
+function _loadImage ( img ) {
+	_unLoadImage ();
+
+	var cy = getCyReference();
+	var background = new Image();
+	background.onload = () => {
+		// console.log ("load new image..." );
+		// console.log('img:', background.width + ' :: ' + background.height);
+		options.image_width = background.width;
+		options.image_height = background.height;
+		options.image_name = img;
+		_layout_preset_with_bbox();
+	}
+
+	background.src = img;
+	options.background = background;
+}
+
+function _AdjustZoomWithImage () {
+	var cy = getCyReference();
+	var img = options.background;
+	if(img != null)
+	{
+		var img_w = options.image_width;
+		var img_h = options.image_height;
+		var w = options.canvas.width;
+		var h = options.canvas.height;
+		// console.log('dimImage:', options.image_width + ' :: ' + options.image_height);
+		var newZoom = Math.min ( w / img_w, h/ img_h  );
+		//console.log("w/img_w newZoom : " + w + "/" + img_w + " ; " + newZoom);
+		cy.viewport({
+			zoom: newZoom
+			, pan: { x: 0, y: 0 }
+		});
+	}
+}
+
+
 
 function _setNodesPositionsToElm_() {
 	var cy = getCyReference();
@@ -287,7 +353,11 @@ function _layout_dagre () {
 function _layout_preset() {
 	var cy = getCyReference();
 	cy.layout(preset_layout);
+}
 
+function _layout_preset_with_bbox() {
+	var cy = getCyReference();
+	cy.layout(preset_layout_with_bbox);
 }
 
 function _updateBullesLayoutAndPos(obj) {
@@ -302,7 +372,7 @@ function _saveAsSvg_ (svgName) {
   var svgContent = cy.svgConvertor( {scale : 3, full : true} );
   var svgBlob = new Blob([ svgContent ]
   , { type: 'application/javascript;charset=utf-8' });
-  saveAs(svgBlob, svgName + '.svg');
+  saveAs(svgBlob, svgName + '.svg');pixelratio
 }
 
 function _saveAsPng_ (pngName) {
@@ -316,23 +386,4 @@ function _saveAsPng_ (pngName) {
 function saveToImage (imgName) {
 	_saveAsSvg_ (imgName);
 	_saveAsPng_ (imgName);
-}
-
-function _unLoadImage () {
-	if(options.background != null)
-	{
-			delete options.background;
-			options.background = null;
-	}
-}
-
-function _loadImage ( img ) {
-	_unLoadImage ();
-
-	var background = new Image();
-	background.onload = () => {
-		console.log ("load new image...");
-	}
-	background.src = img;
-	options.background = background;
 }
