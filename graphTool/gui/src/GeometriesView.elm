@@ -53,7 +53,12 @@ makeKeyValueList m_node model =
             List.map
                 (\x ->
                     ( x.name
-                    , False
+                    , case model.geometryId of
+                        Nothing ->
+                            False
+
+                        Just id ->
+                            (x.id == id)
                     )
                 )
                 model.dataModel.geometries
