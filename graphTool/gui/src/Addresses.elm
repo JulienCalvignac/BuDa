@@ -3,4 +3,4 @@ module Addresses exposing (wsUrl)
 
 wsUrl : String
 wsUrl =
-    "ws://130.66.124.234:9002/archi"
+    "ws://127.0.0.1:9002/archi"
