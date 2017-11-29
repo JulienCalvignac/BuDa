@@ -57,6 +57,7 @@ type alias Model =
     , redo : Scenario.RedoModel
     , specialKey : SpecialKey.Model
     , geometryId : Maybe Identifier
+    , selectedGeometryId : Maybe Identifier
     }
 
 
@@ -79,4 +80,5 @@ defaultModel =
     , redo = Scenario.defaultRedoModel
     , specialKey = SpecialKey.defaultModel
     , geometryId = Nothing
+    , selectedGeometryId = Nothing
     }
