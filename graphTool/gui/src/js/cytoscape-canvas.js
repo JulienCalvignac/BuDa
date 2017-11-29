@@ -67,7 +67,9 @@
 					var height = cy.height();
 					ctx.save();
 					ctx.setTransform(1, 0, 0, 1, 0, 0);
-					ctx.clearRect(0, 0, width * options.pixelRatio, height * options.pixelRatio);
+					// on ajoute un ratio pour mieux nettoyer
+					var ratio = 1.005;
+					ctx.clearRect(0, 0, ratio* width * options.pixelRatio, ratio* height * options.pixelRatio);
 					ctx.restore();
 				},
 
