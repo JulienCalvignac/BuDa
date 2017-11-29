@@ -215,26 +215,11 @@ showBulles msg model =
 showGeometry : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showGeometry msg model =
     let
-        z =
-            Debug.log "showGeometry geometryId: " model.geometryId
-
         dm =
-            model.dataModel
-
-        m1 =
-            case model.geometryId of
-                Nothing ->
-                    { dm | geometryImage = Nothing }
-
-                Just x ->
-                    let
-                        dm1 =
-                            { dm | geometryImage = (Geometries.getImageFromId x dm.geometries) }
-                    in
-                        (ModelViews.getGeometryViewFromId dm1 x)
+            (ModelViews.getGeometryView model.dataModel model.geometryId)
 
         m2 =
-            (DataModel.triNodes m1)
+            (DataModel.triNodes dm)
     in
         ( model, LinkToJS.sendDataGeometryModel (DataModelEncoders.encodeModel m2) )
 
