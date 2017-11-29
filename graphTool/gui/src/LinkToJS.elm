@@ -24,6 +24,9 @@ port module LinkToJS
         , sendGeometryToElm
         )
 
+import Identifier exposing (Identifier)
+
+
 {--
 //////////////////////////////////////////////////////////////////////////////
 -- communication Elm -> JS
