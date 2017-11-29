@@ -6,6 +6,7 @@ import Node exposing (Node)
 import DataModel
 import Position
 import Layout exposing (Layout)
+import Geometries
 
 
 type Msg
@@ -33,6 +34,7 @@ type Msg
     | CtrlC Identifier
     | CtrlX Identifier
     | CtrlV (Maybe Identifier)
+    | SendGeometryName Geometries.Property
 
 
 type alias Model =
