@@ -53,4 +53,7 @@ type Msg
     | DeleteGeometry
     | CheckNodeGeometryProperty Node String
     | HighLightGeometry String
+    | LoadGeometry
+    | LoadGeometryButton String
+    | SendGeometryToElm String
     | NoOp
