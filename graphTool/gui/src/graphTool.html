@@ -16,6 +16,7 @@
     <script src="./js/download.js"></script>
     <script src="./js/loadFile.js"></script>
     <script src="./js/importFile.js"></script>
+    <script src="./js/loadGeometry.js"></script>
     <script src="./js/FileSaver.js"></script>
 		<script src="./js/base64ToBlob.js"></script>
 		<script src="./js/cytoscape-svg-convertor.js"></script>
@@ -53,25 +54,33 @@
       function _sendDataBullesModel (word) {
         var obj = JSON.parse(word);
 
+        if ( obj["mustLayout"] == true )
+        {
+          _sendDataSimpleModel_(obj);
+        }
+        else
+        {
+          _sendDataModel_(obj);
+        }
+
         var img = obj["geometryImage"];
+        // console.log ("geometryImage: " + img);
+
         if (img != null ) {
-          console.log ( img );
           _loadImage (img );
         }
         else {
-          console.log ( "geometryImage is null" );
           _unLoadImage();
         }
 
         if ( obj["mustLayout"] == true )
         {
-          _sendDataSimpleModel_(obj);
           _layout_dagre();
         }
         else
         {
-          _sendDataModel_(obj);
-          _layout_preset();
+          //_layout_preset();
+          _layout_preset_with_bbox();
         }
       }
 
