@@ -21,6 +21,7 @@ port module LinkToJS
         , saveToImage
         , loadGeometryRequest
         , loadGeometryButton
+        , sendGeometryToElm
         )
 
 {--
@@ -125,3 +126,6 @@ port nodesPositionToElm : (String -> msg) -> Sub msg
 
 
 port nodesPositionRequest : (String -> msg) -> Sub msg
+
+
+port sendGeometryToElm : (String -> msg) -> Sub msg
