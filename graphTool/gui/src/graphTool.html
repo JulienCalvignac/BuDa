@@ -135,6 +135,11 @@
         loadGeometry("loadGeometry", id);
       });
 
+      app.ports.loadGeometryButton.subscribe(function(word) {
+        var fileinput = document.getElementById("loadGeometry");
+        fileinput.click();
+      });
+
       app.ports.onOpen.subscribe(function(word) {
         var fileinput = document.getElementById("loadModel");
         fileinput.click();
