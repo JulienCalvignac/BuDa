@@ -5,13 +5,14 @@ module ModelViews
         , getBullesView
         , getPBSViewFromNodeId
         , getPBSViewFromNodeName
-        , getGeometryViewFromId
+        , getGeometryView
         )
 
 import Identifier exposing (Identifier)
 import DataModel
 import ModelManagement
 import Node
+import Geometries
 
 
 getPBSView : DataModel.Model -> DataModel.Model
@@ -44,8 +45,35 @@ getPBSViewFromNodeName model s =
     ModelManagement.listNodeToPBSFromNodeName model.nodes s
 
 
-getGeometryViewFromId : DataModel.Model -> Identifier -> DataModel.Model
-getGeometryViewFromId model id =
+getGeometryView : DataModel.Model -> Maybe Identifier -> DataModel.Model
+getGeometryView model m_id =
+    case m_id of
+        Just id ->
+            getGeometryViewFromId_ { model | geometryImage = (Geometries.getImageFromId id model.geometries) } id
+
+        Nothing ->
+            getAllGeometries_ { model | geometryImage = Nothing }
+
+
+getAllGeometries_ : DataModel.Model -> DataModel.Model
+getAllGeometries_ model =
+    let
+        newNodes =
+            List.filter (\x -> not (x.geometry == Nothing)) model.nodes
+
+        newEdges =
+            List.filter
+                (\x ->
+                    (DataModel.isNodeIdPresent x.source newNodes)
+                        && (DataModel.isNodeIdPresent x.target newNodes)
+                )
+                model.edges
+    in
+        { model | nodes = newNodes, edges = newEdges }
+
+
+getGeometryViewFromId_ : DataModel.Model -> Identifier -> DataModel.Model
+getGeometryViewFromId_ model id =
     let
         newNodes =
             List.filter (\x -> Node.hasGeometry id x) model.nodes
