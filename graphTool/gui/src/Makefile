@@ -1,7 +1,9 @@
 FILENAME := ../graphTool-bin$(shell date +_%Y%m%d_%Hh%M).tar.gz
 FILENAME2 := ../graphTool-src-bin$(shell date +_%Y%m%d_%Hh%M).tar.gz
-JSFILES = js/jquery-2.2.4.min.js js/cytoscape.js js/cytoutils.js js/dagre.js js/cytoscape-dagre.js js/download.js js/loadFile.js
-BINARIES = graphTool.html graphTool.css cytostylesheet.css maia.css mainstyle.css elm.js $(JSFILES) *.svg
+JSFILES = js/*.js
+SAMPLES = test.json
+IMAGES = *.svg
+BINARIES = graphTool.html graphTool.css cytostylesheet.css maia.css mainstyle.css elm.js $(JSFILES) $(IMAGES) $(SAMPLES)
 SRC_BINARIES = $(BINARIES) *.elm elm-package.json Makefile
 
 all : clean test app
