@@ -412,6 +412,9 @@ update msg model =
             in
                 ( { model | selectedGeometryId = m_geometry }, LinkToJS.loadGeometryButton s )
 
+        SendGeometryToElm s ->
+            ( ModelActions.sendGeometryName s model, Cmd.none )
+
         SwitchToView s ->
             let
                 m1 =
