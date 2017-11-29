@@ -748,15 +748,8 @@ highLightGeometry s model =
                                 False ->
                                     m_id
             }
-
-        newDataModel =
-            DataModelActions.highLightGeometry s m1.dataModel
     in
-        { m1
-            | dataModel =
-                newDataModel
-                -- , undo = newUndo
-        }
+        m1
 
 
 selectedParameters : String -> Model.Model -> Model.Model
