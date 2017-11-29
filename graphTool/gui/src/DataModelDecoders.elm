@@ -6,6 +6,7 @@ module DataModelDecoders
         , decodeDataModel
         , decodeNodesPosition
         , decodeNotification
+        , decodeGeometryProperty
         )
 
 import Identifier exposing (Identifier)
