@@ -20,6 +20,7 @@ port module LinkToJS
         , onImport
         , saveToImage
         , loadGeometryRequest
+        , loadGeometryButton
         )
 
 {--
@@ -78,6 +79,9 @@ port saveToImage : String -> Cmd msg
 
 
 port loadGeometryRequest : List Identifier -> Cmd msg
+
+
+port loadGeometryButton : String -> Cmd msg
 
 
 
