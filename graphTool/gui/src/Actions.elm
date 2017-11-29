@@ -405,6 +405,13 @@ update msg model =
                 )
             )
 
+        LoadGeometryButton s ->
+            let
+                m_geometry =
+                    Geometries.getPropertyIdFromName s model.dataModel.geometries
+            in
+                ( { model | selectedGeometryId = m_geometry }, LinkToJS.loadGeometryButton s )
+
         SwitchToView s ->
             let
                 m1 =
