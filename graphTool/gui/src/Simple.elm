@@ -23,6 +23,7 @@ subscriptions model =
         , LinkToJS.doubleclick DoubleClick
         , LinkToJS.nodesPositionToElm NodesPositionToElm
         , LinkToJS.nodesPositionRequest NodesPositionRequest
+        , LinkToJS.sendGeometryToElm SendGeometryToElm
         , Keyboard.ups KeyUps
         , Keyboard.downs KeyDowns
         , WebSocket.listen (Addresses.wsUrl) NewMessage
