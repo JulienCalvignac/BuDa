@@ -113,7 +113,7 @@
         var obj = JSON.parse(word);
         var filename = obj.filename;
         var model = obj.model;
-        console.log (model);
+        //console.log (model);
         download(model, filename, "text/plain");
       });
 
@@ -143,6 +143,7 @@
       app.ports.saveToImage.subscribe(function(imgName) {
         saveToImage(imgName);
       });
+
 
       function app_port_sendSelectionToElm (msg) {
         app.ports.selection.send(msg);
