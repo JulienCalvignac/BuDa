@@ -393,6 +393,18 @@ update msg model =
         HighLightGeometry s ->
             showView msg (ModelActions.highLightGeometry s model)
 
+        LoadGeometry ->
+            ( model
+            , LinkToJS.loadGeometryRequest
+                (case model.selectedGeometryId of
+                    Nothing ->
+                        []
+
+                    Just i ->
+                        [ i ]
+                )
+            )
+
         SwitchToView s ->
             let
                 m1 =
