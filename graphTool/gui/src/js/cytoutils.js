@@ -404,7 +404,7 @@ function _saveAsSvg_ (svgName) {
   var svgContent = cy.svgConvertor( {scale : 3, full : true} );
   var svgBlob = new Blob([ svgContent ]
   , { type: 'application/javascript;charset=utf-8' });
-  saveAs(svgBlob, svgName + '.svg');pixelratio
+  saveAs(svgBlob, svgName + '.svg');
 }
 
 function _saveAsPng_ (pngName) {
