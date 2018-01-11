@@ -59,4 +59,7 @@ type Msg
     | LoadGeometryButton String
     | SendGeometryToElm String
     | SwitchToLayout String
+    | ShowHideFunctionalChain
+    | ShowHideGeometries
+    | ShowHideParameters
     | NoOp
