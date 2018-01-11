@@ -27,11 +27,14 @@ module DataModel
         , getEdgeFromId
         , getEdgeFromNodesId
         , getEdgeIdFromNodesId
+        , getEdgeFromNodesName
         , getNodeFromId
         , getNodeFromName
         , getNodeIdFromName
         , getNodeIdentifier
         , getNodeNameFromId
+        , getNodeFromNameAndParent
+        , getNodeIdFromNameAndParent
         , getParentFromNodeId
         , getLayoutFromNodeId
         , getGeometryLayoutFromId
@@ -299,6 +302,56 @@ getEdgeIdFromNodesId ids idt list =
 
         Just edge ->
             Just edge.id
+
+
+getEdgeFromNodesName : String -> String -> Model -> Maybe Edge
+getEdgeFromNodesName src target model =
+    let
+        m_nsrc =
+            getNodeFromName src model.nodes
+
+        m_ntarget =
+            getNodeFromName target model.nodes
+
+        m_edge =
+            case ( m_nsrc, m_ntarget ) of
+                ( Just nsrc, Just ntarget ) ->
+                    getEdgeFromNodesId nsrc.id ntarget.id model.edges
+
+                _ ->
+                    Nothing
+    in
+        m_edge
+
+
+getNodeFromNameAndParent : String -> Maybe Identifier -> List Node -> Maybe Node
+getNodeFromNameAndParent s m_p list =
+    case list of
+        x :: xs ->
+            case (x.name == s && x.parent == m_p) of
+                True ->
+                    Just x
+
+                False ->
+                    getNodeFromNameAndParent s m_p xs
+
+        [] ->
+            Nothing
+
+
+getNodeIdFromNameAndParent : String -> Maybe Identifier -> List Node -> Maybe Identifier
+getNodeIdFromNameAndParent s m_p list =
+    case list of
+        x :: xs ->
+            case (x.name == s && x.parent == m_p) of
+                True ->
+                    Just x.id
+
+                False ->
+                    getNodeIdFromNameAndParent s m_p xs
+
+        [] ->
+            Nothing
 
 
 getNodeFromName : String -> List Node -> Maybe Node
