@@ -636,3 +636,12 @@ update msg model =
 
         ImportModel ->
             ( model, LinkToJS.importModel "importModel" )
+
+        ShowHideFunctionalChain ->
+            ( { model | showFunctionalChain = not model.showFunctionalChain }, Cmd.none )
+
+        ShowHideGeometries ->
+            ( { model | showGeometries = not model.showGeometries }, Cmd.none )
+
+        ShowHideParameters ->
+            ( { model | showParameters = not model.showParameters }, Cmd.none )
