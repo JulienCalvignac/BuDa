@@ -51,6 +51,11 @@
         _layout_dagre();
       });
 
+      app.ports.setLayoutName.subscribe(function(word) {
+        options.layoutName = word;
+      });
+
+
       function _sendDataBullesModel (word) {
         var obj = JSON.parse(word);
 
