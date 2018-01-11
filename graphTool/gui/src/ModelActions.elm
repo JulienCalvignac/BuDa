@@ -6,6 +6,7 @@ module ModelActions
         , createGeometry
         , dataModelToModel
         , dataImportModelToModel
+        , dataImportCsvModelToModel
         , deleteEdge
         , deleteNode
         , deleteGroup
@@ -41,6 +42,7 @@ module ModelActions
         , ctrlV
         , getNodeViewLabel
         , sendGeometryName
+        , loadCsvModel
         )
 
 import Identifier exposing (Identifier)
@@ -60,6 +62,7 @@ import SpecialKey
 import Keyboard exposing (KeyCode)
 import Selection
 import Geometries
+import Csv
 
 
 {--
@@ -1250,6 +1253,28 @@ dataImportModelToModel s model =
         m1
 
 
+dataImportCsvModelToModel : String -> Model.Model -> Model.Model
+dataImportCsvModelToModel s model =
+    let
+        newDataModel0 =
+            Csv.loadCsvModel s model.dataModel
+
+        newDataModel =
+            DataModel.getNodeIdentifier newDataModel0
+
+        newId =
+            newDataModel.curNodeId
+
+        -- newUndo =
+        --     Scenario.addMsg (Scenario.ImportCsvModel s) model.undo
+    in
+        { model
+            | tmpDataModel =
+                { m_id = Just newId, data = newDataModel }
+                -- , undo = newUndo
+        }
+
+
 sendGeometryName : String -> Model.Model -> Model.Model
 sendGeometryName s model =
     let
@@ -1276,3 +1301,19 @@ sendGeometryName s model =
                     model
     in
         m1
+
+
+loadCsvModel : String -> Model.Model -> Model.Model
+loadCsvModel s model =
+    let
+        newDataModel =
+            Csv.loadCsvModel s model.dataModel
+
+        newUndo =
+            Scenario.addMsg (Scenario.LoadCsvModel s) model.undo
+    in
+        { model
+            | dataModel =
+                newDataModel
+            , undo = newUndo
+        }
