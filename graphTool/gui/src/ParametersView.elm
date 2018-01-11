@@ -115,14 +115,32 @@ expose model =
         exposeList_ m_edge (makeKeyValueList m_edge model)
 
 
+viewDetail_ : Model -> Html Messages.Msg
+viewDetail_ model =
+    case model.showParameters of
+        False ->
+            div [] []
+
+        True ->
+            div []
+                [ Html.hr [] []
+                , div [ id "paramView" ] [ expose model ]
+                , button [ onClick Messages.CreateParameter, id "createParameter", value "createParameter" ] [ text "+" ]
+                , button [ onClick Messages.DeleteParameter, id "deleteParameter", value "deleteParameter" ] [ text "-" ]
+                ]
+
+
 view : Model -> Html Messages.Msg
 view model =
-    div [ id "parameters", style [ ( "text-align", "center" ) ] ]
-        [ text "Parameters"
-        , Html.hr [] []
-        , div [ id "paramView" ] [ expose model ]
-        , button [ onClick Messages.CreateParameter, id "createParameter", value "createParameter" ] [ text "+" ]
-        , button [ onClick Messages.DeleteParameter, id "deleteParameter", value "deleteParameter" ] [ text "-" ]
+    div [ id "parameters", class "vItem", style [ ( "text-align", "center" ) ] ]
+        [ button
+            [ class "btn btn-primary"
+            , id "btnParameters"
+            , onClick Messages.ShowHideParameters
+            ]
+            [ text "Link Parameters" ]
+          --text "Geometries"
+        , viewDetail_ model
         ]
 
 
