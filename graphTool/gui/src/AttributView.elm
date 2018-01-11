@@ -84,7 +84,7 @@ expose model =
 
 view : Model -> Html Messages.Msg
 view model =
-    div [ id "attribut", style [ ( "text-align", "center" ) ] ]
+    div [ id "attribut", class "vItem", style [ ( "text-align", "center" ) ] ]
         [ text "Attribut"
         , Html.hr [] []
         , expose model
