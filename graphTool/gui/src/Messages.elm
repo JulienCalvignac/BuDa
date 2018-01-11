@@ -17,7 +17,9 @@ type Msg
     | InputFileChange String
     | Selection (List String)
     | ModelToElm String
+    | CsvModelToElm String
     | ImportModelToElm String
+    | ImportCsvModeltoElm String
     | NodesPositionToElm String
     | SaveModel
     | LoadModel
