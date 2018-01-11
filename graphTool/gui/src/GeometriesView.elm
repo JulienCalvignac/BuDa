@@ -13,14 +13,32 @@ import DataModel
 import Node exposing (Node)
 
 
+viewDetail_ : Model -> Html Messages.Msg
+viewDetail_ model =
+    case model.showGeometries of
+        False ->
+            div [] []
+
+        True ->
+            div []
+                [ Html.hr [] []
+                , div [ id "geometryView" ] [ expose model ]
+                , button [ onClick Messages.CreateGeometry, id "createGeometry", value "createGeometry" ] [ text "+" ]
+                , button [ onClick Messages.DeleteGeometry, id "deleteGeometry", value "deleteGeometry" ] [ text "-" ]
+                ]
+
+
 view : Model -> Html Messages.Msg
 view model =
-    div [ id "geometries", style [ ( "text-align", "center" ) ] ]
-        [ text "Geometries"
-        , Html.hr [] []
-        , div [ id "geometryView" ] [ expose model ]
-        , button [ onClick Messages.CreateGeometry, id "createGeometry", value "createGeometry" ] [ text "+" ]
-        , button [ onClick Messages.DeleteGeometry, id "deleteGeometry", value "deleteGeometry" ] [ text "-" ]
+    div [ id "geometries", class "vItem", style [ ( "text-align", "center" ) ] ]
+        [ button
+            [ class "btn btn-primary"
+            , id "btnGeometries"
+            , onClick Messages.ShowHideGeometries
+            ]
+            [ text "Geometries" ]
+          --text "Geometries"
+        , viewDetail_ model
         ]
 
 
