@@ -9,14 +9,33 @@ import DataModel
 import Node exposing (Node)
 
 
+viewDetail_ : Model -> Html Messages.Msg
+viewDetail_ model =
+    case model.showFunctionalChain of
+        False ->
+            div [] []
+
+        True ->
+            div []
+                [ Html.hr [] []
+                , div [ id "functionalChainView" ] [ expose model ]
+                , button [ onClick Messages.CreateGroup, id "createGroup", value "createGroup" ] [ text "+" ]
+                , button [ onClick Messages.DeleteGroup, id "deleteGroup", value "deleteGroup" ] [ text "-" ]
+                ]
+
+
 view : Model -> Html Messages.Msg
 view model =
-    div [ id "groups", style [ ( "text-align", "center" ) ] ]
-        [ text "Functional Chain"
-        , Html.hr [] []
-        , div [ id "functionalChainView" ] [ expose model ]
-        , button [ onClick Messages.CreateGroup, id "createGroup", value "createGroup" ] [ text "+" ]
-        , button [ onClick Messages.DeleteGroup, id "deleteGroup", value "deleteGroup" ] [ text "-" ]
+    div
+        [ id "groups", class "vItem", style [ ( "text-align", "center" ) ] ]
+        [ button
+            [ class "btn btn-primary"
+            , id "btnGroups"
+            , onClick Messages.ShowHideFunctionalChain
+            ]
+            [ text "Functional Chain" ]
+          -- text "Functional Chain"
+        , viewDetail_ model
         ]
 
 
