@@ -5,9 +5,15 @@ var options = { cyreference : null
 								, background : null
 								, image_width : 0
 								, image_height : 0
+								, layoutName : 'dagre'
 							};
 
 var dagre_layout = { name: 'dagre' };
+var circle_layout = { name: 'circle' };
+var spread_layout = { name: 'spread' };
+var grid_layout = { name: 'grid'};
+
+
 
 var dataElements = {
 		nodes: []
@@ -135,6 +141,7 @@ cy.on('mousemove', function(e){
 		hasNodeMoving = true;
 	}
 });
+
 
 cy.on('tap', function(event) {
   var tappedNow = event.cyTarget;
@@ -345,9 +352,34 @@ function _sendDataModel_ (obj) {
 	});
 }
 
+function _layout_main() {
+		if ( options.layoutName == 'circle')
+		{
+			_layout_circle ();
+		}
+		else {
+			_layout_dagre ();
+		}
+}
+
 function _layout_dagre () {
 	var cy = getCyReference();
 	cy.layout(dagre_layout);
+}
+
+function _layout_circle () {
+	var cy = getCyReference();
+	cy.layout(circle_layout);
+}
+
+function _layout_spread () {
+	var cy = getCyReference();
+	cy.layout(spread_layout);
+}
+
+function _layout_grid () {
+	var cy = getCyReference();
+	cy.layout(grid_layout);
 }
 
 function _layout_preset() {
