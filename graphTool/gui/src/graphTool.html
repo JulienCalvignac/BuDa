@@ -170,8 +170,15 @@
       function app_port_sendModelToElm (msg) {
         app.ports.modeltoelm.send(msg);
       }
+      function app_port_sendCsvModelToElm(msg) {
+        app.ports.csvmodeltoelm.send(msg);
+      }
       function app_port_sendImportModelToElm (msg) {
         app.ports.importModeltoelm.send(msg);
+      }
+
+      function app_port_sendImportCsvModelToElm(msg) {
+        app.ports.importCsvModeltoelm.send(msg);
       }
 
       function app_port_sendDoubleClickToElm (msg) {
