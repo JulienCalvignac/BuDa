@@ -7,6 +7,7 @@ import Identifier exposing (Identifier)
 import DataModelActions
 import DataModel
 import ModelManagement
+import Verification
 
 
 isDataMsg : Msg -> Bool
@@ -134,8 +135,11 @@ doCtrlV m_s model =
 
         newDataModel =
             DataModelActions.insertFromTmp m_s m_id model.tmpDataModel.data model.dataModel
+
+        dm1 =
+            Verification.verification newDataModel
     in
-        { model | dataModel = newDataModel }
+        { model | dataModel = dm1 }
 
 
 doCtrlC : Identifier -> Model.Model -> Model.Model
