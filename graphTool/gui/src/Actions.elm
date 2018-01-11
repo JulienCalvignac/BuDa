@@ -542,6 +542,13 @@ update msg model =
             in
                 ( m1, Cmd.none )
 
+        ImportCsvModeltoElm s ->
+            let
+                m1 =
+                    ModelActions.dataImportCsvModelToModel s model
+            in
+                ( m1, Cmd.none )
+
         NodesPositionToElm s ->
             let
                 m1 =
