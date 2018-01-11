@@ -361,11 +361,7 @@ update msg model =
             ( ModelActions.updateProperty edge s model, Cmd.none )
 
         CheckNodeGroupProperty node s ->
-            let
-                m1 =
-                    ModelActions.updateNodeGroupProperty node s model
-            in
-                showView msg m1
+            ( ModelActions.updateNodeGroupProperty node s model, Cmd.none )
 
         CreateGroup ->
             ( ModelActions.createGroup model, Cmd.none )
@@ -384,11 +380,7 @@ update msg model =
             ( ModelActions.deleteGeometry model, Cmd.none )
 
         CheckNodeGeometryProperty node s ->
-            let
-                m1 =
-                    ModelActions.updateNodeGeometryProperty node s model
-            in
-                showView msg m1
+            ( ModelActions.updateNodeGeometryProperty node s model, Cmd.none )
 
         HighLightGeometry s ->
             showView msg (ModelActions.highLightGeometry s model)
