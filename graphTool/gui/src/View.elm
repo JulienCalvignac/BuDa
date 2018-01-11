@@ -24,12 +24,12 @@ onInputFile message =
     on "change" (Json.Decode.succeed message)
 
 
-radio : msg -> String -> Bool -> Html msg
-radio msg value b =
+radio : String -> msg -> String -> Bool -> Html msg
+radio s msg value b =
     label
         [ style [ ( "padding", "5px" ) ]
         ]
-        [ input [ type_ "radio", name "viewType-radio", onClick msg, checked b ] []
+        [ input [ type_ "radio", name s, onClick msg, checked b ] []
         , text value
         ]
 
@@ -41,6 +41,11 @@ view model =
     div []
         [ div []
             [ fieldset [ id "fieldset" ]
+                [ radio "viewType" (Messages.SwitchToView Model.BULL) "Bubble Diagram" (model.viewType == Model.BULL)
+                , radio "viewType" (Messages.SwitchToView Model.PBS) "PBS" (model.viewType == Model.PBS)
+                , radio "viewType" (Messages.SwitchToView Model.ALL) "All" (model.viewType == Model.ALL)
+                , radio "viewType" (Messages.SwitchToView Model.ALL_LIGHT) "Flat" (model.viewType == Model.ALL_LIGHT)
+                , radio "viewType" (Messages.SwitchToView Model.GEOMETRY) "Geometry" (model.viewType == Model.GEOMETRY)
                 ]
             ]
         , button [ onClick Messages.CreateNode, id "new", value "new element" ] [ text "Block" ]
