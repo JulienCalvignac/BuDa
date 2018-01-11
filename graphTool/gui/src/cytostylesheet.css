@@ -75,7 +75,7 @@
     height: 1em;
     position: absolute;
     top: 0.2em;
-    left: 40em;
+    left: 70em;
 }
 
 
@@ -143,6 +143,16 @@
   top: 3.2em;
   left: 48.5em;
 }
+
+#layoutset {
+  width: 20em;
+  height: 3em;
+  position: absolute;
+  top: 3.2em;
+  left: 89em;
+
+}
+
 #ask {
   width: 5em;
   height: 3em;
@@ -150,6 +160,20 @@
   top: 3.2em;
   left: 54em;
 }
+
+#menu {
+  width: 1em;
+  height: 3em;
+  position: absolute;
+  /*top: 1.9em;*/
+  /*left: 52.8em;*/
+  top: 4em;
+  right : 19em;
+}
+
+
+
+
 #pos {
   width: 5em;
   height: 3em;
@@ -159,6 +183,7 @@
   visibility: hidden;
 }
 
+
 #label {
   width: 80em;
   height: 3em;
@@ -167,116 +192,57 @@
   left: 1em;
 }
 
+#logo {
+  width: 20em;
+  height: 6em;
+  position: absolute;
+  top: 0.2em;
+  right:0.2em;
 
-#parameters {
-    width: 16em;
-    height: 25em;
-    position: absolute;
-    top: 5em;
-    right:2em;
+}
+
+#leftLayout {
+  width: 16em;
+  height: 70em;
+  position: absolute;
+  top: 8em;
+  right:1em;
 }
 
 #paramView {
-  width: 16em;
-  height: 24em;
-  position: absolute;
+  /*width: 16em;*/
+  /*height: 24em;*/
+  height: 12.5em;
+  /*position: absolute;*/
   overflow-x: hidden;
   overflow-y: visible;
 
-}
-#createParameter
-{
-    width: 5em;
-    height: 3em;
-    position: absolute;
-    top: 28em;
-    right: 9em;
-}
-#deleteParameter
-{
-  width: 5em;
-  height: 3em;
-  position: absolute;
-  top: 28em;
-  right: 3em;
-}
-#attribut {
-    width: 16em;
-    height: 18em;
-    position: absolute;
-    top: 37em;
-    right: 2em;
 }
 
 #attributArea {
     width: 16em;
-    height: 10em;
-}
-#groups {
-    width: 16em;
-    height: 20em;
-    position: absolute;
-    top: 52em;
-    right:2em;
+    height: 6em;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 #functionalChainView {
-  width: 16em;
+  /*width: 16em;*/
   height: 19em;
-  position: absolute;
+  /*position: absolute;*/
   overflow-x: hidden;
   overflow-y: visible;
-}
-
-#createGroup
-{
-    width: 5em;
-    height: 3em;
-    position: absolute;
-    top: 22em;
-    right: 9em;
-}
-#deleteGroup
-{
-  width: 5em;
-  height: 3em;
-  position: absolute;
-  top: 22em;
-  right: 3em;
-}
-
-#geometries {
-    width: 16em;
-    height: 20em;
-    position: absolute;
-    top: 78em;
-    right:2em;
+  right:2em;
 }
 
 #geometryView {
-  width: 16em;
+  /*width: 16em;*/
   height: 19em;
-  position: absolute;
+  /*position: absolute;*/
   overflow-x: hidden;
   overflow-y: visible;
 }
 
-#createGeometry
-{
-    width: 5em;
-    height: 3em;
-    position: absolute;
-    top: 22em;
-    right: 9em;
-}
-#deleteGeometry
-{
-  width: 5em;
-  height: 3em;
-  position: absolute;
-  top: 22em;
-  right: 3em;
-}
 #loadGeometryButton
 {
   position: absolute;
@@ -288,4 +254,14 @@
 }
 #loadGeometry {
     display: none
+}
+
+#btnParameters {
+  width: 16em;
+}
+#btnGroups {
+  width: 16em;
+}
+#btnGeometries {
+  width: 16em;
 }
