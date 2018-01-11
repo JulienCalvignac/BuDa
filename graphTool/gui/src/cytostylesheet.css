@@ -1,3 +1,16 @@
+.vLayout {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 80px;
+}
+
+.vItem {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /*padding-left: 10px;
+  padding-right: 10px;*/
+}
+
 #cy {
     position: absolute;
     top: 9em;
