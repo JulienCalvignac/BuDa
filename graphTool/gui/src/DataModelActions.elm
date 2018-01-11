@@ -951,6 +951,25 @@ cloneEdge_ edge model =
         dataModelNewId
 
 
+isDescendantOneOfList_ : Identifier -> List Node -> Model -> Bool
+isDescendantOneOfList_ id list model =
+    case list of
+        [] ->
+            False
+
+        x :: xs ->
+            let
+                b =
+                    case DataModel.isNodeIdPresent id (ModelManagement.getDescendantsFromN model.nodes x) of
+                        True ->
+                            True
+
+                        False ->
+                            isDescendantOneOfList_ id xs model
+            in
+                b
+
+
 makeGroupNodes_ : List Node -> String -> Maybe Identifier -> Model -> Model
 makeGroupNodes_ list s m_p model =
     let
@@ -976,28 +995,33 @@ makeGroupNodes_ list s m_p model =
                 m1.nodes
 
         edges1 =
+            -- filter les liens dont la source est un bloc a grouper et dont target est externe aux blocs à grouper
             List.filter
                 (\x ->
                     (DataModel.isNodeIdPresent x.source list)
-                        && not (DataModel.isNodeIdPresent x.target list)
+                        && not (isDescendantOneOfList_ x.target list model)
                 )
                 m1.edges
 
         edges11 =
+            -- on redirige la source en fatherId
             List.map (\x -> { x | source = fatherId }) edges1
 
         edges2 =
+            -- filter les liens dont la target est un bloc a grouper et dont source est externe aux blocs à grouper
             List.filter
                 (\x ->
                     (DataModel.isNodeIdPresent x.target list)
-                        && not (DataModel.isNodeIdPresent x.source list)
+                        && not (isDescendantOneOfList_ x.target list model)
                 )
                 m1.edges
 
         edges21 =
+            -- on redirige la target en fatherId
             List.map (\x -> { x | target = fatherId }) edges2
 
         edgesTocreate =
+            -- liste des nouveaux liens à creer
             List.append edges11 edges21
 
         m2 =
@@ -1013,6 +1037,7 @@ groupNodes : List Node -> String -> Model -> Model
 groupNodes list s model =
     let
         ( condition, parent ) =
+            -- les blocs doivent avoir le meme parent
             DataModel.nodeListSameParent list
 
         m1 =
