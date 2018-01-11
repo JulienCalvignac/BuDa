@@ -528,6 +528,13 @@ update msg model =
             in
                 showView msg m1
 
+        CsvModelToElm s ->
+            let
+                m1 =
+                    ModelActions.loadCsvModel s model
+            in
+                showView msg m1
+
         ImportModelToElm s ->
             let
                 m1 =
