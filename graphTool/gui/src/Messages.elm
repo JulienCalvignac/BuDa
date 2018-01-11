@@ -58,4 +58,5 @@ type Msg
     | LoadGeometry
     | LoadGeometryButton String
     | SendGeometryToElm String
+    | SwitchToLayout String
     | NoOp
