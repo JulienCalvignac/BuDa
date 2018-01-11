@@ -1,9 +1,16 @@
 var reader = new FileReader();
 
 reader.onload = function(e) {
-    var json = reader.result;
-    // console.log('loadmodel:' + json);
-    app_port_sendModelToElm(json);
+
+  var content = reader.result;
+
+    if(window.fileType == "json"){
+      app_port_sendModelToElm(content);
+    }
+    else if(window.fileType == "csv") {
+      var json = reader.result;
+      app_port_sendCsvModelToElm(content);
+    }
 
 }
 
@@ -13,5 +20,17 @@ function loadModelFromFile(loadModelId) {
   var files = target.files; // FileList object
   var file = files[0];
 
+  if(file.type == "application/json")
+  {
+    window.fileType = "json"
+  }
+  else if(file.type == "text/csv")
+  {
+    window.fileType = "csv"
+  }
+
+
   reader.readAsText(file);
+
+
   }
