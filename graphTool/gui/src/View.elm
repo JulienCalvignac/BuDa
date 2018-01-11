@@ -63,6 +63,8 @@ view model =
         , input [ onInput Messages.InputChange, id "input", placeholder "undefined" ] []
         , input [ onInput Messages.InputFileChange, id "inputFile", placeholder "undefined" ] []
         , button [ onClick Messages.SaveModel, id "saveModel", value "saveModel" ] [ text "Save" ]
+        , input [ onInputFile Messages.LoadModel, id model.loadModelId, type_ "file", accept ".json,.csv" ] []
+        , input [ onInputFile Messages.ImportModel, id "importModel", type_ "file", accept ".json,.csv" ] []
         , input [ onInputFile Messages.LoadGeometry, id "loadGeometry", type_ "file", accept ".svg" ] []
         , button [ onClick Messages.SaveToImage, id "png", value "png" ] [ text "Print" ]
         , button [ onClick Messages.OnOpen, id "open", value "open" ] [ text "Open" ]
