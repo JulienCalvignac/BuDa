@@ -40,37 +40,27 @@ view model =
     div []
         [ div []
             [ fieldset [ id "fieldset" ]
-                [ radio (Messages.SwitchToView Model.BULL) "Bubble Diagram" (model.viewType == Model.BULL)
-                , radio (Messages.SwitchToView Model.PBS) "PBS" (model.viewType == Model.PBS)
-                , radio (Messages.SwitchToView Model.ALL) "All" (model.viewType == Model.ALL)
-                , radio (Messages.SwitchToView Model.ALL_LIGHT) "Light" (model.viewType == Model.ALL_LIGHT)
-                , radio (Messages.SwitchToView Model.GEOMETRY) "Geometry" (model.viewType == Model.GEOMETRY)
                 ]
             ]
-        , button [ onClick Messages.CreateNode, id "new", value "new element" ] [ text "Node" ]
+        , button [ onClick Messages.CreateNode, id "new", value "new element" ] [ text "Block" ]
         , button [ onClick Messages.CreateLink, id "edge", value "edge" ] [ text "Link" ]
         , button [ onClick Messages.RenameNode, id "rename", value "rename" ] [ text "Name" ]
-        , ParametersView.view model
-        , AttributView.view model
-        , GroupsView.view model
-        , GeometriesView.view model
           -- , button [ onClick Actions.ParametersDialog, id "dialog", value "dialog" ] [ text "dialog" ]
         , button [ onClick Messages.ExportLink, id "export", value "export" ] [ text "Export" ]
         , input [ onInput Messages.InputChange, id "input", placeholder "undefined" ] []
         , input [ onInput Messages.InputFileChange, id "inputFile", placeholder "undefined" ] []
         , button [ onClick Messages.SaveModel, id "saveModel", value "saveModel" ] [ text "Save" ]
-        , input [ onInputFile Messages.LoadModel, id model.loadModelId, type_ "file", accept ".json" ] []
-        , input [ onInputFile Messages.ImportModel, id "importModel", type_ "file", accept ".json" ] []
         , input [ onInputFile Messages.LoadGeometry, id "loadGeometry", type_ "file", accept ".svg" ] []
         , button [ onClick Messages.SaveToImage, id "png", value "png" ] [ text "Print" ]
         , button [ onClick Messages.OnOpen, id "open", value "open" ] [ text "Open" ]
         , button [ onClick Messages.OnImport, id "import", value "import" ] [ text "Import" ]
         , button [ onClick Messages.AskForMessages, id "ask", value "ask" ] [ text "GetMsg" ]
-        , button [ onClick Messages.Undo, id "undo", value "undo" ] [ text "Back" ]
+        , button [ onClick Messages.Undo, id "undo", value "undo" ] [ text "Undo" ]
         , button [ onClick Messages.GroupNodes, id "group", value "group" ] [ text "Group" ]
         , button [ onClick Messages.UpdateTightness, id "Tight", value "Tight" ] [ text "Tight" ]
         , button [ onClick Messages.Layout, id "layout", value "layout" ] [ text "Layout" ]
         , button [ onClick Messages.GetPositions, id "pos", value "pos" ] [ text "Pos" ]
         , button [ onClick Messages.Redo, id "redo", value "redo" ] [ text "Redo" ]
+        , img [ id "logo", src "LogoSirehna_DC.png", title "logo sirehna" ] []
         , div [ id "label" ] [ text (ModelActions.getNodeViewLabel model) ]
         ]
