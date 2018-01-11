@@ -15,6 +15,7 @@ import LinkParameters
 import Set exposing (Set)
 import Scenario
 import SpecialKey
+import LayoutMenu
 
 
 type ViewType
@@ -58,6 +59,10 @@ type alias Model =
     , specialKey : SpecialKey.Model
     , geometryId : Maybe Identifier
     , selectedGeometryId : Maybe Identifier
+    , layoutMenu : LayoutMenu.Model
+    , showFunctionalChain : Bool
+    , showGeometries : Bool
+    , showParameters : Bool
     }
 
 
@@ -81,4 +86,8 @@ defaultModel =
     , specialKey = SpecialKey.defaultModel
     , geometryId = Nothing
     , selectedGeometryId = Nothing
+    , layoutMenu = LayoutMenu.defaultModel
+    , showFunctionalChain = False
+    , showGeometries = False
+    , showParameters = False
     }
