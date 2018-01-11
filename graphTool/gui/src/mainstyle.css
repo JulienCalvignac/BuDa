@@ -1,8 +1,8 @@
 node {
-  background-color: #F2F5A9;
   content: data(name);
   color: #555;
-  shape: rectangle;
+  border-width: 1;
+  border-color: #555;
 }
 
 node[highLighted = 1] {
@@ -11,7 +11,7 @@ node[highLighted = 1] {
 }
 node[highLighted = 0] {
   shape: rectangle;
-  background-color: #F2F5A9;
+  background-color: #64B5F6;
 }
 
 edge {
@@ -19,12 +19,13 @@ edge {
   width: 1;
   line-color: #555;
   line-style: solid;
-  opacity: 0.5;
+  /*opacity: 0.5;*/
 }
 
 node:selected {
-  border-width: 1;
-  border-color: #5F4C0B;
+  border-width: 4;
+  border-color: #FE2E2E;
+
 }
 
 
@@ -50,17 +51,17 @@ edge[highLighted = 2] {
 
 /*interface non etanche*/
 edge[highLighted = 3] {
-  line-color: #F2A5A9;
+  line-color: #555;
   line-style: dashed;
-  width: 5;
+  width: 4;
 }
 
 edge:selected {
   line-color: #FE2E2E;
-  width: 5;
+  width: 4;
 }
 
 node:parent
 {
-  background-opacity: 0.1;
+  background-opacity: 0.4;
 }
