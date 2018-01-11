@@ -28,6 +28,7 @@ import Addresses
 import Notifications
 import NotificationActions
 import Geometries
+import LayoutMenuActions
 
 
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -413,6 +414,17 @@ update msg model =
                     { model | viewType = s }
             in
                 showView msg m1
+
+        SwitchToLayout s ->
+            let
+                newLayoutMenu =
+                    LayoutMenuActions.layoutPicked s model.layoutMenu
+
+                m1 =
+                    { model | layoutMenu = newLayoutMenu }
+            in
+                -- showView msg m1
+                ( m1, Cmd.batch [ LinkToJS.setLayoutName s ] )
 
         CreateNode ->
             let
