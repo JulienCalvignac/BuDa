@@ -19,7 +19,9 @@ subscriptions model =
         [ -- WebSocket.listen (model.modelURL) (NewSimuState << Json.Decode.decodeString Decoders.timerResponseDecode)
           LinkToJS.selection Selection
         , LinkToJS.modeltoelm ModelToElm
+        , LinkToJS.csvmodeltoelm CsvModelToElm
         , LinkToJS.importModeltoelm ImportModelToElm
+        , LinkToJS.importCsvModeltoelm ImportCsvModeltoElm
         , LinkToJS.doubleclick DoubleClick
         , LinkToJS.nodesPositionToElm NodesPositionToElm
         , LinkToJS.nodesPositionRequest NodesPositionRequest
@@ -27,6 +29,7 @@ subscriptions model =
         , Keyboard.ups KeyUps
         , Keyboard.downs KeyDowns
         , WebSocket.listen (Addresses.wsUrl) NewMessage
+          -- , subLayout model
         ]
 
 
