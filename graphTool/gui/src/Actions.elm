@@ -132,7 +132,7 @@ showView msg model =
         , Cmd.batch
             [ cmd
             , cmd1
-            , Task.attempt FocusResult (Dom.focus "input")
+              -- , Task.attempt FocusResult (Dom.focus "input")
             ]
         )
 
