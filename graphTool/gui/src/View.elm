@@ -1,8 +1,8 @@
 module View exposing (init, view)
 
 import Messages
-import Html exposing (Html, Attribute, button, div, fieldset, input, label, span, text, section)
-import Html.Attributes exposing (id, name, style, type_, checked, value, placeholder, class, accept)
+import Html exposing (Html, Attribute, button, div, fieldset, input, label, span, text, section, img)
+import Html.Attributes exposing (id, name, style, type_, checked, value, placeholder, class, accept, src, title)
 import Html.Events exposing (onClick, on, onInput)
 import Json.Decode
 import Model exposing (ViewType(..))
@@ -11,6 +11,7 @@ import AttributView
 import GroupsView
 import ModelActions
 import GeometriesView
+import LayoutView
 
 
 init : ( Model.Model, Cmd Messages.Msg )
@@ -45,6 +46,7 @@ view model =
         , button [ onClick Messages.CreateNode, id "new", value "new element" ] [ text "Block" ]
         , button [ onClick Messages.CreateLink, id "edge", value "edge" ] [ text "Link" ]
         , button [ onClick Messages.RenameNode, id "rename", value "rename" ] [ text "Name" ]
+        , LayoutView.view model
           -- , button [ onClick Actions.ParametersDialog, id "dialog", value "dialog" ] [ text "dialog" ]
         , button [ onClick Messages.ExportLink, id "export", value "export" ] [ text "Export" ]
         , input [ onInput Messages.InputChange, id "input", placeholder "undefined" ] []
