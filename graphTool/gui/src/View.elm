@@ -52,6 +52,12 @@ view model =
         , button [ onClick Messages.CreateLink, id "edge", value "edge" ] [ text "Link" ]
         , button [ onClick Messages.RenameNode, id "rename", value "rename" ] [ text "Name" ]
         , LayoutView.view model
+        , div [ id "leftLayout", class "vLayout" ]
+            [ AttributView.view model
+            , ParametersView.view model
+            , GroupsView.view model
+            , GeometriesView.view model
+            ]
           -- , button [ onClick Actions.ParametersDialog, id "dialog", value "dialog" ] [ text "dialog" ]
         , button [ onClick Messages.ExportLink, id "export", value "export" ] [ text "Export" ]
         , input [ onInput Messages.InputChange, id "input", placeholder "undefined" ] []
