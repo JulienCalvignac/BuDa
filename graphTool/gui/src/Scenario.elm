@@ -35,6 +35,7 @@ type Msg
     | CtrlX Identifier
     | CtrlV (Maybe Identifier)
     | SendGeometryName Geometries.Property
+    | LoadCsvModel String
 
 
 type alias Model =

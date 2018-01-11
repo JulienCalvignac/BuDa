@@ -3,6 +3,7 @@ module PlayerDataModel exposing (play, playOne, redo)
 import DataModel
 import Scenario exposing (Msg(..))
 import DataModelActions
+import Csv
 
 
 playOne : Msg -> DataModel.Model -> DataModel.Model
@@ -72,6 +73,9 @@ playOne msg model =
 
                 SendGeometryName element ->
                     DataModelActions.sendGeometryName element model
+
+                LoadCsvModel s ->
+                    Csv.loadCsvModel s model
 
                 _ ->
                     model
