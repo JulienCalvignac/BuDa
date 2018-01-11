@@ -5,7 +5,9 @@ port module LinkToJS
         , loadModel
         , importModel
         , modeltoelm
+        , csvmodeltoelm
         , importModeltoelm
+        , importCsvModeltoelm
         , doubleclick
         , saveModel
         , sendDataPBSModel
@@ -22,6 +24,7 @@ port module LinkToJS
         , loadGeometryRequest
         , loadGeometryButton
         , sendGeometryToElm
+        , setLayoutName
         )
 
 import Identifier exposing (Identifier)
@@ -88,6 +91,9 @@ port loadGeometryRequest : List Identifier -> Cmd msg
 port loadGeometryButton : String -> Cmd msg
 
 
+port setLayoutName : String -> Cmd msg
+
+
 
 {--
 //////////////////////////////////////////////////////////////////////////////
@@ -107,7 +113,13 @@ port selection : (List String -> msg) -> Sub msg
 port modeltoelm : (String -> msg) -> Sub msg
 
 
+port csvmodeltoelm : (String -> msg) -> Sub msg
+
+
 port importModeltoelm : (String -> msg) -> Sub msg
+
+
+port importCsvModeltoelm : (String -> msg) -> Sub msg
 
 
 
