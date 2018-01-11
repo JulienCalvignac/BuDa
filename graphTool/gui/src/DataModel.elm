@@ -411,6 +411,16 @@ nodeHasParent n =
 
 createProperty : String -> Model -> Model
 createProperty s model =
+    case LinkParameters.getPropertyIdFromName s model.parameters of
+        Nothing ->
+            createProperty_ s model
+
+        Just id ->
+            model
+
+
+createProperty_ : String -> Model -> Model
+createProperty_ s model =
     let
         m1 =
             getNodeIdentifier model
