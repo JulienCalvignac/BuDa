@@ -115,7 +115,7 @@ getFirstName_ s =
 
 getSecondName_ : String -> String
 getSecondName_ s =
-    String.slice 1 2 s
+    String.slice 0 2 s
 
 
 addLinkToModel_ : CsvLine -> Model -> Model
