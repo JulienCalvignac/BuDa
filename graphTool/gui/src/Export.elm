@@ -1,5 +1,6 @@
 module Export exposing (encodeNodes, encodeLinks)
 
+import Identifier exposing (Identifier)
 import DataModel exposing (Model)
 import Node exposing (Node)
 import Link exposing (Edge, ActivePoperties)
@@ -8,6 +9,8 @@ import DataModelActions exposing (getAscendantName)
 import ModelManagement
 import Set
 import LinkParameters
+import String
+import Groups
 
 
 separator : String
@@ -35,9 +38,35 @@ attributToString at =
             s
 
 
+listToString : List Identifier -> Groups.Model -> String
+listToString list groups =
+    case list of
+        [] ->
+            ""
+
+        x :: xs ->
+            case Groups.getPropertyStringFromId x groups of
+                Nothing ->
+                    ""
+
+                Just s ->
+                    s
+                        ++ case xs of
+                            [] ->
+                                ""
+
+                            _ ->
+                                ", " ++ (listToString xs groups)
+
+
+functionalChainToString : Set.Set Identifier -> Groups.Model -> String
+functionalChainToString ens groups =
+    listToString (Set.toList ens) groups
+
+
 nodeEncode_ : Node -> Model -> String
 nodeEncode_ n model =
-    (getAscendantName n model) ++ cr ++ (attributToString n.attribut)
+    (getAscendantName n model) ++ cr ++ (attributToString n.attribut) ++ cr ++ (functionalChainToString n.group model.groups)
 
 
 nodeListEncode_ : List Node -> Model -> String
