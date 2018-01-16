@@ -16,6 +16,7 @@ import Set exposing (Set)
 import Scenario
 import SpecialKey
 import LayoutMenu
+import Search
 
 
 type ViewType
@@ -63,6 +64,7 @@ type alias Model =
     , showFunctionalChain : Bool
     , showGeometries : Bool
     , showParameters : Bool
+    , searchModel : Search.Model
     }
 
 
@@ -90,4 +92,5 @@ defaultModel =
     , showFunctionalChain = False
     , showGeometries = False
     , showParameters = False
+    , searchModel = Search.defaultModel
     }
