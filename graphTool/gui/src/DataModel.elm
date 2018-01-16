@@ -35,6 +35,7 @@ module DataModel
         , getNodeNameFromId
         , getNodeFromNameAndParent
         , getNodeIdFromNameAndParent
+        , getNodeListFromName
         , getParentFromNodeId
         , getLayoutFromNodeId
         , getGeometryLayoutFromId
@@ -225,6 +226,11 @@ getNodeIdentifier model =
             model.curNodeId + 1
     in
         { model | curNodeId = newId }
+
+
+getNodeListFromName : String -> List Node -> List Node
+getNodeListFromName s list =
+    List.filter (\x -> x.name == s) list
 
 
 getNodeFromId : Identifier -> List Node -> Maybe Node
