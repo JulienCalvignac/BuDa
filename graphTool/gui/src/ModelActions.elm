@@ -63,6 +63,7 @@ import Keyboard exposing (KeyCode)
 import Selection
 import Geometries
 import Csv
+import Search
 
 
 {--
@@ -1036,16 +1037,38 @@ getAscendantName model =
 searchElement : Model -> Model
 searchElement model =
     let
-        m_node =
-            DataModel.getNodeFromName model.input model.dataModel.nodes
+        b =
+            SpecialKey.member 16 model.specialKey
 
-        m1 =
-            case m_node of
-                Nothing ->
+        m0 =
+            case b of
+                True ->
+                    let
+                        newSearchModel =
+                            Search.init model.input (DataModel.getNodeListFromName model.input model.dataModel.nodes)
+
+                        newModel =
+                            { model | searchModel = newSearchModel }
+                    in
+                        newModel
+
+                False ->
                     model
 
+        newSearchModel =
+            Search.next m0.searchModel
+
+        m1 =
+            case newSearchModel.curElement of
+                Nothing ->
+                    { m0 | searchModel = newSearchModel }
+
                 Just n ->
-                    { model | nodeViewId = Just n.id, selection = [ n.id ] }
+                    { m0
+                        | nodeViewId = Just n.id
+                        , selection = [ n.id ]
+                        , searchModel = newSearchModel
+                    }
     in
         m1
 
@@ -1307,8 +1330,9 @@ loadCsvModel : String -> Model.Model -> Model.Model
 loadCsvModel s model =
     let
         newDataModel =
-            Csv.loadCsvModel s model.dataModel
+            Csv.loadCsvModel s DataModel.defaultModel
 
+        --model.dataModel
         newUndo =
             Scenario.addMsg (Scenario.LoadCsvModel s) model.undo
     in
