@@ -2,7 +2,6 @@ var readImport = new FileReader();
 
 readImport.onload = function(e) {
   var content = readImport.result;
-    // console.log('loadmodel:' + json);
 
     if(window.fileType == "json"){
       app_port_sendImportModelToElm(content);
@@ -18,11 +17,12 @@ function importModelFromFile(loadModelId) {
   var files = target.files; // FileList object
   var file = files[0];
 
-  if(file.type == "application/json")
+  var extansion = getFileExtension2 (file.name);
+  if(extansion == "json")
   {
     window.fileType = "json"
   }
-  else if(file.type == "text/csv")
+  else if(extansion=="csv")
   {
     window.fileType = "csv"
   }

@@ -8,10 +8,13 @@ reader.onload = function(e) {
       app_port_sendModelToElm(content);
     }
     else if(window.fileType == "csv") {
-      var json = reader.result;
       app_port_sendCsvModelToElm(content);
     }
 
+}
+
+function getFileExtension2(filename) {
+  return filename.split('.').pop();
 }
 
 
@@ -20,11 +23,12 @@ function loadModelFromFile(loadModelId) {
   var files = target.files; // FileList object
   var file = files[0];
 
-  if(file.type == "application/json")
+  var extansion = getFileExtension2 (file.name);
+  if(extansion == "json")
   {
     window.fileType = "json"
   }
-  else if(file.type == "text/csv")
+  else if(extansion=="csv")
   {
     window.fileType = "csv"
   }
