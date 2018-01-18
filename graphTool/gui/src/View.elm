@@ -76,6 +76,7 @@ view model =
         , button [ onClick Messages.Layout, id "layout", value "layout" ] [ text "Layout" ]
         , button [ onClick Messages.GetPositions, id "pos", value "pos" ] [ text "Pos" ]
         , button [ onClick Messages.Redo, id "redo", value "redo" ] [ text "Redo" ]
+        , button [ onClick Messages.Verification, id "verification", value "verification" ] [ text "Verif" ]
         , img [ id "logo", src "LogoSirehna_DC.png", title "logo sirehna" ] []
         , div [ id "label" ] [ text (ModelActions.getNodeViewLabel model) ]
         ]
