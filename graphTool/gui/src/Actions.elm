@@ -230,6 +230,7 @@ deleteElement : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 deleteElement msg model =
     let
         b =
+            --shift
             SpecialKey.member 16 model.specialKey
 
         m1 =
@@ -607,6 +608,10 @@ update msg model =
 
                 46 ->
                     deleteElement msg model
+
+                66 ->
+                    -- key b
+                    showView msg (ModelActions.blow model)
 
                 67 ->
                     -- key c
