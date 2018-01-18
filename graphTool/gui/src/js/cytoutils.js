@@ -419,3 +419,21 @@ function saveToImage (imgName) {
 	_saveAsSvg_ (imgName);
 	_saveAsPng_ (imgName);
 }
+
+function layoutElementsNoPosition() {
+	try {
+		var cy = getCyReference();
+		var collection = cy.nodes("[?blow]");
+		if(collection!=null)
+		{
+			console.log( "collection.size " + collection.size() );
+			if(collection.size() > 0)
+			{
+				collection.layout(dagre_layout);
+			}
+		}
+	}
+	catch(err){
+		console.log ("err: " + err);
+	}
+}
