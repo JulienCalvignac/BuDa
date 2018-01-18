@@ -43,6 +43,7 @@ module ModelActions
         , getNodeViewLabel
         , sendGeometryName
         , loadCsvModel
+        , blow
         )
 
 import Identifier exposing (Identifier)
@@ -1341,3 +1342,32 @@ loadCsvModel s model =
                 newDataModel
             , undo = newUndo
         }
+
+
+blow : Model.Model -> Model.Model
+blow model =
+    -- activation/desactivation du champ blow pour le bloc selectionné
+    let
+        m_s =
+            Selection.getFirstSelectionIdentifier model.selection
+
+        b =
+            --shift
+            SpecialKey.member 16 model.specialKey
+
+        c =
+            --Ctrl
+            SpecialKey.member 17 model.specialKey
+
+        newDataModel =
+            case ( m_s, b, c ) of
+                ( Just id, True, True ) ->
+                    (DataModelActions.unblowAll model.dataModel)
+
+                ( Just id, True, False ) ->
+                    (DataModelActions.blow id model.dataModel)
+
+                _ ->
+                    model.dataModel
+    in
+        { model | dataModel = newDataModel }
