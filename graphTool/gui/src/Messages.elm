@@ -62,4 +62,5 @@ type Msg
     | ShowHideFunctionalChain
     | ShowHideGeometries
     | ShowHideParameters
+    | Verification
     | NoOp
