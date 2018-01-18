@@ -29,6 +29,7 @@ import Notifications
 import NotificationActions
 import Geometries
 import LayoutMenuActions
+import Verification
 
 
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -671,3 +672,16 @@ update msg model =
 
         ShowHideParameters ->
             ( { model | showParameters = not model.showParameters }, Cmd.none )
+
+        Verification ->
+            let
+                dm =
+                    Verification.verificationBlocs model.dataModel
+
+                dm2 =
+                    Verification.verification dm
+
+                m1 =
+                    { model | dataModel = dm2 }
+            in
+                ( m1, Cmd.none )
