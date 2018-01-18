@@ -78,8 +78,11 @@ existLinkTo list n edges =
 subBullesFromUniverse : DataModel.Model -> DataModel.Model
 subBullesFromUniverse model =
     let
-        newNodes =
+        newNodes0 =
             List.filter (\x -> (x.parent == Nothing)) model.nodes
+
+        newNodes =
+            addBlowToList newNodes0 model
 
         newEdges =
             List.filter
@@ -182,8 +185,11 @@ subBullesModelFromNode model n =
                 )
                 others
 
-        newNodes =
+        newNodes0 =
             n :: (List.append childNodes externNodes)
+
+        newNodes =
+            addBlowToList newNodes0 model
 
         newEdges1 =
             List.filter
@@ -268,11 +274,14 @@ subBullesModelFromNode0 model n =
         newNodes1 =
             n :: List.append brosNodes (List.append childNodes externNodes)
 
+        newNodes =
+            addBlowToList newNodes1 model
+
         newEdges1 =
             List.append brosEdges (List.append childEdges externEdges)
     in
         { model
-            | nodes = newNodes1
+            | nodes = newNodes
             , edges = newEdges1
             , curNodeId = 0
         }
@@ -783,3 +792,19 @@ filterWithMask model =
                 newNodes
             , edges = newEdges
         }
+
+
+addBlowToList : List Node -> DataModel.Model -> List Node
+addBlowToList list model =
+    case list of
+        [] ->
+            []
+
+        x :: xs ->
+            case x.blow of
+                False ->
+                    x :: (addBlowToList xs model)
+
+                True ->
+                    -- List.append (x :: (getChildren model.nodes x)) (addBlowToList xs model)
+                    List.append (getDescendantsFromN model.nodes x) (addBlowToList xs model)
