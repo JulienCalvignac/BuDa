@@ -77,6 +77,7 @@ encodeNode_ n =
                 )
           )
         , ( "position", encodePosition_ n.position )
+        , ( "blow", Json.Encode.bool n.blow )
         ]
 
 
