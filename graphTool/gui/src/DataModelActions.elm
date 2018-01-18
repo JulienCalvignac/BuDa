@@ -30,6 +30,8 @@ module DataModelActions
         , isMasked
         , insertFromTmp
         , sendGeometryName
+        , blow
+        , unblowAll
         )
 
 import DataModel exposing (Model, isNodeIdPresent)
@@ -1579,3 +1581,36 @@ sendGeometryName element model =
                 model.geometries
     in
         { model | geometries = newGeometries }
+
+
+blow : Identifier -> Model -> Model
+blow id model =
+    case (DataModel.getNodeFromId id model.nodes) of
+        Nothing ->
+            model
+
+        Just n ->
+            -- blow n in nodes
+            let
+                newNodes =
+                    List.map
+                        (\x ->
+                            case x.id == n.id of
+                                True ->
+                                    Node.blow x
+
+                                False ->
+                                    x
+                        )
+                        model.nodes
+            in
+                { model
+                    | nodes = newNodes
+                }
+
+
+unblowAll : Model -> Model
+unblowAll model =
+    { model
+        | nodes = List.map (\x -> { x | blow = False }) model.nodes
+    }
