@@ -1039,7 +1039,7 @@ searchElement : Model -> Model
 searchElement model =
     let
         b =
-            SpecialKey.member 16 model.specialKey
+            not (model.input == model.searchModel.name)
 
         m0 =
             case b of
