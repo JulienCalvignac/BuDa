@@ -35,7 +35,7 @@ getPropertyStringFromId id list =
                     (Just x.name)
 
                 False ->
-                    Nothing
+                    getPropertyStringFromId id xs
 
 
 getPropertyIdFromName : String -> Model -> Maybe Identifier
