@@ -44,6 +44,7 @@ module ModelActions
         , sendGeometryName
         , loadCsvModel
         , blow
+        , getCounterViewLabel
         )
 
 import Identifier exposing (Identifier)
@@ -1007,6 +1008,11 @@ getNodeViewLabel model =
                     " ( id = " ++ toString (i) ++ " )"
     in
         s ++ sId
+
+
+getCounterViewLabel : Model -> String
+getCounterViewLabel model =
+    "Blocks " ++ toString (List.length model.dataModel.nodes) ++ " / Links " ++ toString (List.length model.dataModel.edges)
 
 
 getAscendantName : Model -> String
