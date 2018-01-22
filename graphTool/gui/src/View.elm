@@ -79,4 +79,5 @@ view model =
         , button [ onClick Messages.Verification, id "verification", value "verification" ] [ text "Verif" ]
         , img [ id "logo", src "LogoSirehna_DC.png", title "logo sirehna" ] []
         , div [ id "label" ] [ text (ModelActions.getNodeViewLabel model) ]
+        , div [ id "counter" ] [ text (ModelActions.getCounterViewLabel model) ]
         ]
