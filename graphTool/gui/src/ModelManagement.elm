@@ -806,5 +806,4 @@ addBlowToList list model =
                     x :: (addBlowToList xs model)
 
                 True ->
-                    -- List.append (x :: (getChildren model.nodes x)) (addBlowToList xs model)
-                    List.append (getDescendantsFromN model.nodes x) (addBlowToList xs model)
+                    List.append (x :: (getChildren model.nodes x)) (addBlowToList xs model)
