@@ -200,6 +200,15 @@
   left: 1em;
 }
 
+#counter {
+  width: 80em;
+  height: 3em;
+  position: absolute;
+  top: 7em;
+  left: 10em;
+
+}
+
 #logo {
   width: 20em;
   height: 6em;
