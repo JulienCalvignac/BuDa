@@ -82,7 +82,7 @@ subBullesFromUniverse model =
             List.filter (\x -> (x.parent == Nothing)) model.nodes
 
         newNodes =
-            addBlowToList newNodes0 model
+            addBlowToListRecursive newNodes0 model
 
         newEdges =
             List.filter
@@ -189,7 +189,7 @@ subBullesModelFromNode model n =
             n :: (List.append childNodes externNodes)
 
         newNodes =
-            addBlowToList newNodes0 model
+            addBlowToListRecursive newNodes0 model
 
         newEdges1 =
             List.filter
@@ -275,7 +275,7 @@ subBullesModelFromNode0 model n =
             n :: List.append brosNodes (List.append childNodes externNodes)
 
         newNodes =
-            addBlowToList newNodes1 model
+            addBlowToListRecursive newNodes1 model
 
         newEdges1 =
             List.append brosEdges (List.append childEdges externEdges)
@@ -807,3 +807,20 @@ addBlowToList list model =
 
                 True ->
                     List.append (x :: (getChildren model.nodes x)) (addBlowToList xs model)
+
+
+addBlowToListRecursive : List Node -> DataModel.Model -> List Node
+addBlowToListRecursive list model =
+    let
+        newList =
+            addBlowToList list model
+
+        res =
+            case (List.length newList) == (List.length list) of
+                True ->
+                    newList
+
+                False ->
+                    addBlowToList newList model
+    in
+        res
