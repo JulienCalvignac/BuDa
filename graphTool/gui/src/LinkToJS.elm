@@ -25,6 +25,7 @@ port module LinkToJS
         , loadGeometryButton
         , sendGeometryToElm
         , setLayoutName
+        , setLayoutNameThenLayout
         )
 
 import Identifier exposing (Identifier)
@@ -92,6 +93,9 @@ port loadGeometryButton : String -> Cmd msg
 
 
 port setLayoutName : String -> Cmd msg
+
+
+port setLayoutNameThenLayout : String -> Cmd msg
 
 
 
