@@ -332,24 +332,34 @@ function _sendDataModel_ (obj) {
 	var cy = getCyReference();
 	cy.remove (cy.elements());
 
+	var jsons = [];
+
 	var ns = obj.nodes;
 	ns.forEach(function (s)
 	{
-		cy.add({
-		    group: "nodes",
-		    data: { id: s.data.id, parent: s.data.parent, name: s.data.name, highLighted: s.data.highLighted }
-				, position: {x: s.data.position.x, y: s.data.position.y }
-		});
+
+		jsons.push (
+			{
+					group: "nodes",
+					data: { id: s.data.id, parent: s.data.parent, name: s.data.name, highLighted: s.data.highLighted }
+					, position: {x: s.data.position.x, y: s.data.position.y }
+			}
+		);
 	});
 
 	var eds = obj.edges;
 	eds.forEach(function (s)
 	{
-		cy.add({
-		    group: "edges",
-		    data: { id: s.data.id, source: s.data.source, target: s.data.target, highLighted: s.data.highLighted}
-		});
+		jsons.push (
+			{
+			    group: "edges",
+			    data: { id: s.data.id, source: s.data.source, target: s.data.target, highLighted: s.data.highLighted}
+			}
+		);
+
 	});
+
+	cy.add(jsons);
 }
 
 function _layout_main() {
