@@ -426,7 +426,7 @@ update msg model =
                     { model | layoutMenu = newLayoutMenu }
             in
                 -- showView msg m1
-                ( m1, Cmd.batch [ LinkToJS.setLayoutName s ] )
+                ( m1, Cmd.batch [ (LinkToJS.setLayoutNameThenLayout s) ] )
 
         CreateNode ->
             let
