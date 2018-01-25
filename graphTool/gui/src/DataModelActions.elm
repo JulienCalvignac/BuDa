@@ -50,7 +50,7 @@ import TightnessActions
 import Layout exposing (Layout, NodeLayout)
 import Mask
 import TranslateTmpDataModel
-import Notifications
+import Notification
 import Geometries
 import GeometryActions
 
@@ -76,7 +76,7 @@ createNode s m_parent model =
             n :: newDataModel.nodes
 
         newNotifications =
-            (Notifications.BLOC n) :: newDataModel.notifications
+            (Notification.BLOC n) :: newDataModel.notifications
     in
         { newDataModel | nodes = newNodes, notifications = newNotifications }
 
@@ -114,7 +114,7 @@ createLink s t model =
                             (Link.link s t)
 
                         newNotifications =
-                            (Notifications.LIEN edge) :: m1.notifications
+                            (Notification.LIEN edge) :: m1.notifications
                     in
                         { m1 | notifications = newNotifications }
 
