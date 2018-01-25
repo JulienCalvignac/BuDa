@@ -85,6 +85,7 @@ type alias Model =
     , mask : Mask.Model
     , notifications : List Notification.NotificationData
     , geometryImage : Maybe String
+    , receivedNotifications : List Notification.NotificationData
     }
 
 
@@ -145,6 +146,7 @@ defaultModel =
     , mask = Mask.defaultModel
     , notifications = []
     , geometryImage = Nothing
+    , receivedNotifications = []
     }
 
 
@@ -217,6 +219,7 @@ dataModelToModel dm model =
         , mask = dm.mask
         , notifications = []
         , geometryImage = Nothing
+        , receivedNotifications = []
         }
 
 
