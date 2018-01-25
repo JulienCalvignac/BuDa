@@ -80,4 +80,20 @@ view model =
         , img [ id "logo", src "LogoSirehna_DC.png", title "logo sirehna" ] []
         , div [ id "label" ] [ text (ModelActions.getNodeViewLabel model) ]
         , div [ id "counter" ] [ text (ModelActions.getCounterViewLabel model) ]
+        , button
+            [ onClick Messages.OnNotificationClick
+            , id "notification"
+            , value "notification"
+            , style
+                [ ( "visibility"
+                  , case (List.isEmpty model.dataModel.receivedNotifications) of
+                        True ->
+                            "hidden"
+
+                        False ->
+                            "visible"
+                  )
+                ]
+            ]
+            [ text "Notifications" ]
         ]
