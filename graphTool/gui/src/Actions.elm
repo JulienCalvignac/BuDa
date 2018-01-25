@@ -661,10 +661,23 @@ update msg model =
 
         NewMessage str ->
             let
+                newNotifications =
+                    NotificationActions.updateNotificationModel str model.dataModel.receivedNotifications
+
+                model_dataModel =
+                    model.dataModel
+
+                newDataModel =
+                    { model_dataModel | receivedNotifications = newNotifications }
+
+                m1 =
+                    { model | dataModel = newDataModel }
+
                 z =
-                    Debug.log "NewMessage: " str
+                    Debug.log "Notifications: " (List.length m1.dataModel.receivedNotifications)
             in
-                ( model, Cmd.none )
+                ( m1, Cmd.none )
+
 
         ImportModel ->
             ( model, LinkToJS.importModel "importModel" )
