@@ -266,7 +266,7 @@ encodeNotification_ notify =
     in
         Json.Encode.object
             [ ( "header", string (notify.header) )
-            , ( "data", string s )
+            , ( "data", s )
             ]
 
 
