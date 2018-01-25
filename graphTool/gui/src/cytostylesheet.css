@@ -282,3 +282,10 @@
 #btnGeometries {
   width: 16em;
 }
+
+#notification {
+  position: absolute;
+  bottom: 1em;
+  right:1em;
+  width: 16em;
+}
