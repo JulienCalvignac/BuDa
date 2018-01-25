@@ -62,6 +62,7 @@ import Set exposing (Set)
 import TightnessActions
 import Layout exposing (Layout, NodeLayout, GeometryLayout)
 import Mask
+import Notification
 import Notifications
 import Geometries
 
@@ -82,7 +83,7 @@ type alias Model =
     , lightLayout : Maybe Layout
     , rootBubbleLayout : Maybe Layout
     , mask : Mask.Model
-    , notifications : List Notifications.NotificationData
+    , notifications : List Notification.NotificationData
     , geometryImage : Maybe String
     }
 
