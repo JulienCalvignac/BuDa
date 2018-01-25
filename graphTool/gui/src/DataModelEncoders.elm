@@ -20,7 +20,7 @@ import Set exposing (Set)
 import LinkParameters
 import Groups
 import Layout exposing (NodeLayout, GeometryLayout)
-import Notifications
+import Notification
 import Geometries
 
 
@@ -253,16 +253,16 @@ encodeExport =
     encode 0 << encodeExport_
 
 
-encodeNotification_ : Notifications.Model -> Json.Encode.Value
+encodeNotification_ : Notification.Model -> Json.Encode.Value
 encodeNotification_ notify =
     let
         s =
             case notify.data of
-                Notifications.BLOC n ->
-                    encodeNode n
+                Notification.BLOC n ->
+                    encodeNode_ n
 
-                Notifications.LIEN e ->
-                    encodeEdge e
+                Notification.LIEN e ->
+                    encodeEdge_ e
     in
         Json.Encode.object
             [ ( "header", string (notify.header) )
@@ -270,6 +270,6 @@ encodeNotification_ notify =
             ]
 
 
-encodeNotification : Notifications.Model -> String
+encodeNotification : Notification.Model -> String
 encodeNotification =
     encode 0 << encodeNotification_
