@@ -22,7 +22,7 @@ import Groups
 import Set
 import Position exposing (Position)
 import Layout exposing (NodeLayout)
-import Notifications
+import Notification
 import Geometries
 
 
@@ -184,16 +184,16 @@ decodeNodesPosition =
     Json.Decode.list decodeNodePosition
 
 
-decodeNotificationData_ : Json.Decode.Decoder Notifications.NotificationData
+decodeNotificationData_ : Json.Decode.Decoder Notification.NotificationData
 decodeNotificationData_ =
     Json.Decode.oneOf
-        [ Json.Decode.map Notifications.BLOC decodeNode
-        , Json.Decode.map Notifications.LIEN decodeEdge
+        [ Json.Decode.map Notification.BLOC decodeNode
+        , Json.Decode.map Notification.LIEN decodeEdge
         ]
 
 
-decodeNotification : Json.Decode.Decoder Notifications.Model
+decodeNotification : Json.Decode.Decoder Notification.Model
 decodeNotification =
-    Json.Decode.Pipeline.decode Notifications.Model
+    Json.Decode.Pipeline.decode Notification.Model
         |> Json.Decode.Pipeline.required "header" Json.Decode.string
         |> Json.Decode.Pipeline.required "data" decodeNotificationData_
