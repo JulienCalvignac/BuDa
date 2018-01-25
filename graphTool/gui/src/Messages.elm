@@ -63,4 +63,5 @@ type Msg
     | ShowHideGeometries
     | ShowHideParameters
     | Verification
+    | OnNotificationClick
     | NoOp
