@@ -25,7 +25,7 @@ import SpecialKey
 import ModelManagement
 import WebSocket
 import Addresses
-import Notifications
+import Notification
 import NotificationActions
 import Geometries
 import LayoutMenuActions
@@ -249,7 +249,7 @@ deleteElement msg model =
         showView msg m1
 
 
-sendNotification : String -> Notifications.NotificationData -> Cmd Msg
+sendNotification : String -> Notification.NotificationData -> Cmd Msg
 sendNotification s notifyData =
     WebSocket.send Addresses.wsUrl (NotificationActions.notificationData s notifyData)
 
