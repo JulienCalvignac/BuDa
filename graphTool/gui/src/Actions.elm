@@ -48,20 +48,7 @@ showView msg model =
         ( m1, cmd ) =
             case model.viewType of
                 Model.ALL ->
-                    let
-                        dataModel =
-                            model.dataModel
-
-                        newDatamodel =
-                            { dataModel | mustLayout = True }
-
-                        m0 =
-                            { model | dataModel = newDatamodel }
-
-                        m1 =
-                            (ModelActions.updateNodesPosition m0)
-                    in
-                        showAllData msg m1
+                    showAllData msg model
 
                 Model.PBS ->
                     showPBS msg model
