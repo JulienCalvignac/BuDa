@@ -101,16 +101,9 @@ showAllDataLight msg model =
 
 showPBS : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showPBS msg model =
-    let
-        subModel =
-            case model.nodeViewId of
-                Nothing ->
-                    (ModelViews.getPBSView model.dataModel)
-
-                Just x ->
-                    (ModelViews.getPBSViewFromNodeId model.dataModel x)
-    in
-        ( model, LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel subModel) )
+    ( model
+    , LinkToJS.sendDataPBSModel (DataModelEncoders.encodeModel (ModelViews.showPBS model))
+    )
 
 
 showBulles : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
