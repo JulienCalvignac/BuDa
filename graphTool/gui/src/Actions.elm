@@ -54,20 +54,7 @@ showView msg model =
                     showPBS msg model
 
                 Model.BULL ->
-                    let
-                        dataModel =
-                            model.dataModel
-
-                        newDatamodel =
-                            { dataModel | mustLayout = True }
-
-                        m0 =
-                            { model | dataModel = newDatamodel }
-
-                        m1 =
-                            (ModelActions.updateNodesPosition m0)
-                    in
-                        showBulles msg m1
+                    showBulles msg model
 
                 Model.ALL_LIGHT ->
                     let
