@@ -94,26 +94,9 @@ showAllData msg model =
 
 showAllDataLight : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showAllDataLight msg model =
-    let
-        subModel =
-            model.dataModel
-
-        -- on garde les liens de plus bas niveau
-        lowestEdges =
-            DataModelActions.lowestLevelEdges model.dataModel
-
-        m2 =
-            { subModel | edges = lowestEdges }
-
-        m3 =
-            case subModel.mustLayout of
-                True ->
-                    m2
-
-                False ->
-                    DataModel.triNodes m2
-    in
-        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m3) )
+    ( model
+    , LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel (ModelViews.showAllDataLight model).dataModel)
+    )
 
 
 showPBS : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
