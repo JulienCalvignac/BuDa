@@ -11,7 +11,6 @@ module Actions
 
 import DataModel
 import DataModelEncoders
-import DataModelActions
 import LinkToJS
 import Model
 import Selection
@@ -22,7 +21,6 @@ import Task
 import Messages exposing (Msg(..))
 import Export
 import SpecialKey
-import ModelManagement
 import WebSocket
 import Addresses
 import Notification
