@@ -110,18 +110,7 @@ showBulles : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showBulles msg model =
     let
         m1 =
-            ModelManagement.filterWithMask model.dataModel
-
-        subModel =
-            case model.nodeViewId of
-                Nothing ->
-                    (ModelViews.getBullesView m1)
-
-                Just x ->
-                    (ModelViews.getBullesViewFromNodeId m1 x)
-
-        m2 =
-            (DataModel.triNodes subModel)
+            ModelViews.showAllDataLight (ModelViews.showBulles model)
     in
         ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m2) )
 
