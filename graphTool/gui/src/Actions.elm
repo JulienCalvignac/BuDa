@@ -60,20 +60,7 @@ showView msg model =
                     showAllDataLight msg model
 
                 Model.GEOMETRY ->
-                    let
-                        dataModel =
-                            model.dataModel
-
-                        newDatamodel =
-                            { dataModel | mustLayout = True }
-
-                        m0 =
-                            { model | dataModel = newDatamodel }
-
-                        m1 =
-                            (ModelActions.updateNodesPosition m0)
-                    in
-                        showGeometry msg m1
+                    showGeometry msg model
 
         m2 =
             { m1 | selection = [], selectionType = Model.PARENT }
