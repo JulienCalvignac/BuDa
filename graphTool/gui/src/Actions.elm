@@ -87,19 +87,9 @@ showView msg model =
 
 showAllData : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showAllData msg model =
-    let
-        subModel =
-            model.dataModel
-
-        m2 =
-            case subModel.mustLayout of
-                True ->
-                    subModel
-
-                False ->
-                    DataModel.triNodes subModel
-    in
-        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m2) )
+    ( model
+    , LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel (ModelViews.showAllData model).dataModel)
+    )
 
 
 showAllDataLight : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
