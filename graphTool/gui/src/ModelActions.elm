@@ -1368,9 +1368,6 @@ blow model =
         newDataModel =
             case ( m_s, b, c ) of
                 ( Just id, True, True ) ->
-                    (DataModelActions.unblowAll model.dataModel)
-
-                ( Just id, True, False ) ->
                     (DataModelActions.blow id model.dataModel)
 
                 _ ->
