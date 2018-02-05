@@ -57,20 +57,7 @@ showView msg model =
                     showBulles msg model
 
                 Model.ALL_LIGHT ->
-                    let
-                        dataModel =
-                            model.dataModel
-
-                        newDatamodel =
-                            { dataModel | mustLayout = True }
-
-                        m0 =
-                            { model | dataModel = newDatamodel }
-
-                        m1 =
-                            (ModelActions.updateNodesPosition m0)
-                    in
-                        showAllDataLight msg m1
+                    showAllDataLight msg model
 
                 Model.GEOMETRY ->
                     let
