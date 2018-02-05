@@ -119,14 +119,9 @@ showBulles msg model =
 
 showGeometry : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showGeometry msg model =
-    let
-        dm =
-            (ModelViews.getGeometryView model.dataModel model.geometryId)
-
-        m2 =
-            (DataModel.triNodes dm)
-    in
-        ( model, LinkToJS.sendDataGeometryModel (DataModelEncoders.encodeModel m2) )
+    ( model
+    , LinkToJS.sendDataGeometryModel (DataModelEncoders.encodeModel (ModelViews.showGeometry model).dataModel)
+    )
 
 
 deleteElement : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
