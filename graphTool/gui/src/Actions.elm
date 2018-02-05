@@ -112,7 +112,9 @@ showBulles msg model =
         m1 =
             ModelViews.showAllDataLight (ModelViews.showBulles model)
     in
-        ( model, LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m2) )
+        ( model
+        , LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel m1.dataModel)
+        )
 
 
 showGeometry : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
