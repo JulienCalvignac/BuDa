@@ -507,10 +507,6 @@ update msg model =
                 46 ->
                     deleteElement msg model
 
-                66 ->
-                    -- key b
-                    showView msg (ModelActions.blow model)
-
                 67 ->
                     -- key c
                     ( ModelActions.ctrlC model, Cmd.none )
@@ -526,6 +522,10 @@ update msg model =
                 112 ->
                     -- F1
                     showView msg (ModelActions.searchElement model)
+
+                113 ->
+                    -- F2
+                    showView msg (ModelActions.blow model)
 
                 _ ->
                     ( model, Cmd.none )
