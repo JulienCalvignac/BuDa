@@ -1357,17 +1357,9 @@ blow model =
         m_s =
             Selection.getFirstSelectionIdentifier model.selection
 
-        b =
-            --shift
-            SpecialKey.member 16 model.specialKey
-
-        c =
-            --Ctrl
-            SpecialKey.member 17 model.specialKey
-
         newDataModel =
-            case ( m_s, b, c ) of
-                ( Just id, True, True ) ->
+            case m_s of
+                Just id ->
                     (DataModelActions.blow id model.dataModel)
 
                 _ ->
