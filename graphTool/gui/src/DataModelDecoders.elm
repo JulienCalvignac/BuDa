@@ -54,7 +54,7 @@ decodeNode =
         |> Json.Decode.Pipeline.required "group" (Json.Decode.Extra.set decodeIdentifier)
         |> Json.Decode.Pipeline.hardcoded False
         |> Json.Decode.Pipeline.optional "position" decodePosition Position.defaultPosition
-        |> Json.Decode.Pipeline.optional "blow" Json.Decode.bool False
+        |> Json.Decode.Pipeline.hardcoded False
 
 
 decodeDataNode : Json.Decode.Decoder DataModel.DataNode
