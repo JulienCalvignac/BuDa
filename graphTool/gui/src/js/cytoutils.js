@@ -341,7 +341,7 @@ function _sendDataModel_ (obj) {
 		jsons.push (
 			{
 					group: "nodes",
-					data: { id: s.data.id, parent: s.data.parent, name: s.data.name, highLighted: s.data.highLighted }
+					data: { id: s.data.id, parent: s.data.parent, name: s.data.name, highLighted: s.data.highLighted, blow: s.data.blow }
 					, position: {x: s.data.position.x, y: s.data.position.y }
 			}
 		);
