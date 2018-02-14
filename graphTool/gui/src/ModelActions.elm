@@ -1044,34 +1044,20 @@ getAscendantName model =
 searchElement : Model -> Model
 searchElement model =
     let
-        b =
-            not (model.input == model.searchModel.name)
-
-        m0 =
-            case b of
-                True ->
-                    let
-                        newSearchModel =
-                            Search.init model.input (DataModel.getNodeListFromName model.input model.dataModel.nodes)
-
-                        newModel =
-                            { model | searchModel = newSearchModel }
-                    in
-                        newModel
-
-                False ->
-                    model
-
         newSearchModel =
-            Search.next m0.searchModel
+            Search.search model.searchModel model.input model.dataModel.nodes
 
         m1 =
-            case newSearchModel.curElement of
+            case List.head newSearchModel.nodes of
                 Nothing ->
-                    { m0 | searchModel = newSearchModel }
+                    { model
+                        | nodeViewId = Nothing
+                        , selection = []
+                        , searchModel = newSearchModel
+                    }
 
                 Just n ->
-                    { m0
+                    { model
                         | nodeViewId = Just n.id
                         , selection = [ n.id ]
                         , searchModel = newSearchModel
