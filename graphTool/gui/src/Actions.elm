@@ -28,6 +28,7 @@ import NotificationActions
 import Geometries
 import LayoutMenuActions
 import Verification
+import Search
 
 
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -161,8 +162,228 @@ askForMessages model =
         ( model, WebSocket.send Addresses.wsUrl "AskForMessages" )
 
 
+processFocus : Msg -> List (Cmd Msg) -> List (Cmd Msg)
+processFocus msg list =
+    let
+        taskFocus =
+            (Task.attempt FocusResult (Dom.focus "input"))
+    in
+        case msg of
+            KeyUps s ->
+                case s of
+                    86 ->
+                        -- v
+                        list
+
+                    88 ->
+                        -- x
+                        list
+
+                    _ ->
+                        List.concat [ list, [ taskFocus ] ]
+
+            _ ->
+                List.concat [ list, [ taskFocus ] ]
+
+
 update : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 update msg model =
+    let
+        searchBuildList =
+            (Search.mustBuildList model.searchModel True)
+
+        m1 =
+            case msg of
+                FocusOn _ ->
+                    model
+
+                FocusResult _ ->
+                    model
+
+                CreateNode ->
+                    { model | searchModel = searchBuildList }
+
+                RenameNode ->
+                    { model | searchModel = searchBuildList }
+
+                CreateLink ->
+                    model
+
+                InputChange _ ->
+                    -- on modifie le texte pour la recherche
+                    { model | searchModel = searchBuildList }
+
+                InputFileChange _ ->
+                    model
+
+                Selection _ ->
+                    model
+
+                ModelToElm _ ->
+                    -- nouveau model depuis javascript
+                    { model | searchModel = searchBuildList }
+
+                CsvModelToElm _ ->
+                    -- nouveau csv model depuis javascript
+                    { model | searchModel = searchBuildList }
+
+                ImportModelToElm _ ->
+                    -- import nouveau model depuis javascript
+                    { model | searchModel = searchBuildList }
+
+                ImportCsvModeltoElm _ ->
+                    -- import nouveau csv model depuis javascript
+                    { model | searchModel = searchBuildList }
+
+                NodesPositionToElm _ ->
+                    model
+
+                SaveModel ->
+                    model
+
+                LoadModel ->
+                    model
+
+                SwitchToView _ ->
+                    model
+
+                KeyUps s ->
+                    case s of
+                        46 ->
+                            { model | searchModel = searchBuildList }
+
+                        _ ->
+                            model
+
+                KeyDowns _ ->
+                    model
+
+                DoubleClick _ ->
+                    model
+
+                CheckProperty _ _ ->
+                    model
+
+                CheckFlux _ ->
+                    model
+
+                ExportLink ->
+                    model
+
+                CreateParameter ->
+                    model
+
+                DeleteParameter ->
+                    model
+
+                UpdateAttribute _ ->
+                    model
+
+                GroupNodes ->
+                    -- creation du bloc groupe
+                    { model | searchModel = searchBuildList }
+
+                CheckNodeGroupProperty _ _ ->
+                    model
+
+                CreateGroup ->
+                    model
+
+                DeleteGroup ->
+                    model
+
+                HighLightGroup _ ->
+                    model
+
+                SelectedParameters _ ->
+                    model
+
+                UpdateTightness ->
+                    model
+
+                Layout ->
+                    model
+
+                GetPositions ->
+                    model
+
+                Undo ->
+                    -- undo
+                    { model | searchModel = searchBuildList }
+
+                Redo ->
+                    -- redo
+                    { model | searchModel = searchBuildList }
+
+                NodesPositionRequest _ ->
+                    model
+
+                OnOpen ->
+                    model
+
+                OnImport ->
+                    model
+
+                ImportModel ->
+                    -- envoie message importModel vers javascript
+                    model
+
+                AskForMessages ->
+                    model
+
+                NewMessage _ ->
+                    model
+
+                SaveToImage ->
+                    model
+
+                CreateGeometry ->
+                    model
+
+                DeleteGeometry ->
+                    model
+
+                CheckNodeGeometryProperty _ _ ->
+                    model
+
+                HighLightGeometry _ ->
+                    model
+
+                LoadGeometry ->
+                    model
+
+                LoadGeometryButton _ ->
+                    model
+
+                SendGeometryToElm _ ->
+                    model
+
+                SwitchToLayout _ ->
+                    model
+
+                ShowHideFunctionalChain ->
+                    model
+
+                ShowHideGeometries ->
+                    model
+
+                ShowHideParameters ->
+                    model
+
+                Verification ->
+                    model
+
+                OnNotificationClick ->
+                    model
+
+                NoOp ->
+                    model
+    in
+        globalUpdate msg m1
+
+
+globalUpdate : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
+globalUpdate msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
