@@ -12,6 +12,8 @@ port module LinkToJS
         , saveModel
         , sendDataPBSModel
         , sendDataBullesModel
+        , sendDataFlatModel
+        , sendDataAllModel
         , sendDataGeometryModel
         , sendParentSelection
         , selection
@@ -50,6 +52,12 @@ port sendDataBullesModel : String -> Cmd msg
 
 
 port sendDataGeometryModel : String -> Cmd msg
+
+
+port sendDataFlatModel : String -> Cmd msg
+
+
+port sendDataAllModel : String -> Cmd msg
 
 
 
