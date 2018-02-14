@@ -1014,7 +1014,7 @@ makeGroupNodes_ list s m_p model =
             List.filter
                 (\x ->
                     (DataModel.isNodeIdPresent x.target list)
-                        && not (isDescendantOneOfList_ x.target list model)
+                        && not (isDescendantOneOfList_ x.source list model)
                 )
                 m1.edges
 
