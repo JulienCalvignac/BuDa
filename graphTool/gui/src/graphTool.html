@@ -105,6 +105,16 @@
         _layout_dagre();
       });
 
+      app.ports.sendDataAllModel.subscribe(function(word) {
+        options.drawImage = false;
+        _sendDataBullesModel (word);
+      });
+
+      app.ports.sendDataFlatModel.subscribe(function(word) {
+        options.drawImage = false;
+        _sendDataBullesModel (word);
+      });
+
       app.ports.sendDataGeometryModel.subscribe(function(word) {
         options.drawImage = true;
         _sendDataBullesModel (word);
