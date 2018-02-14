@@ -1298,12 +1298,71 @@ addLayout_ i lay model =
         { model | layouts = newLayouts }
 
 
+completeMaybeLayout_ : Maybe Layout -> Layout -> Maybe Layout
+completeMaybeLayout_ ori new =
+    case ori of
+        Nothing ->
+            Just new
+
+        Just olayout ->
+            Just (completeLayout_ olayout new)
+
+
+isNodePositionMember_ : Layout -> NodePosition -> Bool
+isNodePositionMember_ lay np =
+    case lay of
+        [] ->
+            False
+
+        x :: xs ->
+            case x.id == np.id of
+                True ->
+                    True
+
+                False ->
+                    isNodePositionMember_ xs np
+
+
+completeLayoutWithNodePosition_ : Layout -> NodePosition -> Layout
+completeLayoutWithNodePosition_ lay np =
+    case isNodePositionMember_ lay np of
+        True ->
+            List.map
+                (\x ->
+                    case x.id == np.id of
+                        True ->
+                            np
+
+                        False ->
+                            x
+                )
+                lay
+
+        False ->
+            np :: lay
+
+
+completeLayout_ : Layout -> Layout -> Layout
+completeLayout_ ori new =
+    -- on enrichit le layout ori avec new.
+    -- Les nouveaux elements sont ajoutés.
+    -- Les positions des éléments existant sont mises à jour
+    case new of
+        [] ->
+            ori
+
+        x :: xs ->
+            completeLayout_ (completeLayoutWithNodePosition_ ori x) xs
+
+
 updateLayoutFromNodeId : Maybe Identifier -> Layout -> Model -> Model
 updateLayoutFromNodeId m_id lay model =
     -- ajout ou update du layout pour le bloc d'indice id
+    -- IL FAUDRAIT NETTOYER le layout en verifiant la presence des blocs dans le model
+    -- CE NETTOYAGE DEVRAIT ÊTRE FAIT, mais pas nécessairement ici
     case m_id of
         Nothing ->
-            { model | rootBubbleLayout = Just lay }
+            { model | rootBubbleLayout = completeMaybeLayout_ model.rootBubbleLayout lay }
 
         Just id ->
             let
@@ -1325,7 +1384,7 @@ updateLayoutFromNodeId m_id lay model =
                                         (\x ->
                                             case x.id == id of
                                                 True ->
-                                                    { x | layout = lay }
+                                                    { x | layout = completeLayout_ x.layout lay }
 
                                                 False ->
                                                     x
