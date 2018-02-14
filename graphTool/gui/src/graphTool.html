@@ -84,7 +84,11 @@
           _layout_preset_with_bbox();
         }
 
-        layoutElementsNoPosition();
+        if ( obj["mustLayout"] == true )
+        {
+          layoutElementsNoPosition();
+          _setNodesPositionsToElm_();
+        }
       }
 
       app.ports.sendDataBullesModel.subscribe(function(word) {
