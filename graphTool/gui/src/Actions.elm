@@ -75,14 +75,17 @@ showView msg model =
                 Model.LINK m_id ->
                     -- on renvoie id du lien
                     LinkToJS.sendParentSelection (DataModelEncoders.encodeMaybeIdentifier m_id)
+
+        cmds_list =
+            [ cmd, cmd1 ]
+
+        cl1 =
+            processFocus msg cmds_list
+
+        -- [ (Task.attempt FocusResult (Dom.focus "input")) ]
     in
-        -- ( m2, cmd )
         ( m2
-        , Cmd.batch
-            [ cmd
-            , cmd1
-            , Task.attempt FocusResult (Dom.focus "input")
-            ]
+        , Cmd.batch cl1
         )
 
 
