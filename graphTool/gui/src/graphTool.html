@@ -42,15 +42,6 @@
           _setNodesPositionsToElm_();
       });
 
-      app.ports.sendDataPBSModel.subscribe(function(word) {
-        var obj = JSON.parse(word);
-        options.drawImage = false;
-
-        _sendDataSimpleModel_(obj);
-        setPBSStyle();
-        _layout_dagre();
-      });
-
       app.ports.setLayoutName.subscribe(function(word) {
         options.layoutName = word;
       });
@@ -99,6 +90,15 @@
       app.ports.sendDataBullesModel.subscribe(function(word) {
         options.drawImage = false;
         _sendDataBullesModel (word);
+      });
+
+      app.ports.sendDataPBSModel.subscribe(function(word) {
+        var obj = JSON.parse(word);
+        options.drawImage = false;
+
+        _sendDataSimpleModel_(obj);
+        setPBSStyle();
+        _layout_dagre();
       });
 
       app.ports.sendDataGeometryModel.subscribe(function(word) {
