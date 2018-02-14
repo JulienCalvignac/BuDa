@@ -20,8 +20,6 @@ var dataElements = {
 		, edges: []
 };
 
-};
-
 var preset_layout_with_bbox = {
   name: 'preset',
 
