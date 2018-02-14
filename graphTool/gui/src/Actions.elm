@@ -89,14 +89,14 @@ showView msg model =
 showAllData : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showAllData msg model =
     ( model
-    , LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel (ModelViews.showAllData model).dataModel)
+    , LinkToJS.sendDataAllModel (DataModelEncoders.encodeModel (ModelViews.showAllData model).dataModel)
     )
 
 
 showAllDataLight : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 showAllDataLight msg model =
     ( model
-    , LinkToJS.sendDataBullesModel (DataModelEncoders.encodeModel (ModelViews.showAllDataLight model).dataModel)
+    , LinkToJS.sendDataFlatModel (DataModelEncoders.encodeModel (ModelViews.showAllDataLight model).dataModel)
     )
 
 
