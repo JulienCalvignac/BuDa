@@ -404,11 +404,19 @@ function layoutElementsNoPosition() {
 	try {
 		var cy = getCyReference();
 		var collection = cy.nodes("[?blow]");
+
 		if(collection!=null)
 		{
 			console.log( "collection.size " + collection.size() );
+
+			// add the children of each elt of the collection
+			var children = collection.children();
+			console.log( "children.size " + children.size() );
+			collection = collection.add(children);
+
 			if(collection.size() > 0)
 			{
+				console.log( "collection.size " + collection.size() );
 				collection.layout(dagre_layout);
 			}
 		}
