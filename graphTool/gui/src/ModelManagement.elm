@@ -811,16 +811,4 @@ addBlowToList list model =
 
 addBlowToListRecursive : List Node -> DataModel.Model -> List Node
 addBlowToListRecursive list model =
-    let
-        newList =
-            addBlowToList list model
-
-        res =
-            case (List.length newList) == (List.length list) of
-                True ->
-                    newList
-
-                False ->
-                    addBlowToList newList model
-    in
-        res
+    addBlowToList list model
