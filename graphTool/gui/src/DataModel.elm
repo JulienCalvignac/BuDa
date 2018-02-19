@@ -846,11 +846,7 @@ triN list todo model =
 
 triNodes : Model -> Model
 triNodes model =
-    let
-        newNodes =
-            triN [] model.nodes model
-    in
-        { model | nodes = newNodes }
+    model
 
 
 getCurIdFromModel : Model -> Identifier
