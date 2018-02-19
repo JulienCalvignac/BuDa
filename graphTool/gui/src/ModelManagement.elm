@@ -806,7 +806,7 @@ addBlowToList list model =
                     x :: (addBlowToList xs model)
 
                 True ->
-                    List.append (x :: (getChildren model.nodes x)) (addBlowToList xs model)
+                    x :: (addBlowToList (List.append (getChildren model.nodes x) xs) model)
 
 
 addBlowToListRecursive : List Node -> DataModel.Model -> List Node
