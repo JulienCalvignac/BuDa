@@ -195,6 +195,32 @@ processFocus msg list =
                 List.concat [ list, [ taskFocus ] ]
 
 
+prepareNotification_ : Cmd Msg -> Model.Model -> String -> String -> ( Model.Model, Cmd Msg )
+prepareNotification_ cmd model object action =
+    let
+        notify =
+            List.head model.dataModel.notifications
+
+        cmds =
+            case notify of
+                Nothing ->
+                    [ cmd ]
+
+                Just c ->
+                    [ cmd, sendNotification (NotificationActions.header (model.mqtt.clientId) object action) model c ]
+
+        dataModel =
+            model.dataModel
+
+        newDataModel =
+            { dataModel | notifications = [] }
+
+        m1 =
+            { model | dataModel = newDataModel }
+    in
+        ( m1, Cmd.batch cmds )
+
+
 update : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
 update msg model =
     let
