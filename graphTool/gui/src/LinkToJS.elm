@@ -28,6 +28,9 @@ port module LinkToJS
         , sendGeometryToElm
         , setLayoutName
         , setLayoutNameThenLayout
+        , sendNotification
+        , mqttConnect
+        , mqttDisconnect
         )
 
 import Identifier exposing (Identifier)
@@ -104,6 +107,15 @@ port setLayoutName : String -> Cmd msg
 
 
 port setLayoutNameThenLayout : String -> Cmd msg
+
+
+port sendNotification : String -> Cmd msg
+
+
+port mqttConnect : String -> Cmd msg
+
+
+port mqttDisconnect : String -> Cmd msg
 
 
 
