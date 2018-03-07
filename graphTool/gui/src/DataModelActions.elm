@@ -255,12 +255,32 @@ renameNodeInList_ s id list =
 
 
 renameNode : String -> Maybe Identifier -> Model -> Model
-renameNode s nId model =
+renameNode s m_nId model =
     let
         newNodes =
-            (renameNodeInList_ s nId model.nodes)
+            (renameNodeInList_ s m_nId model.nodes)
+
+        newNotifications =
+            case m_nId of
+                Nothing ->
+                    model.notifications
+
+                Just nId ->
+                    let
+                        m_n =
+                            DataModel.getNodeFromId nId newNodes
+
+                        newNotifications2 =
+                            case m_n of
+                                Nothing ->
+                                    model.notifications
+
+                                Just n ->
+                                    (Notification.BLOC n) :: model.notifications
+                    in
+                        newNotifications2
     in
-        { model | nodes = newNodes }
+        { model | nodes = newNodes, notifications = newNotifications }
 
 
 
