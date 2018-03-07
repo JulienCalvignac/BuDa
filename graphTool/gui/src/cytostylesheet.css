@@ -70,6 +70,40 @@
     left: 32em;
 }
 
+#userInput {
+  width: 8em;
+  height: 2.5em;
+  position: absolute;
+  top: 0em;
+  left: 50em;
+}
+
+#urlInput {
+  width: 15em;
+  height: 2.5em;
+  position: absolute;
+  top: 0em;
+  left: 58.5em;
+}
+
+#mqttConnect {
+  width: 6em;
+  height: 3em;
+  position: absolute;
+  top: 0em;
+  left: 74em;
+}
+
+#mqttDisconnect {
+  width: 7em;
+  height: 3em;
+  position: absolute;
+  top: 0em;
+  left: 80.5em;
+
+}
+
+
 #fieldset {
     width: 35em;
     height: 1em;
