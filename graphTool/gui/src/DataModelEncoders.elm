@@ -7,6 +7,7 @@ module DataModelEncoders
         , encodeMetaModel
         , encodeExport
         , encodeNotification
+        , encodeMqttMessage
         )
 
 import Identifier exposing (Identifier)
@@ -22,6 +23,7 @@ import Groups
 import Layout exposing (NodeLayout, GeometryLayout)
 import Notification
 import Geometries
+import Mqtt
 
 
 encodeMaybeIdentifier : Maybe Identifier -> String
@@ -282,3 +284,26 @@ encodeNotification_ notify =
 encodeNotification : Notification.Model -> String
 encodeNotification =
     encode 0 << encodeNotification_
+
+
+encodeMqtt_ : Mqtt.Model -> Value
+encodeMqtt_ model =
+    object
+        [ ( "url", Json.Encode.string model.url )
+        , ( "topic", Json.Encode.string model.topic )
+        , ( "clientId", Json.Encode.string model.clientId )
+        , ( "consumer", Json.Encode.bool model.consumer )
+        ]
+
+
+encodeMqttMessage_ : Mqtt.Model -> String -> Value
+encodeMqttMessage_ model s =
+    object
+        [ ( "mqtt", encodeMqtt_ model )
+        , ( "message", Json.Encode.string s )
+        ]
+
+
+encodeMqttMessage : Mqtt.Model -> String -> String
+encodeMqttMessage model s =
+    encode 0 (encodeMqttMessage_ model s)
