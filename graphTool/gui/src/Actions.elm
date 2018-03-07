@@ -411,6 +411,18 @@ update msg model =
                 OnNotificationClick ->
                     model
 
+                UserChange _ ->
+                    model
+
+                UrlChange _ ->
+                    model
+
+                MqttConnect ->
+                    model
+
+                MqttDisconnect ->
+                    model
+
                 NoOp ->
                     model
     in
@@ -835,3 +847,15 @@ globalUpdate msg model =
                     { model | dataModel = dm2 }
             in
                 ( m1, Cmd.none )
+
+        UserChange s ->
+            ( { model | mqtt = Mqtt.setClientId s model.mqtt }, Cmd.none )
+
+        UrlChange s ->
+            ( { model | mqtt = Mqtt.setUrl s model.mqtt }, Cmd.none )
+
+        MqttConnect ->
+            ( model, Cmd.batch [ LinkToJS.mqttConnect (DataModelEncoders.encodeMqttMessage model.mqtt "") ] )
+
+        MqttDisconnect ->
+            ( model, Cmd.batch [ LinkToJS.mqttDisconnect "" ] )
