@@ -27,6 +27,7 @@ import Geometries
 import LayoutMenuActions
 import Verification
 import Search
+import Mqtt
 
 
 upView : Msg -> Model.Model -> ( Model.Model, Cmd Msg )
@@ -149,9 +150,16 @@ deleteElement msg model =
         showView msg m1
 
 
-sendNotification : String -> Notification.NotificationData -> Cmd Msg
-sendNotification s notifyData =
-    WebSocket.send Addresses.wsUrl (NotificationActions.notificationData s notifyData)
+sendNotification : String -> Model.Model -> Notification.NotificationData -> Cmd Msg
+sendNotification s model notifyData =
+    let
+        message =
+            (NotificationActions.notificationData s notifyData)
+
+        z =
+            Debug.log "sendNotification" message
+    in
+        LinkToJS.sendNotification (DataModelEncoders.encodeMqttMessage model.mqtt message)
 
 
 askForMessages : Model.Model -> ( Model.Model, Cmd Msg )
