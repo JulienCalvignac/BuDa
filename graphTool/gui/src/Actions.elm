@@ -21,8 +21,6 @@ import Task
 import Messages exposing (Msg(..))
 import Export
 import SpecialKey
-import WebSocket
-import Addresses
 import Notification
 import NotificationActions
 import Geometries
@@ -162,7 +160,7 @@ askForMessages model =
         z =
             "Call askForMessages"
     in
-        ( model, WebSocket.send Addresses.wsUrl "AskForMessages" )
+        ( model, Cmd.none )
 
 
 processFocus : Msg -> List (Cmd Msg) -> List (Cmd Msg)
