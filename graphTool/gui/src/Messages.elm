@@ -64,4 +64,6 @@ type Msg
     | ShowHideParameters
     | Verification
     | OnNotificationClick
+    | UserChange String
+    | UrlChange String
     | NoOp
