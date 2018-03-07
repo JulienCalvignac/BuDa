@@ -1,9 +1,14 @@
-module NotificationActions exposing (notificationData, updateNotificationModel)
+module NotificationActions exposing (header, notificationData, updateNotificationModel)
 
 import Notification exposing (Model, NotificationData, notifyData)
 import DataModelEncoders exposing (encodeNotification)
 import DataModelDecoders
 import Json.Decode
+
+
+header : String -> String -> String -> String
+header userName object action =
+    userName ++ "." ++ object ++ "." ++ action
 
 
 notificationData : String -> NotificationData -> String
