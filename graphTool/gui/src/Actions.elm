@@ -589,35 +589,18 @@ globalUpdate msg model =
 
                 ( m2, cmd ) =
                     showView msg m1
-
-                notify =
-                    List.head m2.dataModel.notifications
-
-                cmds =
-                    case notify of
-                        Nothing ->
-                            [ cmd ]
-
-                        Just c ->
-                            [ cmd, sendNotification "create.node" c ]
-
-                dataModel =
-                    m2.dataModel
-
-                newDataModel =
-                    { dataModel | notifications = [] }
-
-                m3 =
-                    { m2 | dataModel = newDataModel }
             in
-                ( m3, Cmd.batch cmds )
+                prepareNotification_ cmd m2 "node" "create"
 
         RenameNode ->
             let
                 m1 =
                     ModelActions.renameNode model
+
+                ( m2, cmd ) =
+                    showView msg m1
             in
-                showView msg m1
+                prepareNotification_ cmd m2 "node" "rename"
 
         CreateLink ->
             case model.selection of
@@ -628,28 +611,8 @@ globalUpdate msg model =
 
                         ( m2, cmd ) =
                             showView msg m1
-
-                        notify =
-                            List.head m2.dataModel.notifications
-
-                        cmds =
-                            case notify of
-                                Nothing ->
-                                    [ cmd ]
-
-                                Just c ->
-                                    [ cmd, sendNotification "create.edge" c ]
-
-                        dataModel =
-                            m2.dataModel
-
-                        newDataModel =
-                            { dataModel | notifications = [] }
-
-                        m3 =
-                            { m2 | dataModel = newDataModel }
                     in
-                        ( m3, Cmd.batch cmds )
+                        prepareNotification_ cmd m2 "edge" "create"
 
                 _ ->
                     ( model, Cmd.none )
