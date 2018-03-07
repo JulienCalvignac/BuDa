@@ -110,11 +110,16 @@ createLink s t model =
                         m1 =
                             createLink_ ns1 nt1 model
 
-                        edge =
-                            (Link.link s t)
+                        m_e =
+                            DataModel.getEdgeFromNodesId ns1.id nt1.id m1.edges
 
                         newNotifications =
-                            (Notification.LIEN edge) :: m1.notifications
+                            case m_e of
+                                Nothing ->
+                                    m1.notifications
+
+                                Just edge ->
+                                    (Notification.LIEN edge) :: m1.notifications
                     in
                         { m1 | notifications = newNotifications }
 
