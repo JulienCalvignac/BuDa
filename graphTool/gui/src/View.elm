@@ -12,6 +12,7 @@ import GroupsView
 import ModelActions
 import GeometriesView
 import LayoutView
+import Mqtt
 
 
 init : ( Model.Model, Cmd Messages.Msg )
@@ -96,4 +97,8 @@ view model =
                 ]
             ]
             [ text "Notifications" ]
+        , input [ onInput Messages.UserChange, id "userInput", placeholder Mqtt.clientId ] []
+        , input [ onInput Messages.UrlChange, id "urlInput", placeholder Mqtt.url ] []
+        , button [ onClick Messages.MqttConnect, id "mqttConnect", value "mqttConnect" ] [ text "Connect" ]
+        , button [ onClick Messages.MqttDisconnect, id "mqttDisconnect", value "mqttDisconnect" ] [ text "Disconnect" ]
         ]
