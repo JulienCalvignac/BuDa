@@ -66,4 +66,6 @@ type Msg
     | OnNotificationClick
     | UserChange String
     | UrlChange String
+    | MqttConnect
+    | MqttDisconnect
     | NoOp
