@@ -153,13 +153,16 @@ deleteElement msg model =
 sendNotification : String -> Model.Model -> Notification.NotificationData -> Cmd Msg
 sendNotification s model notifyData =
     let
-        message =
-            (NotificationActions.notificationData s notifyData)
+        model_mqtt =
+            model.mqtt
 
-        z =
-            Debug.log "sendNotification" message
+        newMqtt =
+            { model_mqtt | topic = s }
+
+        m1 =
+            { model | mqtt = newMqtt }
     in
-        LinkToJS.sendNotification (DataModelEncoders.encodeMqttMessage model.mqtt message)
+        LinkToJS.sendNotification (DataModelEncoders.encodeMqttMessage m1.mqtt notifyData)
 
 
 askForMessages : Model.Model -> ( Model.Model, Cmd Msg )
