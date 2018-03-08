@@ -72,7 +72,7 @@ function sendDataToMQTT(word) {
 
 
   var topic = globals.topic;
-  var message = obj["message"];
+  var message = JSON.stringify(obj["message"]);
 
   console.log ("sendDataToMQTT: " + topic + ', ' + message );
 
