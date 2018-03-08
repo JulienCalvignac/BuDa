@@ -6,7 +6,6 @@ module DataModelEncoders
         , encodeModel
         , encodeMetaModel
         , encodeExport
-        , encodeNotification
         , encodeMqttMessage
         )
 
@@ -264,26 +263,17 @@ encodeExport =
     encode 0 << encodeExport_
 
 
-encodeNotification_ : Notification.Model -> Json.Encode.Value
-encodeNotification_ notify =
-    let
-        s =
-            case notify.data of
-                Notification.BLOC n ->
-                    encodeNode_ n
+encodeNotificationData_ : Notification.NotificationData -> Json.Encode.Value
+encodeNotificationData_ notifdata =
+    case notifdata of
+        Notification.BLOC n ->
+            encodeNode_ n
 
-                Notification.LIEN e ->
-                    encodeEdge_ e
-    in
-        Json.Encode.object
-            [ ( "header", string (notify.header) )
-            , ( "data", s )
-            ]
+        Notification.LIEN e ->
+            encodeEdge_ e
 
-
-encodeNotification : Notification.Model -> String
-encodeNotification =
-    encode 0 << encodeNotification_
+        Notification.NULLNOTIFICATION ->
+            Json.Encode.null
 
 
 encodeMqtt_ : Mqtt.Model -> Value
@@ -296,14 +286,14 @@ encodeMqtt_ model =
         ]
 
 
-encodeMqttMessage_ : Mqtt.Model -> String -> Value
-encodeMqttMessage_ model s =
+encodeMqttMessage_ : Mqtt.Model -> Notification.NotificationData -> Value
+encodeMqttMessage_ model notifyData =
     object
         [ ( "mqtt", encodeMqtt_ model )
-        , ( "message", Json.Encode.string s )
+        , ( "message", encodeNotificationData_ notifyData )
         ]
 
 
-encodeMqttMessage : Mqtt.Model -> String -> String
-encodeMqttMessage model s =
-    encode 0 (encodeMqttMessage_ model s)
+encodeMqttMessage : Mqtt.Model -> Notification.NotificationData -> String
+encodeMqttMessage model notifyData =
+    encode 0 (encodeMqttMessage_ model notifyData)
