@@ -12,6 +12,7 @@ import Link exposing (Edge)
 type NotificationData
     = BLOC Node
     | LIEN Edge
+    | NULLNOTIFICATION
 
 
 type alias Model =
