@@ -162,7 +162,7 @@ sendNotification s model notifyData =
         m1 =
             { model | mqtt = newMqtt }
     in
-        LinkToJS.sendNotification (DataModelEncoders.encodeMqttMessage m1.mqtt notifyData)
+        LinkToJS.sendNotification (DataModelEncoders.encodeMqttMessageNotification m1.mqtt (Notification.notification s notifyData))
 
 
 askForMessages : Model.Model -> ( Model.Model, Cmd Msg )
