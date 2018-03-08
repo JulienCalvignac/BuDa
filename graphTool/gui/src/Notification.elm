@@ -2,7 +2,7 @@ module Notification
     exposing
         ( Model
         , NotificationData(..)
-        , notifyData
+        , notification
         )
 
 import Node exposing (Node)
@@ -21,8 +21,8 @@ type alias Model =
     }
 
 
-notifyData : String -> NotificationData -> Model
-notifyData s notifyData =
+notification : String -> NotificationData -> Model
+notification s notifyData =
     { header = s
     , data = notifyData
     }
