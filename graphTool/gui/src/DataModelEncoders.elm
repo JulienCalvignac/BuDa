@@ -7,6 +7,7 @@ module DataModelEncoders
         , encodeMetaModel
         , encodeExport
         , encodeMqttMessage
+        , encodeMqttMessageNotification
         )
 
 import Identifier exposing (Identifier)
@@ -276,6 +277,14 @@ encodeNotificationData_ notifdata =
             Json.Encode.null
 
 
+encodeNotificationModel_ : Notification.Model -> Json.Encode.Value
+encodeNotificationModel_ model =
+    object
+        [ ( "header", Json.Encode.string model.header )
+        , ( "data", encodeNotificationData_ model.data )
+        ]
+
+
 encodeMqtt_ : Mqtt.Model -> Value
 encodeMqtt_ model =
     object
@@ -294,6 +303,19 @@ encodeMqttMessage_ model notifyData =
         ]
 
 
+encodeMqttMessageNotification_ : Mqtt.Model -> Notification.Model -> Value
+encodeMqttMessageNotification_ mqtt notif =
+    object
+        [ ( "mqtt", encodeMqtt_ mqtt )
+        , ( "message", encodeNotificationModel_ notif )
+        ]
+
+
 encodeMqttMessage : Mqtt.Model -> Notification.NotificationData -> String
 encodeMqttMessage model notifyData =
     encode 0 (encodeMqttMessage_ model notifyData)
+
+
+encodeMqttMessageNotification : Mqtt.Model -> Notification.Model -> String
+encodeMqttMessageNotification model notif =
+    encode 0 (encodeMqttMessageNotification_ model notif)
