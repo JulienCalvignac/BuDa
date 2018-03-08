@@ -157,7 +157,7 @@ sendNotification s model notifyData =
             model.mqtt
 
         newMqtt =
-            { model_mqtt | topic = s }
+            { model_mqtt | topic = "architecture." ++ s }
 
         m1 =
             { model | mqtt = newMqtt }
