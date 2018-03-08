@@ -1,6 +1,6 @@
 module NotificationActions exposing (header, updateNotificationModel)
 
-import Notification exposing (Model, NotificationData, notifyData)
+import Notification exposing (Model, NotificationData)
 import DataModelDecoders
 import Json.Decode
 
