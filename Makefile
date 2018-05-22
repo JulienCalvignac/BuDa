@@ -1,7 +1,7 @@
 all:run
 
 stop:
-	cd elm && make stop && cd ..
+	# cd elm && make stop && cd ..
 
 run: stop
-	cd elm && make run && cd ..
+	# cd elm && make run && cd ..
