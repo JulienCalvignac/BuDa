@@ -7,7 +7,6 @@ import ElementAttributes exposing (..)
 import Set exposing (Set)
 import LinkParameters
 
-
 type alias Node =
     { id : Identifier
     , name : String
@@ -63,14 +62,10 @@ blow : Node -> Node
 blow n =
     { n | blow = not n.blow }
 
-
 initRoles : Node -> LinkParameters.Model -> Node
 initRoles node parameters =
-    let
-        parameterIds =
-            List.map .id parameters
-
-        roles =
-            List.map (\parameterId -> { network = parameterId, role = RoleUnknown }) parameterIds
-    in
+    let 
+        parameterIds = List.map .id parameters
+        roles = List.map (\parameterId -> { network = parameterId, role = RoleUnknown }) parameterIds
+    in 
         { node | roles = roles }
