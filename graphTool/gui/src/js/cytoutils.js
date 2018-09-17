@@ -291,7 +291,7 @@ function setPBSStyle() {
 	// cy.setStyle (stylesheetPBS);
 }
 
-function setBubblesStyle() {
+function setBullesStyle() {
 	var cy = getCyReference();
 	// cy.setStyle (stylesheetBubble);
 }
@@ -302,31 +302,59 @@ function _sendDataSimpleModel_(obj) {
 	cy.add(obj);
 }
 
+function getSelectedNetworkIndex(objectNetworks, networks, selectedNetworks) {
+	let network = null;
 
-function _sendDataModel_(obj) {
+	if (selectedNetworks) {
+		// get the id of the most recent selected network on the edge
+		for (let index = selectedNetworks.length - 1; index >= 0 && network === null; index--) {
+			const currentNetwork = selectedNetworks[index];
+			if (objectNetworks.includes(currentNetwork)) {
+				network = currentNetwork;
+			}
+		}
+	}
+	// returns the index of the network in the networks array
+	// => the color stays the same for a given network as long as the array doesn't change
+	return networks.indexOf(network);
+}
+
+function _sendDataModel_(model) {
 	var cy = getCyReference();
 	cy.remove(cy.elements());
 
 	var jsons = [];
+	var ns = model.nodes;
 
-	var ns = obj.nodes;
-	ns.forEach(function (s) {
-
+	ns.forEach(function (node) {
+		var data = node.data;
 		jsons.push(
 			{
 				group: "nodes",
-				data: { id: s.data.id, parent: s.data.parent, name: s.data.name, highLighted: s.data.highLighted, nodeType: s.data.nodeType, blow: s.data.blow, state: s.data.state }
-				, position: { x: s.data.position.x, y: s.data.position.y }
+				data: { id: data.id, parent: data.parent, name: data.name, highLighted: data.highLighted, nodeType: data.nodeType, blow: data.blow, state: data.state }
+				, position: { x: data.position.x, y: data.position.y }
 			}
 		);
 	});
 
-	var eds = obj.edges;
-	eds.forEach(function (s) {
+	var eds = model.edges;
+	eds.forEach(function (edge) {
+		var data = edge.data;
 		jsons.push(
 			{
 				group: "edges",
-				data: { id: s.data.id, source: s.data.source, target: s.data.target, highLighted: s.data.highLighted, state: s.data.state }
+				data: {
+					id: data.id,
+					source: data.source,
+					target: data.target,
+					highLighted: data.highLighted,
+					network: getSelectedNetworkIndex(
+						data.parameters,
+						model.parameters.map(network => network.id),
+						model.selectedNetworks
+					),
+					state: data.state
+				}
 			}
 		);
 
@@ -359,7 +387,7 @@ function _layout_preset_with_bbox() {
 	cy.layout(preset_layout_with_bbox);
 }
 
-function _updateBubblesLayoutAndPos(obj) {
+function _updateBullesLayoutAndPos(obj) {
 	_sendDataSimpleModel_(obj);
 	_layout_dagre();
 	_setNodesPositionsToElm_();
@@ -409,48 +437,4 @@ function layoutElementsNoPosition() {
 	catch (err) {
 		console.log("err: " + err);
 	}
-}
-
-function formatModel(model) {
-	if (model["mustLayout"] == true) {
-		_sendDataSimpleModel_(model);
-	}
-	else {
-		_sendDataModel_(model);
-	}
-
-	var img = model["geometryImage"];
-
-	if (img != null) {
-		_loadImage(img);
-	}
-	else {
-		_unLoadImage();
-	}
-
-	if (model["mustLayout"] == true) {
-		_layout_dagre();
-	}
-	else {
-		//_layout_preset();
-		_layout_preset_with_bbox();
-	}
-
-	if (model["mustLayout"] == true) {
-		layoutElementsNoPosition();
-		_setNodesPositionsToElm_();
-	}
-}
-
-
-function displayModel(data) {
-	options.drawImage = false;
-	formatModel(data);
-}
-
-function displayPbs(data) {
-	options.drawImage = false;
-	_sendDataSimpleModel_(data);
-	setPBSStyle();
-	_layout_dagre();
 }
