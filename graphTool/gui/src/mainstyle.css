@@ -49,25 +49,6 @@ edge[highLighted = 1] {
   width: 5;
 }
 
-/*interface etanche*/
-edge[highLighted = 2] {
-  line-color: #A2A5F9;
-  line-style: dashed;
-  width: 5;
-}
-
-/*interface non etanche*/
-edge[highLighted = 3] {
-  line-color: #555;
-  line-style: dashed;
-  width: 4;
-}
-
-edge:selected {
-  line-color: #FE2E2E;
-  width: 4;
-}
-
 edge[network=0] {
   line-color: LightGreen;
 }
@@ -90,6 +71,25 @@ edge[network=4] {
 
 edge[multipleNetworks="true"] {
   line-style: dotted;
+}
+
+/*interface etanche*/
+edge[highLighted = 2] {
+  line-color: #A2A5F9;
+  line-style: dashed;
+  width: 5;
+}
+
+/*interface non etanche*/
+edge[highLighted = 3] {
+  line-color: #555;
+  line-style: dashed;
+  width: 4;
+}
+
+edge:selected {
+  line-color: #FE2E2E;
+  width: 4;
 }
 
 node:parent
