@@ -15,7 +15,6 @@ build-code:
         - code/css/*.css
         - code/js
         - code/src/*.html
-        - code/src/*.svg
         - code/img/*.png
 
 build-babel:
@@ -41,7 +40,6 @@ babel:
         - code/css/*.css
         - code/js
         - code/src/*.html
-        - code/src/*.svg
         - code/img/*.png
 
 pages:
@@ -53,7 +51,6 @@ pages:
        - mv code/css/*.css public/
        - mv code/js public/
        - mv code/src/*.html public/
-       - mv code/src/*.svg public/
        - mv code/img/*.png public/
        - mv public/graphTool.html public/index.html
        - rm -rf public/graphTool.html
