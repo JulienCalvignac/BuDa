@@ -43,7 +43,7 @@ unicityBlocId_ id model =
                     ""
 
                 False ->
-                    Debug.log "unicityBlocId_ " msg
+                    msg
     in
         model
 
@@ -75,7 +75,7 @@ mkListId maxId =
             mk_ maxId 0 []
 
         z =
-            Debug.log "mkListId " ( maxId, list )
+            ( maxId, list )
     in
         list
 
@@ -87,7 +87,7 @@ verifUnicityIdBloc_ model =
             DataModel.getCurIdFromModel model
 
         z =
-            Debug.log "getCurIdFromModel" maxId
+            maxId
 
         list =
             mkListId maxId
@@ -141,7 +141,7 @@ isLinkNodeWithAscendant_ edge model =
 
                         z =
                             if b1 == True then
-                                Debug.log "delete link" [ ( nsrc, ntarget ) ]
+                                [ ( nsrc, ntarget ) ]
                             else
                                 []
                     in

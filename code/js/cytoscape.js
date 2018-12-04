@@ -12732,12 +12732,12 @@ BRp.getCachedZSortedEles = function( forceRecalc ){
 
     this.updateCachedGrabbedEles();
 
-    //console.log('make cache')
+    ////console.log('make cache')
 
     //console.timeEnd('cachezorder')
   } else {
     eles = this.cachedZSortedEles;
-    //console.log('read cache')
+    ////console.log('read cache')
   }
 
   return eles;
@@ -13109,16 +13109,16 @@ BRp.getLabelText = function( ele, prefix ){
   }
 
   if( ele.pstyle( 'text-wrap' ).value === 'wrap' ){
-    //console.log('wrap');
+    ////console.log('wrap');
 
     var labelKey = rscratch( 'labelKey' );
 
     // save recalc if the label is the same as before
     if( labelKey && rscratch( 'labelWrapKey' ) === labelKey ){
-      // console.log('wrap cache hit');
+      // //console.log('wrap cache hit');
       return rscratch( 'labelWrapCachedText' );
     }
-    // console.log('wrap cache miss');
+    // //console.log('wrap cache miss');
 
     var lines = text.split( '\n' );
     var maxW = ele.pstyle( 'text-max-width' ).pfValue;
@@ -13160,7 +13160,7 @@ BRp.getLabelText = function( ele, prefix ){
     text = rscratch( 'labelWrapCachedText', wrappedLines.join( '\n' ) );
     rscratch( 'labelWrapKey', labelKey );
 
-    // console.log(text)
+    // //console.log(text)
   } // if wrap
 
   return text;
@@ -19568,7 +19568,7 @@ var useHighQualityEleTxrReqs = true; // whether to use high quality ele txr requ
 
 var useEleTxrCaching = true; // whether to use individual ele texture caching underneath this cache
 
-// var log = function(){ console.log.apply( console, arguments ); };
+// var log = function(){ //console.log.apply( console, arguments ); };
 
 var LayeredTextureCache = function( renderer, eleTxrCache ){
   var self = this;
@@ -21731,10 +21731,10 @@ math.inBezierVicinity = function(
 
   // if outside the rough bounding box for the bezier, then it can't be a hit
   if( x < bb.x1 || x > bb.x2 || y < bb.y1 || y > bb.y2 ){
-    // console.log('bezier out of rough bb')
+    // //console.log('bezier out of rough bb')
     return false;
   } else {
-    // console.log('do more expensive check');
+    // //console.log('do more expensive check');
     return true;
   }
 
@@ -21962,7 +21962,7 @@ math.pointInsidePolygon = function(
   var cos = Math.cos( -angle );
   var sin = Math.sin( -angle );
 
-  //    console.log("base: " + basePoints);
+  //    //console.log("base: " + basePoints);
   for( var i = 0; i < transformedPoints.length / 2; i++ ){
     transformedPoints[ i * 2] =
       width / 2 * (basePoints[ i * 2] * cos
@@ -22373,7 +22373,7 @@ math.generateUnitNgonPoints = function( sides, rotationRadians ){
   var increment = 1.0 / sides * 2 * Math.PI;
   var startAngle = sides % 2 === 0 ?
     Math.PI / 2.0 + increment / 2.0 : Math.PI / 2.0;
-  //    console.log(nodeShapes['square']);
+  //    //console.log(nodeShapes['square']);
   startAngle += rotationRadians;
 
   var points = new Array( sides * 2 );
@@ -26655,7 +26655,7 @@ var util = {
 
       if( console.trace ){ console.trace(); }
     } else {
-      console.log.apply( console, arguments );
+      //console.log.apply( console, arguments );
 
       if( console.trace ){ console.trace(); }
     }

@@ -82,9 +82,6 @@ stringToCsvLine s =
     let
         list =
             String.split ";" s
-
-        -- z =
-        --     Debug.log "stringToCsvLine" list
     in
         cons list
 
@@ -127,8 +124,6 @@ addLinkToModel_ csvLine model =
         m_id2 =
             DataModel.getNodeIdFromName csvLine.refAboutissant2 model.nodes
 
-        -- z =
-        --     Debug.log "Req CreateLink " ( csvLine.refAboutissant1, csvLine.refAboutissant2 )
         m1 =
             case ( m_id1, m_id2 ) of
                 ( Just id1, Just id2 ) ->
@@ -138,8 +133,6 @@ addLinkToModel_ csvLine model =
 
                         False ->
                             let
-                                -- z =
-                                --     Debug.log "CreateLink OK"
                                 m2 =
                                     DataModelActions.createLink id1 id2 model
 
@@ -250,9 +243,6 @@ isValidLineForLink_ csvLine model =
                 && (not (csvLine.refAboutissant2 == csvLine.refAboutissant1))
                 && ((isBlocInModel_ csvLine.refAboutissant1 model))
                 && ((isBlocInModel_ csvLine.refAboutissant2 model))
-
-        -- z =
-        --     Debug.log "isValidLineForLink_" ( csvLine, b )
     in
         b
 

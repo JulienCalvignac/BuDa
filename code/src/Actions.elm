@@ -750,9 +750,6 @@ globalUpdate msg model =
 
         Verification ->
             let
-                _ =
-                    Debug.log "verif" model.dataModel
-
                 dm =
                     Verification.verificationBlocs model.dataModel
 

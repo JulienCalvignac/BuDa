@@ -204,9 +204,6 @@ addBlocToModel_ x model =
 
         attribute =
             x.denomination
-
-        _ =
-            Debug.log "addBlocToModel_ parent " sparent
     in
         case String.isEmpty sparent of
             True ->

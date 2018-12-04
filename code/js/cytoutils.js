@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		try {
 			var selected = getSelectedEls();
 			if (selected.length == 0) {
-				// console.log('no selection');
+				// //console.log('no selection');
 				var msg = [];
 				_sendSelectionToElm_(msg);
 
@@ -94,19 +94,19 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	cy.on('mousedown', 'node', function (e) {
-		// console.log('mousedown node event');
+		// //console.log('mousedown node event');
 		hasNodeClicked = true;
 	});
 
 	cy.on('mouseup', 'node', function (e) {
-		// console.log('mouseup node event');
+		// //console.log('mouseup node event');
 
 		if (hasNodeMoving == true) {
 			mustUpdatepositionstoElm = true;
 		}
 
 		if (mustUpdatepositionstoElm == true) {
-			// console.log("mustUpdatepositionstoElm to send");
+			// //console.log("mustUpdatepositionstoElm to send");
 			_setNodesPositionsToElm_();
 		}
 
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	cy.on('mousemove', function (e) {
-		// console.log('mousemove event');
+		// //console.log('mousemove event');
 
 		if (hasNodeClicked == true) {
 			hasNodeMoving = true;
@@ -212,8 +212,8 @@ function _loadImage(img) {
 	var cy = getCyReference();
 	var background = new Image();
 	background.onload = () => {
-		// console.log ("load new image..." );
-		// console.log('img:', background.width + ' :: ' + background.height);
+		// //console.log ("load new image..." );
+		// //console.log('img:', background.width + ' :: ' + background.height);
 		options.image_width = background.width;
 		options.image_height = background.height;
 		options.image_name = img;
@@ -232,9 +232,9 @@ function _AdjustZoomWithImage() {
 		var img_h = options.image_height;
 		var w = options.canvas.width;
 		var h = options.canvas.height;
-		// console.log('dimImage:', options.image_width + ' :: ' + options.image_height);
+		// //console.log('dimImage:', options.image_width + ' :: ' + options.image_height);
 		var newZoom = Math.min(w / img_w, h / img_h);
-		//console.log("w/img_w newZoom : " + w + "/" + img_w + " ; " + newZoom);
+		////console.log("w/img_w newZoom : " + w + "/" + img_w + " ; " + newZoom);
 		cy.viewport({
 			zoom: newZoom
 			, pan: { x: 0, y: 0 }
@@ -261,7 +261,7 @@ function _setNodesPositionsToElm_() {
 
 	msg = JSON.stringify(msg);
 
-	// console.log (msg);
+	// //console.log (msg);
 
 	app_port_sendNodesPositionToElm(msg);
 }
@@ -396,7 +396,7 @@ function _sendDataModel_(model) {
 			}
 		);
 	});
-	console.log(jsons);
+	//console.log(jsons);
 	cy.add(jsons);
 }
 
@@ -458,21 +458,21 @@ function layoutElementsNoPosition() {
 		var collection = cy.nodes("[?blow]");
 
 		if (collection != null) {
-			console.log("collection.size " + collection.size());
+			//console.log("collection.size " + collection.size());
 
 			// add the children of each elt of the collection
 			var children = collection.children();
-			console.log("children.size " + children.size());
+			//console.log("children.size " + children.size());
 			collection = collection.add(children);
 
 			if (collection.size() > 0) {
-				console.log("collection.size " + collection.size());
+				//console.log("collection.size " + collection.size());
 				collection.layout(dagre_layout);
 			}
 		}
 	}
 	catch (err) {
-		console.log("err: " + err);
+		//console.log("err: " + err);
 	}
 }
 
