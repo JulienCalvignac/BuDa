@@ -16664,14 +16664,11 @@ var _user$project$Verification$isLinkNodeWithAscendant_ = F2(
 				var target_ascendants = A3(_user$project$ModelManagement$getAscendants, model.nodes, _p2, _elm_lang$core$Maybe$Nothing);
 				var src_ascendants = A3(_user$project$ModelManagement$getAscendants, model.nodes, _p1, _elm_lang$core$Maybe$Nothing);
 				var b1 = A2(_elm_lang$core$List$member, _p1, target_ascendants) || A2(_elm_lang$core$List$member, _p2, src_ascendants);
-				var z = _elm_lang$core$Native_Utils.eq(b1, true) ? A2(
-					_elm_lang$core$Debug$log,
-					'delete link',
-					{
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: _p1, _1: _p2},
-						_1: {ctor: '[]'}
-					}) : {ctor: '[]'};
+				var z = _elm_lang$core$Native_Utils.eq(b1, true) ? {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: _p1, _1: _p2},
+					_1: {ctor: '[]'}
+				} : {ctor: '[]'};
 				return b1;
 			} else {
 				return false;
@@ -16714,10 +16711,7 @@ var _user$project$Verification$mkListId = function (maxId) {
 		maxId,
 		0,
 		{ctor: '[]'});
-	var z = A2(
-		_elm_lang$core$Debug$log,
-		'mkListId ',
-		{ctor: '_Tuple2', _0: maxId, _1: list});
+	var z = {ctor: '_Tuple2', _0: maxId, _1: list};
 	return list;
 };
 var _user$project$Verification$unicityBlocId_ = F2(
@@ -16746,7 +16740,7 @@ var _user$project$Verification$unicityBlocId_ = F2(
 			if (_p5 === true) {
 				return '';
 			} else {
-				return A2(_elm_lang$core$Debug$log, 'unicityBlocId_ ', msg);
+				return msg;
 			}
 		}();
 		return model;
@@ -16769,7 +16763,7 @@ var _user$project$Verification$unicityBlocListId_ = F2(
 	});
 var _user$project$Verification$verifUnicityIdBloc_ = function (model) {
 	var maxId = _user$project$DataModel$getCurIdFromModel(model);
-	var z = A2(_elm_lang$core$Debug$log, 'getCurIdFromModel', maxId);
+	var z = maxId;
 	var list = _user$project$Verification$mkListId(maxId);
 	var m1 = A2(_user$project$Verification$unicityBlocListId_, list, model);
 	return m1;
@@ -16927,14 +16921,13 @@ var _user$project$Csv2$addBlocToModel_ = F2(
 	function (x, model) {
 		var attribute = x.denomination;
 		var sparent = x.parent;
-		var _p2 = A2(_elm_lang$core$Debug$log, 'addBlocToModel_ parent ', sparent);
 		var name = x.name;
-		var _p3 = _elm_lang$core$String$isEmpty(sparent);
-		if (_p3 === true) {
+		var _p2 = _elm_lang$core$String$isEmpty(sparent);
+		if (_p2 === true) {
 			return A4(_user$project$Csv2$addSecondBlocToModel_, _elm_lang$core$Maybe$Nothing, name, attribute, model);
 		} else {
-			var _p4 = A2(_user$project$DataModel$isNamePresent, sparent, model.nodes);
-			if (_p4 === true) {
+			var _p3 = A2(_user$project$DataModel$isNamePresent, sparent, model.nodes);
+			if (_p3 === true) {
 				var m_p = A2(_user$project$DataModel$getNodeIdFromName, sparent, model.nodes);
 				var m = A4(_user$project$Csv2$addSecondBlocToModel_, m_p, name, attribute, model);
 				return m;
@@ -16951,24 +16944,24 @@ var _user$project$Csv2$addLinkToModel_ = F2(
 		var m_id2 = A2(_user$project$DataModel$getNodeIdFromName, csvLine.refAboutissant2, model.nodes);
 		var m_id1 = A2(_user$project$DataModel$getNodeIdFromName, csvLine.refAboutissant1, model.nodes);
 		var m1 = function () {
-			var _p5 = {ctor: '_Tuple2', _0: m_id1, _1: m_id2};
-			if (((_p5.ctor === '_Tuple2') && (_p5._0.ctor === 'Just')) && (_p5._1.ctor === 'Just')) {
-				var _p11 = _p5._1._0;
-				var _p10 = _p5._0._0;
-				var _p6 = _elm_lang$core$Native_Utils.eq(_p10, _p11);
-				if (_p6 === true) {
+			var _p4 = {ctor: '_Tuple2', _0: m_id1, _1: m_id2};
+			if (((_p4.ctor === '_Tuple2') && (_p4._0.ctor === 'Just')) && (_p4._1.ctor === 'Just')) {
+				var _p10 = _p4._1._0;
+				var _p9 = _p4._0._0;
+				var _p5 = _elm_lang$core$Native_Utils.eq(_p9, _p10);
+				if (_p5 === true) {
 					return model;
 				} else {
-					var m2 = A3(_user$project$DataModelActions$createLink, _p10, _p11, model);
+					var m2 = A3(_user$project$DataModelActions$createLink, _p9, _p10, model);
 					var m3 = function () {
-						var _p7 = !_elm_lang$core$String$isEmpty(csvLine.parameter);
-						if (_p7 === true) {
+						var _p6 = !_elm_lang$core$String$isEmpty(csvLine.parameter);
+						if (_p6 === true) {
 							var m21 = A2(_user$project$DataModelActions$createParameter, csvLine.parameter, m2);
 							var m_edge = A3(_user$project$DataModel$getEdgeFromNodesName, csvLine.refAboutissant1, csvLine.refAboutissant2, m21);
 							var m22 = function () {
-								var _p8 = m_edge;
-								if (_p8.ctor === 'Just') {
-									return A3(_user$project$DataModelActions$updateProperty, _p8._0, csvLine.parameter, m21);
+								var _p7 = m_edge;
+								if (_p7.ctor === 'Just') {
+									return A3(_user$project$DataModelActions$updateProperty, _p7._0, csvLine.parameter, m21);
 								} else {
 									return m21;
 								}
@@ -16981,9 +16974,9 @@ var _user$project$Csv2$addLinkToModel_ = F2(
 					var m4 = function () {
 						var m_edge = A3(_user$project$DataModel$getEdgeFromNodesName, csvLine.refAboutissant1, csvLine.refAboutissant2, m3);
 						var m_id = function () {
-							var _p9 = m_edge;
-							if (_p9.ctor === 'Just') {
-								return _elm_lang$core$Maybe$Just(_p9._0.id);
+							var _p8 = m_edge;
+							if (_p8.ctor === 'Just') {
+								return _elm_lang$core$Maybe$Just(_p8._0.id);
 							} else {
 								return _elm_lang$core$Maybe$Nothing;
 							}
@@ -17014,8 +17007,8 @@ var _user$project$Csv2$isValidLineForLink_ = F2(
 	});
 var _user$project$Csv2$addLinkFromCsvLine_ = F2(
 	function (csvLine, model) {
-		var _p12 = A2(_user$project$Csv2$isValidLineForLink_, csvLine, model);
-		if (_p12 === true) {
+		var _p11 = A2(_user$project$Csv2$isValidLineForLink_, csvLine, model);
+		if (_p11 === true) {
 			return A2(_user$project$Csv2$addLinkToModel_, csvLine, model);
 		} else {
 			return model;
@@ -17049,20 +17042,20 @@ var _user$project$Csv2$testAddCsvToModel = F2(
 		return m2;
 	});
 var _user$project$Csv2$supprFirstLine = function (list) {
-	var _p13 = list;
-	if (_p13.ctor === '[]') {
+	var _p12 = list;
+	if (_p12.ctor === '[]') {
 		return {ctor: '[]'};
 	} else {
-		return _p13._1;
+		return _p12._1;
 	}
 };
 var _user$project$Csv2$defaultCsvLine = {name: '', denomination: '', parent: '', refAboutissant1: '', refAboutissant2: '', parameter: ''};
 var _user$project$Csv2$cons = function (list) {
-	var _p14 = list;
-	if ((((((_p14.ctor === '::') && (_p14._1.ctor === '::')) && (_p14._1._1.ctor === '::')) && (_p14._1._1._1.ctor === '::')) && (_p14._1._1._1._1.ctor === '::')) && (_p14._1._1._1._1._1.ctor === '::')) {
+	var _p13 = list;
+	if ((((((_p13.ctor === '::') && (_p13._1.ctor === '::')) && (_p13._1._1.ctor === '::')) && (_p13._1._1._1.ctor === '::')) && (_p13._1._1._1._1.ctor === '::')) && (_p13._1._1._1._1._1.ctor === '::')) {
 		return _elm_lang$core$Native_Utils.update(
 			_user$project$Csv2$defaultCsvLine,
-			{name: _p14._0, denomination: _p14._1._0, parent: _p14._1._1._0, refAboutissant1: _p14._1._1._1._0, refAboutissant2: _p14._1._1._1._1._0, parameter: _p14._1._1._1._1._1._0});
+			{name: _p13._0, denomination: _p13._1._0, parent: _p13._1._1._0, refAboutissant1: _p13._1._1._1._0, refAboutissant2: _p13._1._1._1._1._0, parameter: _p13._1._1._1._1._1._0});
 	} else {
 		return _user$project$Csv2$defaultCsvLine;
 	}
@@ -18908,7 +18901,6 @@ var _user$project$Actions$globalUpdate = F2(
 				var m1 = _elm_lang$core$Native_Utils.update(
 					model,
 					{dataModel: dm2});
-				var _p25 = A2(_elm_lang$core$Debug$log, 'verif', model.dataModel);
 				return {ctor: '_Tuple2', _0: m1, _1: _elm_lang$core$Platform_Cmd$none};
 			default:
 				if (_elm_lang$core$Native_Utils.eq(model.propagationDone, false)) {
@@ -18931,8 +18923,8 @@ var _user$project$Actions$update = F2(
 	function (msg, model) {
 		var searchBuildList = A2(_user$project$Search$mustBuildList, model.searchModel, true);
 		var m1 = function () {
-			var _p26 = msg;
-			switch (_p26.ctor) {
+			var _p25 = msg;
+			switch (_p25.ctor) {
 				case 'FocusOn':
 					return model;
 				case 'FocusResult':
@@ -18988,8 +18980,8 @@ var _user$project$Actions$update = F2(
 				case 'SwitchElemState':
 					return model;
 				case 'KeyUps':
-					var _p27 = _p26._0;
-					if (_p27 === 46) {
+					var _p26 = _p25._0;
+					if (_p26 === 46) {
 						return _elm_lang$core$Native_Utils.update(
 							model,
 							{searchModel: searchBuildList});

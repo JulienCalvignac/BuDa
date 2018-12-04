@@ -2889,7 +2889,7 @@ function time(name, fn) {
   try {
     return fn();
   } finally {
-    console.log(name + " time: " + (_.now() - start) + "ms");
+    //console.log(name + " time: " + (_.now() - start) + "ms");
   }
 }
 
@@ -8776,7 +8776,7 @@ module.exports = '1.0.5';
      * var array = [1, 2, 3];
      *
      * _.fill(array, 'a');
-     * console.log(array);
+     * //console.log(array);
      * // => ['a', 'a', 'a']
      *
      * _.fill(Array(3), 2);
@@ -9166,7 +9166,7 @@ module.exports = '1.0.5';
      * var array = [1, 2, 3, 1, 2, 3];
      *
      * _.pull(array, 2, 3);
-     * console.log(array);
+     * //console.log(array);
      * // => [1, 1]
      */
     function pull() {
@@ -9210,10 +9210,10 @@ module.exports = '1.0.5';
      * var array = [5, 10, 15, 20];
      * var evens = _.pullAt(array, 1, 3);
      *
-     * console.log(array);
+     * //console.log(array);
      * // => [5, 15]
      *
-     * console.log(evens);
+     * //console.log(evens);
      * // => [10, 20]
      */
     var pullAt = restParam(function(array, indexes) {
@@ -9257,10 +9257,10 @@ module.exports = '1.0.5';
      *   return n % 2 == 0;
      * });
      *
-     * console.log(array);
+     * //console.log(array);
      * // => [1, 3]
      *
-     * console.log(evens);
+     * //console.log(evens);
      * // => [2, 4]
      */
     function remove(array, predicate, thisArg) {
@@ -10009,17 +10009,17 @@ module.exports = '1.0.5';
      * var array = [1, 2];
      * var wrapped = _(array).push(3);
      *
-     * console.log(array);
+     * //console.log(array);
      * // => [1, 2]
      *
      * wrapped = wrapped.commit();
-     * console.log(array);
+     * //console.log(array);
      * // => [1, 2, 3]
      *
      * wrapped.last();
      * // => 3
      *
-     * console.log(array);
+     * //console.log(array);
      * // => [1, 2, 3]
      */
     function wrapperCommit() {
@@ -10040,10 +10040,10 @@ module.exports = '1.0.5';
      * var array = [1];
      * var wrapped = _(array).concat(2, [3], [[4]]);
      *
-     * console.log(wrapped.value());
+     * //console.log(wrapped.value());
      * // => [1, 2, 3, [4]]
      *
-     * console.log(array);
+     * //console.log(array);
      * // => [1]
      */
     var wrapperConcat = restParam(function(values) {
@@ -10111,7 +10111,7 @@ module.exports = '1.0.5';
      * _(array).reverse().value()
      * // => [3, 2, 1]
      *
-     * console.log(array);
+     * //console.log(array);
      * // => [3, 2, 1]
      */
     function wrapperReverse() {
@@ -10477,12 +10477,12 @@ module.exports = '1.0.5';
      * @example
      *
      * _([1, 2]).forEach(function(n) {
-     *   console.log(n);
+     *   //console.log(n);
      * }).value();
      * // => logs each value from left to right and returns the array
      *
      * _.forEach({ 'a': 1, 'b': 2 }, function(n, key) {
-     *   console.log(n, key);
+     *   //console.log(n, key);
      * });
      * // => logs each value-key pair and returns the object (iteration order is not guaranteed)
      */
@@ -10503,7 +10503,7 @@ module.exports = '1.0.5';
      * @example
      *
      * _([1, 2]).forEachRight(function(n) {
-     *   console.log(n);
+     *   //console.log(n);
      * }).value();
      * // => logs each value from right to left and returns the array
      */
@@ -11297,7 +11297,7 @@ module.exports = '1.0.5';
      * @example
      *
      * _.defer(function(stamp) {
-     *   console.log(_.now() - stamp);
+     *   //console.log(_.now() - stamp);
      * }, _.now());
      * // => logs the number of milliseconds it took for the deferred function to be invoked
      */
@@ -11322,7 +11322,7 @@ module.exports = '1.0.5';
      * var saves = ['profile', 'settings'];
      *
      * var done = _.after(saves.length, function() {
-     *   console.log('done saving!');
+     *   //console.log('done saving!');
      * });
      *
      * _.forEach(saves, function(type) {
@@ -11474,7 +11474,7 @@ module.exports = '1.0.5';
      * var view = {
      *   'label': 'docs',
      *   'onClick': function() {
-     *     console.log('clicked ' + this.label);
+     *     //console.log('clicked ' + this.label);
      *   }
      * };
      *
@@ -11813,7 +11813,7 @@ module.exports = '1.0.5';
      * @example
      *
      * _.defer(function(text) {
-     *   console.log(text);
+     *   //console.log(text);
      * }, 'deferred');
      * // logs 'deferred' after one or more milliseconds
      */
@@ -11835,7 +11835,7 @@ module.exports = '1.0.5';
      * @example
      *
      * _.delay(function(text) {
-     *   console.log(text);
+     *   //console.log(text);
      * }, 1000, 'later');
      * // => logs 'later' after one second
      */
@@ -13455,7 +13455,7 @@ module.exports = '1.0.5';
      * Foo.prototype.c = 3;
      *
      * _.forIn(new Foo, function(value, key) {
-     *   console.log(key);
+     *   //console.log(key);
      * });
      * // => logs 'a', 'b', and 'c' (iteration order is not guaranteed)
      */
@@ -13482,7 +13482,7 @@ module.exports = '1.0.5';
      * Foo.prototype.c = 3;
      *
      * _.forInRight(new Foo, function(value, key) {
-     *   console.log(key);
+     *   //console.log(key);
      * });
      * // => logs 'c', 'b', and 'a' assuming `_.forIn ` logs 'a', 'b', and 'c'
      */
@@ -13511,7 +13511,7 @@ module.exports = '1.0.5';
      * Foo.prototype.c = 3;
      *
      * _.forOwn(new Foo, function(value, key) {
-     *   console.log(key);
+     *   //console.log(key);
      * });
      * // => logs 'a' and 'b' (iteration order is not guaranteed)
      */
@@ -13538,7 +13538,7 @@ module.exports = '1.0.5';
      * Foo.prototype.c = 3;
      *
      * _.forOwnRight(new Foo, function(value, key) {
-     *   console.log(key);
+     *   //console.log(key);
      * });
      * // => logs 'b' and 'a' assuming `_.forOwn` logs 'a' and 'b'
      */
@@ -13992,11 +13992,11 @@ module.exports = '1.0.5';
      * var object = { 'a': [{ 'b': { 'c': 3 } }] };
      *
      * _.set(object, 'a[0].b.c', 4);
-     * console.log(object.a[0].b.c);
+     * //console.log(object.a[0].b.c);
      * // => 4
      *
      * _.set(object, 'x[0].y.z', 5);
-     * console.log(object.x[0].y.z);
+     * //console.log(object.x[0].y.z);
      * // => 5
      */
     function set(object, path, value) {

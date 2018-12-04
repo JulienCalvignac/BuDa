@@ -110,7 +110,7 @@ SOFTWARE.
           name: node.id()
         } );
 
-        // console.log( g.node(node.id()) );
+        // //console.log( g.node(node.id()) );
       }
 
       // set compound parents
@@ -135,7 +135,7 @@ SOFTWARE.
           name: edge.id()
         }, edge.id() );
 
-        // console.log( g.edge(edge.source().id(), edge.target().id(), edge.id()) );
+        // //console.log( g.edge(edge.source().id(), edge.target().id(), edge.id()) );
       }
 
       dagre.layout( g );
