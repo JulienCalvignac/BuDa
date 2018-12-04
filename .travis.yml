@@ -15,8 +15,6 @@ before_script:
 - cd elm && make && cd ..
 
 script:
-- echo "Script"
-- mkdir -p public;
 - mkdir -p public/js;
 - cd code && make && cp js/elm.js ../public/js && cd ..
 - docker run -t --rm -v $(pwd):/work -w /work -u $(id -u):$(id -g) babel
@@ -29,19 +27,13 @@ after_success:
 - |
     echo "TRAVIS_BRANCH  $TRAVIS_BRANCH"
     echo "TRAVIS_TAG     $TRAVIS_TAG"
-    echo "BUILD_TYPE     $BUILD_TYPE"
-    echo "BUILD_DIR      $BUILD_DIR"
 - if [ "$TRAVIS_BRANCH" == "master" ];
   then
-  echo "Success";
-  mkdir -p public;
   mv code/css/*.css public/.;
   mv code/js/* public/js/.;
   mv code/src/*.html public/.;
-  mv code/src/*.svg public/.;
   mv code/img/*.png public/.;
   mv public/graphTool.html public/index.html;
-  rm -rf public/graphTool.html;
   fi
 
 # travis setup releases
