@@ -140,7 +140,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 
 	cy.on('doubleTap', 'node', function (event) {
-
 		var selected = getSelectedEls();
 
 		if (selected.length > 0) {
@@ -291,7 +290,7 @@ function setPBSStyle() {
 	// cy.setStyle (stylesheetPBS);
 }
 
-function setBullesStyle() {
+function setBubblesStyle() {
 	var cy = getCyReference();
 	// cy.setStyle (stylesheetBubble);
 }
@@ -425,7 +424,7 @@ function _layout_preset_with_bbox() {
 	cy.layout(preset_layout_with_bbox);
 }
 
-function _updateBullesLayoutAndPos(obj) {
+function _updateBubblesLayoutAndPos(obj) {
 	_sendDataSimpleModel_(obj);
 	_layout_dagre();
 	_setNodesPositionsToElm_();
@@ -475,4 +474,47 @@ function layoutElementsNoPosition() {
 	catch (err) {
 		console.log("err: " + err);
 	}
+}
+
+function formatModel(model) {
+	if (model["mustLayout"] == true) {
+		_sendDataSimpleModel_(model);
+	}
+	else {
+		_sendDataModel_(model);
+	}
+
+	var img = model["geometryImage"];
+
+	if (img != null) {
+		_loadImage(img);
+	}
+	else {
+		_unLoadImage();
+	}
+
+	if (model["mustLayout"] == true) {
+		_layout_dagre();
+	}
+	else {
+		//_layout_preset();
+		_layout_preset_with_bbox();
+	}
+
+	if (model["mustLayout"] == true) {
+		layoutElementsNoPosition();
+		_setNodesPositionsToElm_();
+	}
+}
+
+function displayModel(data) {
+	options.drawImage = false;
+	formatModel(data);
+}
+
+function displayPbs(data) {
+	options.drawImage = false;
+	_sendDataSimpleModel_(data);
+	setPBSStyle();
+	_layout_dagre();
 }
