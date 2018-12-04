@@ -32,7 +32,7 @@ after_success:
   mv code/css/*.css public/.;
   mv code/js/* public/js/.;
   mv code/src/*.html public/.;
-  mv code/img/*.png public/.;
+  mv code/img/* public/.;
   mv public/BuDa.html public/index.html;
   fi
 

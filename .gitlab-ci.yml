@@ -15,7 +15,7 @@ build-code:
         - code/css/*.css
         - code/js
         - code/src/*.html
-        - code/img/*.png
+        - code/img/*
 
 build-babel:
     stage: build-prerequisite-containers
@@ -40,7 +40,7 @@ babel:
         - code/css/*.css
         - code/js
         - code/src/*.html
-        - code/img/*.png
+        - code/img/*
 
 pages:
   stage: deploy
@@ -51,7 +51,7 @@ pages:
        - mv code/css/*.css public/
        - mv code/js public/
        - mv code/src/*.html public/
-       - mv code/img/*.png public/
+       - mv code/img/* public/
        - mv public/BuDa.html public/index.html
   artifacts:
         when: on_success
