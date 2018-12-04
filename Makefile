@@ -9,7 +9,7 @@ public/index.html: code/js/cytoutils.babel.js
 	mv public/js/cytoutils.babel.js public/js/cytoutils.js
 	cp code/src/*.html public/
 	cp code/img/*.png public/
-	mv public/graphTool.html public/index.html
+	mv public/BuDa.html public/index.html
 
 code/js/cytoutils.babel.js: code/js/cytoutils.js build-babel build-code
 	docker run -t --rm -v $(shell pwd):/work -w /work -u $(shell id -u):$(shell id -g) babel

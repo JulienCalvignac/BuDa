@@ -52,8 +52,7 @@ pages:
        - mv code/js public/
        - mv code/src/*.html public/
        - mv code/img/*.png public/
-       - mv public/graphTool.html public/index.html
-       - rm -rf public/graphTool.html
+       - mv public/BuDa.html public/index.html
   artifacts:
         when: on_success
         paths:

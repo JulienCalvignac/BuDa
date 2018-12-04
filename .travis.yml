@@ -33,7 +33,7 @@ after_success:
   mv code/js/* public/js/.;
   mv code/src/*.html public/.;
   mv code/img/*.png public/.;
-  mv public/graphTool.html public/index.html;
+  mv public/BuDa.html public/index.html;
   fi
 
 # travis setup releases
