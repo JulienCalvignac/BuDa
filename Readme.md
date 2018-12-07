@@ -125,9 +125,9 @@ Here is a short list of publications related to BuDa:
 
 # Getting started with BuDa
 
-You can start with our [demo file](doc/BuDa Basic Demo.json):
+You can start with our [demo file](doc/BuDa_Basic_Demo.json):
 
-1/ download [demo file](doc/BuDa Basic Demo.json),
+1/ download [demo file](doc/BuDa_Basic_Demo.json),
 
 2/ open BuDa [online](https://sirehna.github.io/BuDa) with Firefox (other browsers not tested),
 
