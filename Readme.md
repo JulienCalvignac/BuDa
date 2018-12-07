@@ -62,7 +62,7 @@ The blocks and the links taken together form two entangled graphs that share
 the same nodes:
 - one graph is the blocks' "**Breakdown Structure**"; its nodes are the blocks,
     and its edges are the parent-children relationships between the blocks,
-- one graph is the **multi-level connectivity graph** of the system; its nodes
+- one graph is the **Multi-Level Connectivity graph** of the system; its nodes
     are the blocks, and its edges are the "links" specified by the User or
     generated automatically by BuDa. 
 
@@ -125,23 +125,16 @@ Here is a short list of publications related to BuDa:
 
 # Getting started with BuDa
 
-See [the documentation](doc/Readme.md).
+You can start with our [demo file](doc/BuDa Basic Demo.json):
 
-Work In Progress...
+1/ download [demo file](doc/BuDa Basic Demo.json),
 
-1/ loading latest build
+2/ open BuDa [online](https://sirehna.github.io/BuDa) with Firefox (other browsers not tested),
 
-2/ running tool
+3/ press "Open" button, browse your system and select the demo file you just downloaded,
 
-3/ loading test file
+4/ follow instructions (marked with hashtags signs).
 
-4/ playing around
+To experiment more, you may either build a model from scratch or **load your own data from a .csv table** with BuDa/Open (the expected format of the table is described in [the documentation](doc/Readme.md)).
 
-5/ loading your own model in csv format
-
-6/ building a model from scratch
-
-The following sections provide an overview of the basic features of BuDa, including:
-- a general description of the tool and its GUI
-- a description of operations on models with BuDa
-- a description of the various visualization options with BuDa.
+For further details on the features supported by BuDa, please refer to [the documentation](doc/Readme.md).
