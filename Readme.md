@@ -125,7 +125,7 @@ Here is a short list of publications related to BuDa:
 
 # Getting started with BuDa
 
-You can start with our [demo file](doc/BuDa_Basic_Demo.json):
+You can start with our **demo file**:
 
 1/ download [demo file](doc/BuDa_Basic_Demo.json),
 
