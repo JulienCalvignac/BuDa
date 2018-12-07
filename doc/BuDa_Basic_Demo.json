@@ -1,0 +1,1134 @@
+{
+	"nodes": [
+		{
+			"data": {
+				"id": 80,
+				"name": "#select \"Flat\" on top of screen to display entire system",
+				"parent": 3,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 39,
+				"name": "#to play with your own data, import csv - see doc\\Readme.md",
+				"parent": null,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 38,
+				"name": "#other view types available, see doc\\Readme.md",
+				"parent": 3,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 37,
+				"name": "#follow hashtags for basic demo",
+				"parent": null,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 36,
+				"name": "#select Fuel circuit+press F2 to \"blow open\" Fuel circuit block",
+				"parent": 3,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 35,
+				"name": "#only those links relevant to engine 2 are displayed",
+				"parent": 3,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 34,
+				"name": "#double-click engine 2 to zoom in",
+				"parent": 16,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 33,
+				"name": "#ctrl+C,X/ctrl+V is supported",
+				"parent": 1,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 32,
+				"name": "#shift+suppr to delete links & blocks",
+				"parent": 1,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 31,
+				"name": "#press up-arrow key to move up block hierarchy",
+				"parent": 1,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 30,
+				"name": "#select Networks\\diesel oil to view fuel lines",
+				"parent": 16,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 29,
+						"role": "unknown"
+					},
+					{
+						"network": 22,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 24,
+				"name": "Fuel distribution",
+				"parent": 16,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 22,
+						"role": "unknown"
+					},
+					{
+						"network": 29,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 23,
+				"name": "Tank",
+				"parent": 16,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 22,
+						"role": "unknown"
+					},
+					{
+						"network": 29,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 16,
+				"name": "Fuel circuit #double-click me",
+				"parent": 1,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 22,
+						"role": "unknown"
+					},
+					{
+						"network": 29,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 7,
+				"name": "Shaftline 2",
+				"parent": 1,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 22,
+						"role": "unknown"
+					},
+					{
+						"network": 29,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 6,
+				"name": "Shaftline 1",
+				"parent": 1,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 22,
+						"role": "unknown"
+					},
+					{
+						"network": 29,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 5,
+				"name": "Seawater",
+				"parent": null,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 22,
+						"role": "unknown"
+					},
+					{
+						"network": 29,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 3,
+				"name": "Engine 2",
+				"parent": 1,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 22,
+						"role": "unknown"
+					},
+					{
+						"network": 29,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 2,
+				"name": "Engine 1",
+				"parent": 1,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 22,
+						"role": "unknown"
+					},
+					{
+						"network": 29,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		},
+		{
+			"data": {
+				"id": 1,
+				"name": "Ship #double-click to zoom in",
+				"parent": null,
+				"attribut": null,
+				"state": "RAS",
+				"roles": [
+					{
+						"network": 22,
+						"role": "unknown"
+					},
+					{
+						"network": 29,
+						"role": "unknown"
+					}
+				],
+				"geometry": null,
+				"group": [],
+				"highLighted": 0,
+				"position": {
+					"x": 0,
+					"y": 0
+				},
+				"blow": 0
+			}
+		}
+	],
+	"edges": [
+		{
+			"data": {
+				"id": 27,
+				"source": 3,
+				"target": 24,
+				"parameters": [
+					22
+				],
+				"state": "RAS",
+				"attribut": null,
+				"highLighted": 0,
+				"tightness": []
+			}
+		},
+		{
+			"data": {
+				"id": 26,
+				"source": 2,
+				"target": 24,
+				"parameters": [
+					22
+				],
+				"state": "RAS",
+				"attribut": null,
+				"highLighted": 0,
+				"tightness": []
+			}
+		},
+		{
+			"data": {
+				"id": 25,
+				"source": 23,
+				"target": 24,
+				"parameters": [
+					22
+				],
+				"state": "RAS",
+				"attribut": null,
+				"highLighted": 0,
+				"tightness": []
+			}
+		},
+		{
+			"data": {
+				"id": 18,
+				"source": 3,
+				"target": 16,
+				"parameters": [
+					22
+				],
+				"state": "RAS",
+				"attribut": null,
+				"highLighted": 0,
+				"tightness": []
+			}
+		},
+		{
+			"data": {
+				"id": 17,
+				"source": 2,
+				"target": 16,
+				"parameters": [
+					22
+				],
+				"state": "RAS",
+				"attribut": null,
+				"highLighted": 0,
+				"tightness": []
+			}
+		},
+		{
+			"data": {
+				"id": 15,
+				"source": 5,
+				"target": 6,
+				"parameters": [
+					29
+				],
+				"state": "RAS",
+				"attribut": null,
+				"highLighted": 0,
+				"tightness": []
+			}
+		},
+		{
+			"data": {
+				"id": 14,
+				"source": 5,
+				"target": 7,
+				"parameters": [
+					29
+				],
+				"state": "RAS",
+				"attribut": null,
+				"highLighted": 0,
+				"tightness": []
+			}
+		},
+		{
+			"data": {
+				"id": 13,
+				"source": 5,
+				"target": 1,
+				"parameters": [
+					29
+				],
+				"state": "RAS",
+				"attribut": null,
+				"highLighted": 0,
+				"tightness": []
+			}
+		},
+		{
+			"data": {
+				"id": 10,
+				"source": 3,
+				"target": 7,
+				"parameters": [
+					29
+				],
+				"state": "RAS",
+				"attribut": null,
+				"highLighted": 0,
+				"tightness": []
+			}
+		},
+		{
+			"data": {
+				"id": 9,
+				"source": 2,
+				"target": 6,
+				"parameters": [
+					29
+				],
+				"state": "RAS",
+				"attribut": null,
+				"highLighted": 0,
+				"tightness": []
+			}
+		}
+	],
+	"parameters": [
+		{
+			"id": 29,
+			"name": "Mechanical power"
+		},
+		{
+			"id": 22,
+			"name": "diesel oil"
+		}
+	],
+	"groups": [],
+	"geometries": [],
+	"selectedNetworks": [],
+	"mustLayout": false,
+	"layouts": [
+		{
+			"id": 23,
+			"layout": [
+				{
+					"id": 23,
+					"position": {
+						"x": 55,
+						"y": 24.25
+					}
+				},
+				{
+					"id": 24,
+					"position": {
+						"x": 55,
+						"y": 122.75
+					}
+				}
+			]
+		},
+		{
+			"id": 3,
+			"layout": [
+				{
+					"id": 80,
+					"position": {
+						"x": 410.7353915299451,
+						"y": 189.19701105906924
+					}
+				},
+				{
+					"id": 38,
+					"position": {
+						"x": 411.21764561660694,
+						"y": 259.3104562711082
+					}
+				},
+				{
+					"id": 36,
+					"position": {
+						"x": 419.05705246762335,
+						"y": 119.27398486308262
+					}
+				},
+				{
+					"id": 23,
+					"position": {
+						"x": 751.214260146352,
+						"y": 47.83023509891407
+					}
+				},
+				{
+					"id": 24,
+					"position": {
+						"x": 751.214260146352,
+						"y": 171.3302350989141
+					}
+				},
+				{
+					"id": 30,
+					"position": {
+						"x": 1012.214260146352,
+						"y": 171.3302350989141
+					}
+				},
+				{
+					"id": 34,
+					"position": {
+						"x": 1338.2142601463524,
+						"y": 171.3302350989141
+					}
+				},
+				{
+					"id": 35,
+					"position": {
+						"x": 416.2955265611301,
+						"y": 50.55656040781791
+					}
+				},
+				{
+					"id": 3,
+					"position": {
+						"x": 419.0570524676234,
+						"y": 147.18350833946306
+					}
+				},
+				{
+					"id": 16,
+					"position": {
+						"x": 828.926061605871,
+						"y": 145.70574526440495
+					}
+				},
+				{
+					"id": 7,
+					"position": {
+						"x": 415.8347794044437,
+						"y": 367.4381643066624
+					}
+				}
+			]
+		},
+		{
+			"id": 16,
+			"layout": [
+				{
+					"id": 34,
+					"position": {
+						"x": 272.33350619487175,
+						"y": 135.08319803300006
+					}
+				},
+				{
+					"id": 30,
+					"position": {
+						"x": 272.5738568505452,
+						"y": 67.80506695564961
+					}
+				},
+				{
+					"id": 16,
+					"position": {
+						"x": 354.7869284252726,
+						"y": 89.67228724241374
+					}
+				},
+				{
+					"id": 24,
+					"position": {
+						"x": 538,
+						"y": 147.75
+					}
+				},
+				{
+					"id": 23,
+					"position": {
+						"x": 536.7463300299986,
+						"y": 47.0945744848275
+					}
+				},
+				{
+					"id": 20,
+					"position": {
+						"x": 396,
+						"y": 147.75
+					}
+				},
+				{
+					"id": 4,
+					"position": {
+						"x": 410.44490646855155,
+						"y": 224.68745669840348
+					}
+				},
+				{
+					"id": 3,
+					"position": {
+						"x": 493.689830651636,
+						"y": 223.01567378918406
+					}
+				},
+				{
+					"id": 2,
+					"position": {
+						"x": 585.5680440260146,
+						"y": 224.10266517607548
+					}
+				}
+			]
+		},
+		{
+			"id": 1,
+			"layout": [
+				{
+					"id": 33,
+					"position": {
+						"x": -32.507327509847165,
+						"y": 207.25760438699535
+					}
+				},
+				{
+					"id": 32,
+					"position": {
+						"x": -29.69985887734591,
+						"y": 143.19905782796022
+					}
+				},
+				{
+					"id": 31,
+					"position": {
+						"x": -30.791562226737085,
+						"y": 83.59200615455289
+					}
+				},
+				{
+					"id": 1,
+					"position": {
+						"x": 89.34571375262391,
+						"y": 78.04330738408689
+					}
+				},
+				{
+					"id": 16,
+					"position": {
+						"x": 271.4829897319849,
+						"y": -35.67098961882158
+					}
+				},
+				{
+					"id": 8,
+					"position": {
+						"x": 508.25,
+						"y": 147.75
+					}
+				},
+				{
+					"id": 7,
+					"position": {
+						"x": 332.2574484420687,
+						"y": 148.45148968841374
+					}
+				},
+				{
+					"id": 6,
+					"position": {
+						"x": 207.25744844206872,
+						"y": 148.45148968841374
+					}
+				},
+				{
+					"id": 4,
+					"position": {
+						"x": 512.5864891873299,
+						"y": 63.500204335870286
+					}
+				},
+				{
+					"id": 3,
+					"position": {
+						"x": 332.4744816376346,
+						"y": 51.61771333741012
+					}
+				},
+				{
+					"id": 2,
+					"position": {
+						"x": 206.70655213808243,
+						"y": 54.09424547282654
+					}
+				},
+				{
+					"id": 5,
+					"position": {
+						"x": 278.4123666824566,
+						"y": 294.28689526999426
+					}
+				}
+			]
+		}
+	],
+	"geometryLayouts": [],
+	"lightLayout": [
+		{
+			"id": 80,
+			"position": {
+				"x": 2673.0861643762814,
+				"y": 504.5739013448024
+			}
+		},
+		{
+			"id": 39,
+			"position": {
+				"x": 3330.6091569969904,
+				"y": 799.9077640307038
+			}
+		},
+		{
+			"id": 38,
+			"position": {
+				"x": 3118.5446851892243,
+				"y": 503.4378653545646
+			}
+		},
+		{
+			"id": 37,
+			"position": {
+				"x": 2932.669309613607,
+				"y": 791.6145324417815
+			}
+		},
+		{
+			"id": 36,
+			"position": {
+				"x": 3123.3980764871744,
+				"y": 434.10710028428645
+			}
+		},
+		{
+			"id": 35,
+			"position": {
+				"x": 2672.8980764871744,
+				"y": 434.10710028428645
+			}
+		},
+		{
+			"id": 34,
+			"position": {
+				"x": 3212.575215604937,
+				"y": 276.5357000947621
+			}
+		},
+		{
+			"id": 33,
+			"position": {
+				"x": 2301.3496681267916,
+				"y": 177.0169210276942
+			}
+		},
+		{
+			"id": 32,
+			"position": {
+				"x": 2293.5263105612285,
+				"y": 268.2424685058399
+			}
+		},
+		{
+			"id": 31,
+			"position": {
+				"x": 2303.4886530904278,
+				"y": 102.37783672739322
+			}
+		},
+		{
+			"id": 30,
+			"position": {
+				"x": 2886.575215604937,
+				"y": 276.5357000947621
+			}
+		},
+		{
+			"id": 24,
+			"position": {
+				"x": 2623.075215604937,
+				"y": 276.5357000947621
+			}
+		},
+		{
+			"id": 23,
+			"position": {
+				"x": 2625.614358403809,
+				"y": 169.69642131811784
+			}
+		},
+		{
+			"id": 16,
+			"position": {
+				"x": 2949.075215604937,
+				"y": 215.36606070643995
+			}
+		},
+		{
+			"id": 7,
+			"position": {
+				"x": 2631.01486431499,
+				"y": 637.2912742128834
+			}
+		},
+		{
+			"id": 6,
+			"position": {
+				"x": 2258.3645324417807,
+				"y": 620.7048110350388
+			}
+		},
+		{
+			"id": 5,
+			"position": {
+				"x": 2473.2100871431644,
+				"y": 841.3739219753154
+			}
+		},
+		{
+			"id": 3,
+			"position": {
+				"x": 2910.742120431728,
+				"y": 461.5905008145444
+			}
+		},
+		{
+			"id": 2,
+			"position": {
+				"x": 2254.311911319325,
+				"y": 435.0055741181213
+			}
+		},
+		{
+			"id": 1,
+			"position": {
+				"x": 2746.193364788801,
+				"y": 362.0845554701383
+			}
+		}
+	],
+	"rootBubbleLayout": [
+		{
+			"id": 39,
+			"position": {
+				"x": -303.75754004052465,
+				"y": 126.2902351375479
+			}
+		},
+		{
+			"id": 37,
+			"position": {
+				"x": -304.82909717325396,
+				"y": 25.6089622521924
+			}
+		},
+		{
+			"id": 5,
+			"position": {
+				"x": 42.24212770834501,
+				"y": 132.7332992022807
+			}
+		},
+		{
+			"id": 1,
+			"position": {
+				"x": 43.58532152353799,
+				"y": 12.975232950073117
+			}
+		}
+	],
+	"geometryImage": null
+}
