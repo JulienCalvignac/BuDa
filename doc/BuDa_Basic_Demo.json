@@ -3,7 +3,7 @@
 		{
 			"data": {
 				"id": 80,
-				"name": "#select \"Flat\" on top of screen to display entire system",
+				"name": "# Select \"Flat\" on top of screen to display entire system",
 				"parent": 3,
 				"attribut": null,
 				"state": "RAS",
@@ -30,7 +30,7 @@
 		{
 			"data": {
 				"id": 39,
-				"name": "#to play with your own data, import csv - see doc\\Readme.md",
+				"name": "# To play with your own data, import csv - see doc/Readme.md",
 				"parent": null,
 				"attribut": null,
 				"state": "RAS",
@@ -57,7 +57,7 @@
 		{
 			"data": {
 				"id": 38,
-				"name": "#other view types available, see doc\\Readme.md",
+				"name": "# Other view types available, see doc/Readme.md",
 				"parent": 3,
 				"attribut": null,
 				"state": "RAS",
@@ -84,7 +84,7 @@
 		{
 			"data": {
 				"id": 37,
-				"name": "#follow hashtags for basic demo",
+				"name": "# Follow hashtags for basic demo",
 				"parent": null,
 				"attribut": null,
 				"state": "RAS",
@@ -111,7 +111,7 @@
 		{
 			"data": {
 				"id": 36,
-				"name": "#select Fuel circuit+press F2 to \"blow open\" Fuel circuit block",
+				"name": "# Select Fuel circuit+press F2 to \"blow open\" Fuel circuit block",
 				"parent": 3,
 				"attribut": null,
 				"state": "RAS",
@@ -138,7 +138,7 @@
 		{
 			"data": {
 				"id": 35,
-				"name": "#only those links relevant to engine 2 are displayed",
+				"name": "# Only those links relevant to engine 2 are displayed",
 				"parent": 3,
 				"attribut": null,
 				"state": "RAS",
@@ -165,7 +165,7 @@
 		{
 			"data": {
 				"id": 34,
-				"name": "#double-click engine 2 to zoom in",
+				"name": "# Double-click engine 2 to zoom in",
 				"parent": 16,
 				"attribut": null,
 				"state": "RAS",
@@ -192,7 +192,7 @@
 		{
 			"data": {
 				"id": 33,
-				"name": "#ctrl+C,X/ctrl+V is supported",
+				"name": "# Ctrl+C,X/Ctrl+V is supported",
 				"parent": 1,
 				"attribut": null,
 				"state": "RAS",
@@ -219,7 +219,7 @@
 		{
 			"data": {
 				"id": 32,
-				"name": "#shift+suppr to delete links & blocks",
+				"name": "# Use Shift+Suppr to delete links & blocks",
 				"parent": 1,
 				"attribut": null,
 				"state": "RAS",
@@ -246,7 +246,7 @@
 		{
 			"data": {
 				"id": 31,
-				"name": "#press up-arrow key to move up block hierarchy",
+				"name": "# Press the up-arrow key to move up block hierarchy",
 				"parent": 1,
 				"attribut": null,
 				"state": "RAS",
@@ -273,7 +273,7 @@
 		{
 			"data": {
 				"id": 30,
-				"name": "#select Networks\\diesel oil to view fuel lines",
+				"name": "# Select Networks/diesel oil to view fuel lines",
 				"parent": 16,
 				"attribut": null,
 				"state": "RAS",
@@ -354,7 +354,7 @@
 		{
 			"data": {
 				"id": 16,
-				"name": "Fuel circuit #double-click me",
+				"name": "Fuel circuit # double-click me",
 				"parent": 1,
 				"attribut": null,
 				"state": "RAS",
@@ -516,7 +516,7 @@
 		{
 			"data": {
 				"id": 1,
-				"name": "Ship #double-click to zoom in",
+				"name": "Ship # double-click to zoom in",
 				"parent": null,
 				"attribut": null,
 				"state": "RAS",
