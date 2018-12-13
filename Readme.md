@@ -127,13 +127,13 @@ Here is a short list of publications related to BuDa:
 
 You can start with our **demo file**:
 
-1/ download [demo file](doc/BuDa_Basic_Demo.json),
+1. Download [demo file](doc/BuDa_Basic_Demo.json),
 
-2/ open BuDa [online](https://sirehna.github.io/BuDa) with Firefox (other browsers not tested),
+2. Open BuDa [online](https://sirehna.github.io/BuDa) with Firefox (other browsers not tested),
 
-3/ press "Open" button, browse your system and select the demo file you just downloaded,
+3. Press "Open" button, browse your system and select the demo file you just downloaded,
 
-4/ follow instructions (marked with hashtags signs).
+4. Follow instructions (marked with hashtags signs).
 
 To experiment more, you may either build a model from scratch or **load your own data from a .csv table** with BuDa/Open (the expected format of the table is described in [the documentation](doc/Readme.md)).
 
